@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoderQuiz Landing Page</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header Section */
+        header {
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            height: 64px;
+            background-color: #8C60C6;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            left: 16px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: 40px;
+            margin-right: 8px;
+        }
+
+        .app-name {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Section Layout */
+        .section {
+            display: flex;
+            flex-direction: row;
+            padding: 32px;
+            margin-top: 32px;
+        }
+       
+       @media (min-width: 768px) {
+       	.section {  
+           height: 650px;          
+        }
+        .section2 {	
+          height: 800px;      
+        }
+      } 
+
+        .section2 {
+            display: flex;
+            flex-direction: column;
+            padding: 32px;
+            margin-top: 32px;
+            margin-bottom:50px;
+            text-align: center;
+        }
+
+        .section h2, .section2 h2, .section4 h2{
+            margin-bottom: 30px;
+        }
+
+        .section p, .section2 p, .section4 p {
+            margin-bottom: 50px;
+        }
+
+        .text-part {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .image-part {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            
+        }
+
+        .image-part img {
+            width: 300px;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .div-part {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: 80%; 
+        }
+
+        .micro-cards {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section {
+                flex-direction: column;
+                /*height: auto;*/
+            }
+
+            .image-part {
+                order: 1; /* Puts the image part in bottom mobile view */      
+            }
+
+            .section2 .div-part {
+                flex-direction: column;
+            }
+        }
+        
+ /* Section 4 */
+.section4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    text-align: center;
+    margin-top: 32px;
+}       
+
+.play-store-btn {
+    background-color: #8C60C6;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.play-store-btn:hover {
+    background-color: #7a4cb3;
+}
+
+
+
+/* FAQ Section Styles */
+.faq {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px; 
+    margin-top: 32px;
+}
+
+.faq h2 {
+text-align: center;	
+} 
+
+.faq-item {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px 0;
+    width: 80%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.faq-item .answer {
+    display: none; /* Keep the answer hidden initially */
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.faq-item.open .answer {
+    display: block; /* Display answer when the item is open */
+}
+
+.faq-item .question {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.1rem;
+    padding-right: 5px; 
+
+}
+
+.faq-item .toggle-button {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #8C60C6;
+}
+
+
+
+        
+        
+        /* Section 6 */
+        .section6 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            margin-top: 50px;
+        }
+
+        .section6 button {
+            background-color: #8C60C6;
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .section6 button:hover {
+            background-color: #7a4cb3;
+        }
+        
+        /* Styling for Subscribe Section */
+        .subscribe-section {
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        .subscribe-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .subscribe-section p {
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: #555;
+        }
+        
+        @font-face {
+    font-display: block;
+    font-family: Roboto;
+    src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff")
+  }
+
+  @font-face {
+    font-display: fallback;
+    font-family: Roboto;
+    font-weight: 600;
+    src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff")
+  }
+
+  @font-face {
+    font-display: fallback;
+    font-family: Roboto;
+    font-weight: 700;
+    src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff")
+  }
+
+  #sib-container input:-ms-input-placeholder {
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    color: #c0ccda;
+  }
+
+  #sib-container input::placeholder {
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    color: #c0ccda;
+  }
+
+  #sib-container a {
+    text-decoration: underline;
+    color: #2BB2FC;
+  }
+  
+  footer {
+            text-align: center;
+            padding: 10px;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="CoderQuiz Logo" />
+        </div>
+        <span class="app-name">CoderQuiz</span>
+    </header>
+
+    <!-- Section 1 -->
+    <div class="section">
+        <div class="text-part">
+            <div>
+                <h2>Achieve expertise with CoderQuiz</h2>
+                <p>Test and consolidate technical knowledge with our comprehensive suite of quiz questions.</p>
+            </div>
+        </div>
+        <div class="image-part">
+            <img src="s1.jpg" alt="CoderQuiz Image" />
+        </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section2">
+        <h2>Take aim at learning goals</h2>
+        <p>Whether the goal is to achieve expertise in AI and Machine Learning or Backend Engineering, CoderQuiz helps you achieve it faster and with cut out work.</p>
+        <div class="div-part">
+            <div class="micro-cards">
+                <div class="card">AI and Machine Learning</div>
+                <div class="card">Backend Engineering</div>
+                <div class="card">Forex and Cryptocurrencies</div>
+                <div class="card">Digital Marketing</div>
+            </div>
+            <div class="image-part">
+                <img src="s10.jpg" alt="Learning Goals Image" />
+            </div>
+        </div>
+    </div>
+    <!-- Section 3 -->
+    <div class="section">
+        <div class="text-part">
+            <div>
+                <h2>Everything you need to run custom quizzes</h2>
+                <p>Experience the power of creating and running your own quizzes</p>
+            </div>
+        </div>
+        <div class="image-part">
+            <img src="s2.jpg" alt="CoderQuiz Image" />
+        </div>
+    </div>
+<!-- Section 4 -->
+<div class="section4">
+    <h2>Join the millions who will use CoderQuiz to achieve technical mastery in 2025</h2>
+    <p>Download CoderQuiz today!</p>
+    <a href="https://play.google.com/store/apps/details?id=com.denniscode.coderquiz" target="_blank">
+        <button class="play-store-btn">
+            Get it on the Google Play Store
+        </button>
+    </a>
+</div>
+<!-- FAQ Section (Section 5) -->
+	<div class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleAnswer(this)">
+        <div class="question">
+            <span>What is CoderQuiz?</span>
+            <span class="toggle-button">+</span>
+        </div>
+        <div class="answer">CoderQuiz is an app designed to test and consolidate technical knowledge through quizzes.</div>
+    </div>
+    <div class="faq-item" onclick="toggleAnswer(this)">
+        <div class="question">
+            <span>What is CoderQuiz's mission?</span>
+            <span class="toggle-button">+</span>
+        </div>
+        <div class="answer">Our mission is to help users master technical skills through engaging and personalized quizzes.</div>
+    </div>
+    <div class="faq-item" onclick="toggleAnswer(this)">
+        <div class="question">
+            <span>How do I download the CoderQuiz app?</span>
+            <span class="toggle-button">+</span>
+        </div>
+        <div class="answer">You can download CoderQuiz from the Google Play Store <a href='https://play.google.com/store/apps/details?id=com.denniscode.coderquiz'">here</a>.</div>
+    </div>
+    <div class="faq-item" onclick="toggleAnswer(this)">
+        <div class="question">
+            <span>How do I get quiz questions?</span>
+            <span class="toggle-button">+</span>
+        </div>
+        <div class="answer">Quiz questions are provided to users <a href="https://denniskoko.gumroad.com/l/pzfrp">here</a>. Download the Zip file and select it from the app</div>
+    </div>
+    <div class="faq-item" onclick="toggleAnswer(this)">
+        <div class="question">
+            <span>How do I create my own quiz questions?</span>
+            <span class="toggle-button">+</span>
+        </div>
+        <div class="answer">You can create your own questions by following the structure in the downloaded Quiz Zip file.</div>
+    </div>
+    <div class="faq-item" onclick="toggleAnswer(this)">
+        <div class="question">
+            <span>Is CoderQuiz free?</span>
+            <span class="toggle-button">+</span>
+        </div>
+        <div class="answer">Yes, CoderQuiz is free to download and use.</div>
+    </div>
+</div>
+
+
+
+
+    <!-- Section 6 -->
+    <div class="section6">
+        <button onclick="window.location.href='https://play.google.com/store/apps/details?id=com.denniscode.coderquiz'">Get CoderQuiz</button>
+    </div>
+    
+    <!-- Subscribe Section -->
+    <section class="subscribe-section">
+        <h2>Stay in the loop</h2>
+        <p>Be the first to get updates when we add new quiz questions, make special offers, and add new features.</p>
+        <div class="sib-form" style="text-align: center;">
+  <div id="sib-form-container" class="sib-form-container">
+    <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; max-width:540px; border-radius:3px; border-width:1px; border-color:#C0CCD9; border-style:solid;">
+      <form id="sib-form" method="POST" action="https://2661c74b.sibforms.com/serve/MUIFALYxbZQJdt4AnD3L-HYoqj-g9my-DpkgZIRSGiTUOSdwQU7Z6LEfdYhf9HiToa6RiOyEccmZQfp073_IaKziOChzFlySQzNQ4g07mr7WCyjjjKDJMr95jtxiBMFlqven2NEMDxKdayhsNo7nphuTPYvxQctu5P1oJhfKJamcLe24rhWnQHK6qv07VlIbwF0SdL5u66DCjh_X">
+        <div style="padding: 8px 0;">
+          <div class="sib-input sib-form-block">
+            <div class="form__entry entry_block">
+              <div class="form__label-row ">
+                <label class="entry__label" style="font-weight: 700; text-align:left; font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#3c4858;" for="EMAIL" data-required="*">Enter your email address to subscribe</label>
+
+                <div class="entry__field">
+                  <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off" placeholder="EMAIL" data-required="true" required />
+                </div>
+              </div>
+
+              <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+              </label>
+              <label class="entry__specification" style="font-size:12px; text-align:left; font-family:Helvetica, sans-serif; color:#8390A4; text-align:left">
+                Provide your email address to subscribe. For e.g abc@xyz.com
+              </label>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 8px 0;">
+          <div class="sib-form-block" style="text-align: center">
+            <button class="sib-form-block__button sib-form-block__button-with-loader" style="font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#FFFFFF; background-color:#8c60c6; border-radius:3px; border-width:0px;" form="sib-form" type="submit">
+              <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512">
+                <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+              </svg>
+              SUBSCRIBE
+            </button>
+          </div>
+        </div>
+        <input type="text" name="email_address_check" value="" class="input--hidden">
+        <input type="hidden" name="locale" value="en">
+        <input type="hidden" name="html_type" value="simple">
+      </form>
+    </div>
+  </div>
+</div>
+
+</section>
+<footer>
+        <p>&copy; 2025 CoderQuiz. All rights reserved.</p>
+    </footer>
+    <script>
+ function toggleAnswer(element) {
+    // Toggle the 'open' class on the faq-item to show/hide the answer
+    const faqItem = element.closest('.faq-item');
+    const toggleButton = faqItem.querySelector('.toggle-button');
+
+    // Toggle the 'open' class for showing or hiding the answer
+    faqItem.classList.toggle('open');
+
+    // Change the button text to '+' or '−'
+    if (faqItem.classList.contains('open')) {
+        toggleButton.textContent = '−';
+    } else {
+        toggleButton.textContent = '+';
+    }
+}
+   	
+
+</script>
+</body>
+</html>
+
+
+
