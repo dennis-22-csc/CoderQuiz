@@ -274,8 +274,102 @@ fun LegendItem(color: Color, label: String) {
     }
 }
 
-
 @Composable
+fun HorizontalBarChartCard(data: Map<String, Float>, maxValue: Int) {
+    // Calculate the scaling factor based on the number of categories
+    val categoryCount = data.size
+    // Calculate bar height and font size based on the category count
+    val barHeight = (100f / categoryCount).coerceIn(16f, 50f) // Convert to float for comparison
+    val fontSize = (24f / categoryCount).coerceIn(10f, 14f) // Convert to float for comparison
+
+    // Convert to Dp and Sp after coerceIn calculation
+    val barHeightDp = barHeight.dp
+    val fontSizeSp = fontSize.sp
+
+    Card(
+            modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFFAFAFA)),
+            shape = RoundedCornerShape(16.dp),
+            elevation = 8.dp,
+    ) {
+        Column(
+                modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                    text = "Performance By Category",
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(bottom = 60.dp)
+            )
+            Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                data.forEach { (category, score) ->
+                    Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                    ) {
+                        // Create a TextPaint object
+                        val textPaint = Paint().apply {
+                            textSize = 48f // Set the text size in pixels (adjust as needed)
+                            typeface = Typeface.DEFAULT // Set the typeface (adjust as needed)
+                        }
+
+                        // Calculate the width of the text in pixels
+                        val textWidthPx = textPaint.measureText(category)
+
+                        // Convert the text width to DP
+                        val textWidthDp = with(LocalDensity.current) { textWidthPx.toDp() }
+
+                        // Calculate the width of the bar
+                        val barWidth = maxOf((score / maxValue * 200).dp, 4.dp) // Scale bar width based on percentage score
+
+                        // Check if the text fits inside the bar
+                        val textFitsInsideBar = textWidthDp <= barWidth
+
+                        // Bar
+                        Box(
+                                modifier = Modifier
+                                        .height(barHeightDp) // Dynamic bar height
+                                        .width(barWidth)
+                                        .background(Color(0xFF2196F3)),
+                                contentAlignment = Alignment.CenterStart
+                        ) {
+                            if (textFitsInsideBar) {
+                                Text(
+                                        text = category,
+                                        color = Color.White,
+                                        fontSize = fontSizeSp, // Dynamic font size
+                                        modifier = Modifier.padding(start = 4.dp)
+                                )
+                            }
+                        }
+
+                        // Text outside the bar (if it doesn't fit)
+                        if (!textFitsInsideBar) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                    text = category,
+                                    fontSize = fontSizeSp, // Dynamic font size
+                                    modifier = Modifier.wrapContentWidth() // Push text to the far right
+                            )
+                        }
+
+                        // Percentage score at the far right
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                                text = "${score.toInt()}%",
+                                fontSize = fontSizeSp // Dynamic font size
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*@Composable
 fun HorizontalBarChartCard(data: Map<String, Float>, maxValue: Int) {
     //val context = LocalContext.current
 
@@ -369,7 +463,7 @@ fun HorizontalBarChartCard(data: Map<String, Float>, maxValue: Int) {
             }
         }
     }
-}
+}*/
 
 fun shareScreenshot(context: Context) {
     // Capture the screen as bitmap

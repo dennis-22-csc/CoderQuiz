@@ -123,6 +123,9 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+
+
+
     // Retrieve all data from quiz_stat table
     public List<Map<String, Object>> getAllQuizStats() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -200,7 +203,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CATEGORY_NAME, category);
         db.insert(TABLE_CATEGORIES, null, values);
-        db.close();
+        //db.close();
     }
 
     public List<String> getCategories() {
@@ -243,7 +246,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_QUIZ_CATEGORY, question.getQuizCategory());
 
         db.insert(TABLE_QUESTIONS, null, values);
-        db.close();
+        //db.close();
         return true;
     }
 
@@ -345,6 +348,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         values.put("status", isCorrect ? "CORRECT" : "FAILED");
         values.put("last_attempted", System.currentTimeMillis()); // Update timestamp
         db.update(TABLE_QUESTIONS, values, COLUMN_QUESTION_ID + " = ?", new String[]{String.valueOf(questionId)});
+        db.close();
     }
 
     public void resetCorrectQuestions(String category) {
@@ -363,6 +367,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
             values.put("status", "NEW");
             db.update(TABLE_QUESTIONS, values, COLUMN_QUIZ_CATEGORY + " = ? AND status = 'CORRECT'", new String[]{category});
         }
+        db.close();
     }
 
 

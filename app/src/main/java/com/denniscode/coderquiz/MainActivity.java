@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         Button startQuizButton = findViewById(R.id.startQuizButton);
         startQuizButton.setOnClickListener(v -> {
             if (dbHelper.getCategories().isEmpty()) {
-                showDownloadDialog(this, "https://denniskoko.gumroad.com/l/cq_questions");
+                showDownloadDialog(this, "https://dennis-22-csc.github.io/CoderQuiz/quiz_download.html");
             } else {
                 showQuizCategories();
             }
@@ -213,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 Pattern bracketPattern = Pattern.compile("\\[(.*?)]"); // Pattern to match text inside []
 
                 // Read quiz category from the first line
-                String quizCategory = reader.readLine();
-                if (quizCategory != null && !quizCategory.trim().isEmpty()) {
-                    validCategories.add(quizCategory.trim());
+                String quizCategory = reader.readLine().trim();
+                if (quizCategory != null && !quizCategory.isEmpty()) {
+                    validCategories.add(quizCategory);
                 }
 
                 // Process each question line
@@ -279,14 +279,14 @@ public class MainActivity extends AppCompatActivity {
 
                     // Process the question data
                     try {
-                        int sourceId = Integer.parseInt(columns[0]);
-                        String questionText = columns[1];
-                        String optionA = columns[2];
-                        String optionB = columns[3];
-                        String optionC = (columns.length >= 8) ? columns[4] : null;
-                        String optionD = (columns.length >= 8) ? columns[5] : null;
-                        String correctOption = (columns.length >= 8) ? columns[6] : columns[4];
-                        String questionCategory = (columns.length >= 8) ? columns[7] : columns[5];
+                        int sourceId = Integer.parseInt(columns[0].trim());
+                        String questionText = columns[1].trim();
+                        String optionA = columns[2].trim();
+                        String optionB = columns[3].trim();
+                        String optionC = (columns.length >= 8) ? columns[4].trim() : null;
+                        String optionD = (columns.length >= 8) ? columns[5].trim() : null;
+                        String correctOption = (columns.length >= 8) ? columns[6].trim() : columns[4].trim();
+                        String questionCategory = (columns.length >= 8) ? columns[7].trim() : columns[5].trim();
 
                         byte[] imageBlob = null;
                         if (hasImageFileName(columns)) {
