@@ -49,11 +49,18 @@ public class QuizActivity extends AppCompatActivity {
     private CardView imageCard, option1Card, option2Card, option3Card, option4Card;
     private TextView option1Text, option2Text, option3Text, option4Text;
     private CardView[] optionCards;
-    private boolean isAnswered = false;
-
     private MaterialButton previousButton;
     private ScrollView quizSegment;
     private String statId;
+
+    // Map to store whether each question has been answered
+    private Map<Integer, Boolean> answeredQuestionsMap = new HashMap<>();
+    private final Map<CardView, Integer> defaultColors = new HashMap<>();
+
+
+    private CardView lastSelectedCard = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +112,9 @@ public class QuizActivity extends AppCompatActivity {
         nextButton.setOnClickListener(v -> {
             currentQuestionIndex++;
             if (currentQuestionIndex < questionList.size()) {
-                resetOptionsBackground(optionCards);
+                if (lastSelectedCard != null) {
+                    resetOptionsBackground(lastSelectedCard); // Remove previous highlight
+                }
                 displayQuestion(currentQuestionIndex);
             } else {
                 // Handle quiz completion
@@ -131,7 +140,10 @@ public class QuizActivity extends AppCompatActivity {
             if (currentQuestionIndex < 0) {
                 finish();
             } else {
-                resetOptionsBackground(optionCards);
+                if (lastSelectedCard != null) {
+                    resetOptionsBackground(lastSelectedCard); // Remove previous highlight
+                }
+                enableOptionCards(optionCards, false);
                 displayQuestion(currentQuestionIndex);
             }
         });
@@ -147,6 +159,14 @@ public class QuizActivity extends AppCompatActivity {
     private void displayQuestion(int index) {
         Question question = questionList.get(index);
         questionText.setText(question.getQuestion());
+
+        // Directly refer to the option components
+        optionCards = new CardView[] { option1Card, option2Card, option3Card, option4Card };
+        TextView[] optionTexts = {option1Text, option2Text, option3Text, option4Text};
+
+        // Reset isAnswered flag and enable all options
+        boolean isAnswered = answeredQuestionsMap.getOrDefault(index, false);
+        enableOptionCards(optionCards, !isAnswered);
 
         // Update the question number and remaining questions
         questionInfo.setText("Question " + (index + 1) + " of " + questionList.size());
@@ -183,14 +203,6 @@ public class QuizActivity extends AppCompatActivity {
         String correctAnswer = question.getCorrectOption();
 
 
-        // Directly refer to the option components
-        optionCards = new CardView[] { option1Card, option2Card, option3Card, option4Card };
-        TextView[] optionTexts = {option1Text, option2Text, option3Text, option4Text};
-
-        // Reset isAnswered flag and enable all options
-        isAnswered = false;
-        enableOptionCards(optionCards, true);
-
         // Ensure the last option is in focus
         option4Card.getParent().requestChildFocus(option4Card, option4Card);
 
@@ -211,8 +223,15 @@ public class QuizActivity extends AppCompatActivity {
             // Set onClickListener for options
             optionCard.setOnClickListener(v -> {
                 if (!isAnswered) {  // Only process if the question hasn't been answered
-                    resetOptionsBackground(optionCards);
-                    optionCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.optionsColor));
+                    // Store the default color only once
+                    if (!defaultColors.containsKey(optionCard)) {
+                        defaultColors.put(optionCard, optionCard.getCardBackgroundColor().getDefaultColor());
+                    }
+                    if (lastSelectedCard != null) {
+                        resetOptionsBackground(lastSelectedCard); // Remove previous highlight
+                    }
+                    lastSelectedCard = optionCard;
+                    //optionCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.optionsColor));
 
                     if (optionText.getText().toString().equals(correctAnswer)) {
                         highlightCorrectAnswer(optionCard, true, optionText.getText().toString());
@@ -227,19 +246,18 @@ public class QuizActivity extends AppCompatActivity {
                     }
 
                     // Mark the question as answered and disable further clicks
-                    isAnswered = true;
+                    answeredQuestionsMap.put(index, true);
                     enableOptionCards(optionCards, false);
                 }
             });
         }
     }
 
-    private void resetOptionsBackground(CardView[] optionCards) {
-        for (CardView optionCard : optionCards) {
-            optionCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.defaultCardColor));
+    private void resetOptionsBackground(CardView selectedCard) {
+        if (defaultColors.containsKey(selectedCard)) {
+            selectedCard.setCardBackgroundColor(defaultColors.get(selectedCard)); // Restore original color
         }
     }
-
 
     private void highlightCorrectAnswer(CardView selectedCard, boolean isCorrect, String correctAnswer) {
         if (isCorrect) {
@@ -272,9 +290,22 @@ public class QuizActivity extends AppCompatActivity {
 
     private void enableOptionCards(CardView[] optionCards, boolean enable) {
         for (CardView optionCard : optionCards) {
-            optionCard.setEnabled(enable);
+            optionCard.setClickable(enable);
+            optionCard.setFocusable(enable);
+            optionCard.setAlpha(enable ? 1.0f : 0.5f); // Optional: visually indicate state
         }
     }
+
+    private boolean isCardEnabled(CardView card) {
+        return card.isClickable(); // Check if the card is enabled
+    }
+
+
+    /*private void enableOptionCards(CardView[] optionCards, boolean enable) {
+        for (CardView optionCard : optionCards) {
+            optionCard.setEnabled(enable);
+        }
+    }*/
 
 
     private void showStats() {
@@ -321,7 +352,7 @@ public class QuizActivity extends AppCompatActivity {
                 intent.putExtra("CATEGORY_PERFORMANCE", categoryPerformanceBundle);
             } catch (JSONException e) {
                 // Handle the JSONException appropriately
-                e.printStackTrace();
+                //e.printStackTrace();
                 // Optionally show a user-friendly message or take other actions
             }
 

@@ -78,7 +78,7 @@
                     android:padding="16dp"
                     android:text="Question?"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/questionColor" />
             </androidx.cardview.widget.CardView>
 
             <!-- Image Card -->
@@ -126,7 +126,9 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:text="Option 1"
-                        android:textSize="16sp" />
+                        android:textSize="16sp" 
+                        android:textColor="@color/optionsColor"
+                        android:textStyle="bold"/>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Option 2 -->
@@ -143,7 +145,9 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:text="Option 2"
-                        android:textSize="16sp" />
+                        android:textSize="16sp" 
+                        android:textColor="@color/optionsColor"
+                        android:textStyle="bold"/>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Option 3 -->
@@ -160,7 +164,9 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:text="Option 3"
-                        android:textSize="16sp" />
+                        android:textSize="16sp" 
+                        android:textColor="@color/optionsColor"
+                        android:textStyle="bold"/>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Option 4 -->
@@ -177,7 +183,9 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:text="Option 4"
-                        android:textSize="16sp" />
+                        android:textSize="16sp" 
+                        android:textColor="@color/optionsColor"
+                        android:textStyle="bold"/>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
@@ -207,7 +215,8 @@
                     android:layout_height="wrap_content"
                     android:text="Correct Answer: ****"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/correctAnswerTextColor"
+                    android:textStyle="bold"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </android.widget.ScrollView>

@@ -1,10 +1,9 @@
 package com.denniscode.coderquiz;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,25 +23,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,24 +63,12 @@ public class MainActivity extends AppCompatActivity {
         Button startQuizButton = findViewById(R.id.startQuizButton);
         startQuizButton.setOnClickListener(v -> {
             if (dbHelper.getCategories().isEmpty()) {
-                Toast.makeText(MainActivity.this, "No categories available. Please load a quiz file first.", Toast.LENGTH_SHORT).show();
+                showDownloadDialog(this, "https://denniskoko.gumroad.com/l/cq_questions");
             } else {
                 showQuizCategories();
             }
         });
 
-        /*// Initialize the ActivityResultLauncher for picking files
-        pickFileLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            Intent data = result.getData();
-            if (data != null) {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    handleZipFile(uri);
-                } else {
-                    Toast.makeText(MainActivity.this, "No file selected", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
 
         // Initialize the ActivityResultLauncher for picking files
         pickFileLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -229,11 +210,12 @@ public class MainActivity extends AppCompatActivity {
                 int lineNumber = 1;
                 List<Question> validQuestions = new ArrayList<>();
                 List<String> validCategories = new ArrayList<>();
+                Pattern bracketPattern = Pattern.compile("\\[(.*?)]"); // Pattern to match text inside []
 
-                // The first line contains the quiz category
-                String quizCategory = reader.readLine().trim();
-                if (quizCategory != null && !quizCategory.isEmpty()) {
-                    validCategories.add(quizCategory);
+                // Read quiz category from the first line
+                String quizCategory = reader.readLine();
+                if (quizCategory != null && !quizCategory.trim().isEmpty()) {
+                    validCategories.add(quizCategory.trim());
                 }
 
                 // Process each question line
@@ -243,7 +225,25 @@ public class MainActivity extends AppCompatActivity {
                         continue;
                     }
 
+                    // Extract text inside square brackets before splitting
+                    Matcher matcher = bracketPattern.matcher(line);
+                    List<String> extractedTexts = new ArrayList<>();
+                    while (matcher.find()) {
+                        extractedTexts.add(matcher.group(1)); // Store extracted text
+                        line = line.replace(matcher.group(0), "PLACEHOLDER" + extractedTexts.size());
+                    }
+
                     String[] columns = line.split(",");
+
+                    // Restore extracted text in respective positions
+                    for (int i = 0; i < columns.length; i++) {
+                        if (columns[i].startsWith("PLACEHOLDER")) {
+                            int index = Integer.parseInt(columns[i].replace("PLACEHOLDER", "")) - 1;
+                            columns[i] = extractedTexts.get(index);
+                        }
+                        columns[i] = columns[i].trim(); // Trim whitespace
+                    }
+
                     int columnCount = columns.length;
 
                     // Validate column count
@@ -252,20 +252,18 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (isTrueOrFalseQuestion(columns)) {
-                        // True/False or Yes/No question validation
                         if (columnCount > 7 || columnCount < 6) {
-                            return "Line " + lineNumber + ": True/False or Yes/No question must have 6 or 7 columns";
+                            return "Line " + lineNumber + ": True/False question must have 6 or 7 columns";
                         }
                         if (columnCount == 7) {
                             if (!hasImageFileName(columns)) {
-                                return"Line " + lineNumber + ": True/False question with 7 columns must include an image file name";
+                                return "Line " + lineNumber + ": True/False question with 7 columns must include an image file name";
                             }
                             if (!imageExistsInZip(zipFile, folderName + "images/" + getImageFileName(columns))) {
-                                return "Line " + lineNumber + ": Image file '" + getImageFileName(columns) + " does ot exist in the images folder";
+                                return "Line " + lineNumber + ": Image file '" + getImageFileName(columns) + "' does not exist";
                             }
                         }
                     } else {
-                        // Non-True/False question validation
                         if (columnCount > 9 || columnCount < 8) {
                             return "Line " + lineNumber + ": Non-True/False question must have 8 or 9 columns";
                         }
@@ -274,21 +272,21 @@ public class MainActivity extends AppCompatActivity {
                                 return "Line " + lineNumber + ": Non-True/False question with 9 columns must include an image file name";
                             }
                             if (!imageExistsInZip(zipFile, folderName + "images/" + getImageFileName(columns))) {
-                                return "Line " + lineNumber + ": Image file '" + getImageFileName(columns) + "' does not exist in the images folder";
+                                return "Line " + lineNumber + ": Image file '" + getImageFileName(columns) + "' does not exist";
                             }
                         }
                     }
 
                     // Process the question data
                     try {
-                        int sourceId = Integer.parseInt(columns[0].trim());
-                        String questionText = columns[1].trim();
-                        String optionA = columns[2].trim();
-                        String optionB = columns[3].trim();
-                        String optionC = (columns.length >= 8) ? columns[4].trim() : null;
-                        String optionD = (columns.length >= 8) ? columns[5].trim() : null;
-                        String correctOption = (columns.length >= 8) ? columns[6].trim() : columns[4].trim();
-                        String questionCategory = (columns.length >= 8) ? columns[7].trim() : columns[5].trim();
+                        int sourceId = Integer.parseInt(columns[0]);
+                        String questionText = columns[1];
+                        String optionA = columns[2];
+                        String optionB = columns[3];
+                        String optionC = (columns.length >= 8) ? columns[4] : null;
+                        String optionD = (columns.length >= 8) ? columns[5] : null;
+                        String correctOption = (columns.length >= 8) ? columns[6] : columns[4];
+                        String questionCategory = (columns.length >= 8) ? columns[7] : columns[5];
 
                         byte[] imageBlob = null;
                         if (hasImageFileName(columns)) {
@@ -317,11 +315,9 @@ public class MainActivity extends AppCompatActivity {
                 return "Questions added successfully";
             }
         } catch (Exception e) {
-            return "Error processing .txt file: ";
+            return "Error processing .txt file: " + e.getMessage();
         }
     }
-
-
 
     private boolean hasImageFileName(String[] columns) {
         String lastColumn = columns[columns.length - 1].trim();
@@ -379,6 +375,25 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    private void showDownloadDialog(Context context, String downloadUrl) {
+        // Use MaterialAlertDialogBuilder for a Material Design styled dialog
+        new MaterialAlertDialogBuilder(context)
+                .setTitle("Please load a quiz file first")
+                .setMessage("Would you like to download a quiz file?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    // Open the URL in the browser
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(downloadUrl));
+                    context.startActivity(intent);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    // Dismiss the dialog
+                    dialog.dismiss();
+                })
+                .show();
+    }
+
 
     public void startQuiz (String selectedCategory) {
         Intent intent = new Intent(this, QuizActivity.class);
