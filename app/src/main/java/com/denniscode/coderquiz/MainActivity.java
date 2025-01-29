@@ -1,22 +1,29 @@
 package com.denniscode.coderquiz;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -64,12 +71,12 @@ public class MainActivity extends AppCompatActivity {
         startQuizButton.setOnClickListener(v -> {
             if (dbHelper.getCategories().isEmpty()) {
                 Toast.makeText(MainActivity.this, "No categories available. Please load a quiz file first.", Toast.LENGTH_SHORT).show();
-            } else  {
+            } else {
                 showQuizCategories();
             }
         });
 
-        // Initialize the ActivityResultLauncher for picking files
+        /*// Initialize the ActivityResultLauncher for picking files
         pickFileLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Intent data = result.getData();
             if (data != null) {
@@ -80,21 +87,77 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "No file selected", Toast.LENGTH_SHORT).show();
                 }
             }
+        });*/
+
+        // Initialize the ActivityResultLauncher for picking files
+        pickFileLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Intent data = result.getData();
+            if (data != null) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    // Create a ProgressDialog using Material Design principles
+                    AlertDialog progressDialog = new MaterialAlertDialogBuilder(MainActivity.this)
+                            .setCancelable(false) // Prevent user from dismissing
+                            .setView(createProgressBar()) // Add styled ProgressBar
+                            .create();
+
+                    // Show the ProgressDialog
+                    progressDialog.show();
+
+                    // Handle the ZIP file in a background thread
+                    new Thread(() -> {
+                        try {
+                            String zipResult = handleZipFile(uri); // Ensure exception handling
+                            runOnUiThread(() ->
+                                    Toast.makeText(MainActivity.this, zipResult, Toast.LENGTH_LONG).show()
+                            );
+                        } catch (Exception e) {
+                            runOnUiThread(() ->
+                                    Toast.makeText(MainActivity.this, "Error processing file", Toast.LENGTH_LONG).show()
+                            );
+                        } finally {
+                            // Dismiss the dialog on the UI thread
+                            runOnUiThread(progressDialog::dismiss);
+                        }
+                    }).start();
+                } else {
+                    // Notify the user if no file is selected
+                    runOnUiThread(() ->
+                            Toast.makeText(MainActivity.this, "No file selected", Toast.LENGTH_SHORT).show()
+                    );
+                }
+            }
         });
     }
 
-    private void openFilePicker() {
+// Helper method to create a ProgressBar with proper styling
+        private View createProgressBar() {
+            int padding = 16;
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setPadding(padding, padding, padding, padding);
+            layout.setGravity(Gravity.CENTER);
+
+            ProgressBar progressBar = new ProgressBar(this);
+            progressBar.setIndeterminate(true); // Indeterminate progress
+
+            layout.addView(progressBar);
+            return layout;
+        }
+
+        private void openFilePicker() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("application/zip");
         pickFileLauncher.launch(intent);
     }
 
-    private void handleZipFile(Uri uri) {
+    private String handleZipFile(Uri uri) {
+        String zipResult = null;
         try {
             // Open the zip file from the provided Uri
             InputStream inputStream = getContentResolver().openInputStream(uri);
             if (inputStream == null) {
-                return;
+                return "Zip file could not be opened";
             }
 
             File tempFile = File.createTempFile("tempZip", ".zip", getCacheDir());
@@ -136,77 +199,164 @@ public class MainActivity extends AppCompatActivity {
 
                         // Process only if the folder has txt file
                         if (hasTxtFile) {
-                            processTxtFile(zipFile, folderName);
+                            zipResult = processTxtFile(zipFile, folderName);
                         } else {
-                            Toast.makeText(this, "Zip file not accepted", Toast.LENGTH_LONG).show();
+                            String errorResult = "Zip file not accepted";
+                            zipFile.close();
+                            tempFile.delete();
+                            return errorResult;
                         }
                     }
                 }
             }
-
             zipFile.close();
             tempFile.delete();
         } catch (Exception e) {
-            Toast.makeText(this, "Error processing Zip file", Toast.LENGTH_LONG).show();
+            return "Error processing Zip file";
         }
+        return zipResult;
     }
 
-    private void processTxtFile(ZipFile zipFile, String folderName) {
+    private String processTxtFile(ZipFile zipFile, String folderName) {
         try {
-            ZipEntry txtEntry = zipFile.getEntry(folderName + "questions.txt"); // Adjust filename if needed
+            ZipEntry txtEntry = zipFile.getEntry(folderName + "questions.txt");
             if (txtEntry == null) {
-                return;
+                return "Question file not found.";
             }
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(txtEntry)));
-            String line;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(txtEntry)))) {
+                String line;
+                int lineNumber = 1;
+                List<Question> validQuestions = new ArrayList<>();
+                List<String> validCategories = new ArrayList<>();
 
-            // The first line contains the quiz category (title of the paper)
-            String quizCategory = reader.readLine();
-            if (quizCategory != null && !quizCategory.trim().isEmpty()) {
-                dbHelper.addCategory(quizCategory.trim());
-            }
+                // The first line contains the quiz category
+                String quizCategory = reader.readLine().trim();
+                if (quizCategory != null && !quizCategory.isEmpty()) {
+                    validCategories.add(quizCategory);
+                }
 
-            // Process each question line
-            while ((line = reader.readLine()) != null) {
-                String[] columns = line.split(",");
-
-                if (columns.length == 6 || columns.length == 7 || columns.length == 8 || columns.length == 9) {
-                    String sourceID = columns[0].trim();
-                    String questionText = columns[1].trim();
-                    String optionA = columns[2].trim();
-                    String optionB = columns[3].trim();
-                    String optionC = (columns.length >= 8) ? columns[4].trim() : null;
-                    String optionD = (columns.length >= 8) ? columns[5].trim() : null;
-                    String correctOption = (columns.length >= 8) ? columns[6].trim() : columns[4].trim();
-                    String questionCategory = (columns.length >= 8) ? columns[7].trim() : columns[5].trim();
-
-                    byte[] imageBlob = null;
-                    if (columns.length == 7 || columns.length == 9) {
-                        String imageName = columns[columns.length - 1].trim();
-                        imageBlob = extractImageBlob(zipFile, folderName + "images/" + imageName);
+                // Process each question line
+                while ((line = reader.readLine()) != null) {
+                    lineNumber++;
+                    if (line.trim().isEmpty()) {
+                        continue;
                     }
 
-                    // Create the Question object and persist it
-                    Question question = new Question(
-                            Integer.valueOf(sourceID),
-                            questionText,
-                            imageBlob,
-                            optionA,
-                            optionB,
-                            optionC,
-                            optionD,
-                            correctOption,
-                            questionCategory,
-                            quizCategory
-                    );
+                    String[] columns = line.split(",");
+                    int columnCount = columns.length;
+
+                    // Validate column count
+                    if (columnCount < 6 || columnCount > 9) {
+                        return "Line " + lineNumber + ": Invalid column count (" + columnCount + " columns)";
+                    }
+
+                    if (isTrueOrFalseQuestion(columns)) {
+                        // True/False or Yes/No question validation
+                        if (columnCount > 7 || columnCount < 6) {
+                            return "Line " + lineNumber + ": True/False or Yes/No question must have 6 or 7 columns";
+                        }
+                        if (columnCount == 7) {
+                            if (!hasImageFileName(columns)) {
+                                return"Line " + lineNumber + ": True/False question with 7 columns must include an image file name";
+                            }
+                            if (!imageExistsInZip(zipFile, folderName + "images/" + getImageFileName(columns))) {
+                                return "Line " + lineNumber + ": Image file '" + getImageFileName(columns) + " does ot exist in the images folder";
+                            }
+                        }
+                    } else {
+                        // Non-True/False question validation
+                        if (columnCount > 9 || columnCount < 8) {
+                            return "Line " + lineNumber + ": Non-True/False question must have 8 or 9 columns";
+                        }
+                        if (columnCount == 9) {
+                            if (!hasImageFileName(columns)) {
+                                return "Line " + lineNumber + ": Non-True/False question with 9 columns must include an image file name";
+                            }
+                            if (!imageExistsInZip(zipFile, folderName + "images/" + getImageFileName(columns))) {
+                                return "Line " + lineNumber + ": Image file '" + getImageFileName(columns) + "' does not exist in the images folder";
+                            }
+                        }
+                    }
+
+                    // Process the question data
+                    try {
+                        int sourceId = Integer.parseInt(columns[0].trim());
+                        String questionText = columns[1].trim();
+                        String optionA = columns[2].trim();
+                        String optionB = columns[3].trim();
+                        String optionC = (columns.length >= 8) ? columns[4].trim() : null;
+                        String optionD = (columns.length >= 8) ? columns[5].trim() : null;
+                        String correctOption = (columns.length >= 8) ? columns[6].trim() : columns[4].trim();
+                        String questionCategory = (columns.length >= 8) ? columns[7].trim() : columns[5].trim();
+
+                        byte[] imageBlob = null;
+                        if (hasImageFileName(columns)) {
+                            String imageName = getImageFileName(columns);
+                            imageBlob = extractImageBlob(zipFile, folderName + "images/" + imageName);
+                        }
+
+                        Question question = new Question(
+                                sourceId, questionText, imageBlob, optionA, optionB,
+                                optionC, optionD, correctOption, questionCategory, quizCategory);
+                        validQuestions.add(question);
+                    } catch (NumberFormatException e) {
+                        return "Line " + lineNumber + ": Invalid source ID";
+                    }
+                }
+
+                // Add categories and questions to the database
+                for (String category : validCategories) {
+                    dbHelper.addCategory(category);
+                }
+
+                for (Question question : validQuestions) {
                     dbHelper.addQuestion(question);
                 }
+
+                return "Questions added successfully";
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Error processing .txt file", Toast.LENGTH_LONG).show();
+            return "Error processing .txt file: ";
         }
     }
+
+
+
+    private boolean hasImageFileName(String[] columns) {
+        String lastColumn = columns[columns.length - 1].trim();
+        return lastColumn.endsWith(".jpg") || lastColumn.endsWith(".png") || lastColumn.endsWith(".jpeg");
+    }
+
+    private String getImageFileName(String[] columns) {
+        return columns[columns.length - 1].trim();
+    }
+
+
+
+
+    private boolean isTrueOrFalseQuestion(String[] columns) {
+        for (String column : columns) {
+            if (column != null) {
+                String trimmedColumn = column.trim().toLowerCase();
+                if (trimmedColumn.equals("true") || trimmedColumn.equals("false") ||
+                        trimmedColumn.equals("yes") || trimmedColumn.equals("no")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    private boolean hasImageFile(String[] columns) {
+        return columns.length == 7 || columns.length == 9;
+    }
+
+    private boolean imageExistsInZip(ZipFile zipFile, String imagePath) {
+        return zipFile.getEntry(imagePath) != null;
+    }
+
 
     private byte[] extractImageBlob(ZipFile zipFile, String imagePath) {
         try {

@@ -1,45 +1,45 @@
 package com.denniscode.coderquiz
 
-import android.content.Intent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import java.io.IOException
-import java.text.SimpleDateFormat
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.ui.platform.LocalDensity
-import kotlin.math.min
-import java.util.Date
-import java.util.Locale
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.net.Uri
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+//import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
+import kotlin.math.min
 
 
 class StatsActivity : ComponentActivity() {
@@ -65,7 +65,9 @@ class StatsActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val correctAnswers = intent.getIntExtra("CORRECT_ANSWERS", 0)
+        val incorrectAnswers = intent.getIntExtra("INCORRECT_ANSWERS", 0)
         val totalQuestions = intent.getIntExtra("TOTAL_QUESTIONS", 0)
+        val timeStamp = intent.getStringExtra("TIME_STAMP") ?: "n.d"
         val categoryPerformance = intent.getBundleExtra("CATEGORY_PERFORMANCE")?.let { bundle ->
             bundle.keySet().associateWith { bundle.getFloat(it, 0.0f) }
         } ?: emptyMap()
@@ -78,10 +80,13 @@ class StatsActivity : ComponentActivity() {
                 ) {
                     StatsScreen(
                             correctAnswers = correctAnswers,
+                            incorrectAnswers = incorrectAnswers,
                             totalQuestions = totalQuestions,
                             categoryPerformance = categoryPerformance,
-                            iconsVisible = iconsVisible.value, // Access the value of iconsVisible
-                            onShareClick = { iconsVisible.value = false
+                            timeStamp = timeStamp,
+                            iconsVisible = iconsVisible.value,
+                            onShareClick = {
+                                iconsVisible.value = false
                                 triggerShareScreenshot()
                             }
                     )
@@ -94,8 +99,10 @@ class StatsActivity : ComponentActivity() {
 @Composable
 fun StatsScreen(
         correctAnswers: Int,
+        incorrectAnswers: Int,
         totalQuestions: Int,
         categoryPerformance: Map<String, Float>,
+        timeStamp: String,
         iconsVisible: Boolean,
         onShareClick: () -> Unit
 ) {
@@ -127,7 +134,7 @@ fun StatsScreen(
 
             // Title text
             Text(
-                    text = "Your stats for quiz taken ${formatDate()}",
+                    text = "Your stats for quiz taken $timeStamp",
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center
@@ -143,7 +150,6 @@ fun StatsScreen(
         }
 
         // Pie Chart Card
-        val incorrectAnswers = totalQuestions - correctAnswers
         val accuracy = if (totalQuestions > 0) {
             (correctAnswers.toFloat() / totalQuestions) * 100
         } else {
@@ -159,7 +165,7 @@ fun StatsScreen(
         // Bar Chart Card
         HorizontalBarChartCard(
                 data = categoryPerformance,
-                maxValue = categoryPerformance.values.maxOrNull()?.toInt() ?: 100,
+                maxValue = 100,
 
         )
     }
@@ -251,6 +257,7 @@ fun DonutChart(correct: Int, incorrect: Int) {
     }
 }
 
+
 @Composable
 fun LegendItem(color: Color, label: String) {
     Row(
@@ -267,10 +274,15 @@ fun LegendItem(color: Color, label: String) {
     }
 }
 
+
 @Composable
 fun HorizontalBarChartCard(data: Map<String, Float>, maxValue: Int) {
+    //val context = LocalContext.current
+
     Card(
-            modifier = Modifier.fillMaxSize() .background(Color(0xFFFAFAFA)),
+            modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFFAFAFA)),
             shape = RoundedCornerShape(16.dp),
             elevation = 8.dp,
     ) {
@@ -291,18 +303,32 @@ fun HorizontalBarChartCard(data: Map<String, Float>, maxValue: Int) {
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.fillMaxWidth()
                     ) {
-                        // Calculate the width of the bar
-                        val barWidth = if (maxValue > 0) {
-                            maxOf((score / maxValue * 200).dp, 4.dp) // Minimum 4.dp width
-                        } else {
-                            4.dp // Default minimum width when maxValue is zero
+
+                        // Create a TextPaint object
+                        val textPaint = Paint().apply {
+                            textSize = 48f // Set the text size in pixels (adjust as needed)
+                            typeface = Typeface.DEFAULT // Set the typeface (adjust as needed)
                         }
 
-                        // Approximate the text width
-                        val textWidth = category.length * 8 // Approximate text width in pixels
-                        val textWidthDp = with(LocalDensity.current) { textWidth.toDp() }
+                        // Calculate the width of the text in pixels
+                        val textWidthPx = textPaint.measureText(category)
+
+                        // Convert the text width to DP
+                        val textWidthDp = with(LocalDensity.current) { textWidthPx.toDp() }
+
+                        // Calculate the width of the bar
+                        val barWidth = maxOf((score / maxValue * 200).dp, 4.dp) // Scale bar width based on percentage score
+
+                        // Check if the text fits inside the bar
                         val textFitsInsideBar = textWidthDp <= barWidth
 
+                        // Show a toast to verify
+                        /*Toast.makeText(
+                                context,
+                                if (textFitsInsideBar) "$category fits inside the bar"
+                                else "$category does NOT fit inside the bar",
+                                Toast.LENGTH_SHORT
+                        ).show()*/
                         // Bar
                         Box(
                                 modifier = Modifier
@@ -328,7 +354,7 @@ fun HorizontalBarChartCard(data: Map<String, Float>, maxValue: Int) {
                             Text(
                                     text = category,
                                     fontSize = 12.sp,
-                                    modifier = Modifier.weight(1f) // Push text to the far right
+                                    modifier = Modifier.wrapContentWidth() // Push text to the far right
                             )
                         }
 
@@ -402,12 +428,6 @@ fun VisibilityIconButton(
             Icon(imageVector = imageVector, contentDescription = contentDescription)
         }
     }
-}
-
-fun formatDate(): String {
-    val date = Date()
-    val format = SimpleDateFormat("EEE MMM dd yyyy h:mm a", Locale.getDefault())
-    return format.format(date)
 }
 
 

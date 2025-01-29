@@ -1,46 +1,40 @@
 package com.denniscode.coderquiz;
 
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.button.MaterialButton;
-
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import android.animation.ObjectAnimator;
-import android.app.Dialog;
-import android.os.Bundle;
-import android.view.View;
 import android.view.animation.BounceInterpolator;
-import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -59,6 +53,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private MaterialButton previousButton;
     private ScrollView quizSegment;
+    private String statId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +113,15 @@ public class QuizActivity extends AppCompatActivity {
                 quizSegment.setVisibility(View.GONE);
                 nextButton.setVisibility(View.GONE);
                 showQuizCompletedDialog();
-            }
+                int correctAnswers = score;
+                int totalQuestions = questionList.size();
+                int incorrectAnswers = totalQuestions - correctAnswers;
+                Map<String, Float> categoryPerformance = getCategoryPerformance();
+                String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
+                statId = generateStatId(timeStamp);
+
+                dbHelper.addQuizStat(statId, selectedCategory, correctAnswers, incorrectAnswers, totalQuestions, categoryPerformance, timeStamp);
+                }
         });
 
         previousButton.setOnClickListener(v -> {
@@ -191,13 +194,6 @@ public class QuizActivity extends AppCompatActivity {
         // Ensure the last option is in focus
         option4Card.getParent().requestChildFocus(option4Card, option4Card);
 
-        // If the correct answer is visible, focus on it instead
-        if (!correctAnswerText.getText().toString().isEmpty()) {
-            correctAnswerText.getParent().requestChildFocus(correctAnswerText, correctAnswerText);
-        }
-
-
-
         // Show or hide cards based on the number of options
         for (int i = 0; i < optionCards.length; i++) {
             CardView optionCard = optionCards[i];
@@ -219,12 +215,12 @@ public class QuizActivity extends AppCompatActivity {
                     optionCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.optionsColor));
 
                     if (optionText.getText().toString().equals(correctAnswer)) {
-                        highlightCorrectAnswer(optionCard, optionText.getText().toString());
+                        highlightCorrectAnswer(optionCard, true, optionText.getText().toString());
                         // Update the status of a question after an answer is submitted
                         dbHelper.updateQuestionStatus(question.getQuestionID(), true);
                         question.setQuestionStatus("CORRECT");
                     } else {
-                        highlightCorrectAnswer(null, correctAnswer);
+                        highlightCorrectAnswer(optionCard, false, correctAnswer);
                         // Update the status of a question after an answer is submitted
                         dbHelper.updateQuestionStatus(question.getQuestionID(), false);
                         question.setQuestionStatus("FAILED");
@@ -245,8 +241,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
 
-    private void highlightCorrectAnswer(CardView selectedCard, String correctAnswer) {
-        if (selectedCard != null) {
+    private void highlightCorrectAnswer(CardView selectedCard, boolean isCorrect, String correctAnswer) {
+        if (isCorrect) {
             correctAnswerIcon.setImageResource(R.drawable.correct);
             correctAnswerText.setText("Correct Answer: " + correctAnswer);
             selectedCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.correctColor));
@@ -254,8 +250,24 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             correctAnswerIcon.setImageResource(R.drawable.incorrect);
             correctAnswerText.setText("Correct Answer: " + correctAnswer);
+            selectedCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.incorrectColor));
         }
 
+
+
+        // Request focus on the correct answer text
+        correctAnswerText.requestFocus();
+
+        // Scroll the ScrollView to ensure the correct answer text is fully visible
+        quizSegment.post(() -> {
+            View lastChild = quizSegment.getChildAt(quizSegment.getChildCount() - 1);
+            int bottom = lastChild.getBottom() + quizSegment.getPaddingBottom();
+            int sy = quizSegment.getScrollY();
+            int sh = quizSegment.getHeight();
+            int delta = bottom - (sy + sh);
+
+            quizSegment.smoothScrollBy(0, delta);
+        });
     }
 
     private void enableOptionCards(CardView[] optionCards, boolean enable) {
@@ -264,21 +276,61 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+
     private void showStats() {
-            Intent intent = new Intent(this, StatsActivity.class);
-            intent.putExtra("CORRECT_ANSWERS", score);
-            intent.putExtra("TOTAL_QUESTIONS", questionList.size());
+        // Instantiate the DB helper
+        QuizDatabaseHelper dbHelper = new QuizDatabaseHelper(this);
 
-            Bundle bundle = new Bundle();
-            Map<String, Float> categoryPerformance = getCategoryPerformance();
-            for (Map.Entry<String, Float> entry : categoryPerformance.entrySet()) {
-                bundle.putFloat(entry.getKey(), entry.getValue());
+        // Retrieve the stats associated with the statId
+        Map<String, Object> quizStat = dbHelper.getQuizStatById(statId);
+
+        // Check if the quizStat is not null before proceeding
+        if (quizStat != null) {
+                // Extract relevant data from the Map
+                int correctAnswers = (int) quizStat.get("correct_answers");
+                int incorrectAnswers = (int) quizStat.get("incorrect_answers");
+                int totalQuestions = (int) quizStat.get("total_questions");
+                String timeStamp = formatTimestamp((String) quizStat.get("date_time"));
+
+                String categoryPerformanceJson = (String) quizStat.get("category_performance");
+
+                // Prepare the intent to pass the data to StatsActivity
+                Intent intent = new Intent(this, StatsActivity.class);
+
+                // Pass the data to the intent
+                intent.putExtra("CORRECT_ANSWERS", correctAnswers);
+                intent.putExtra("INCORRECT_ANSWERS", incorrectAnswers);
+                intent.putExtra("TOTAL_QUESTIONS", totalQuestions);
+                intent.putExtra("TIME_STAMP", timeStamp);
+
+            try {
+                JSONObject jsonObject = new JSONObject(categoryPerformanceJson);
+
+                // Create a Bundle to hold the category performance values
+                Bundle categoryPerformanceBundle = new Bundle();
+
+                // Loop through the keys in the JSON object and put them into the Bundle
+                Iterator<String> keys = jsonObject.keys();
+
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    categoryPerformanceBundle.putFloat(key, (float) jsonObject.getInt(key));
+                }
+
+                // Pass the categoryPerformanceBundle with Intent
+                intent.putExtra("CATEGORY_PERFORMANCE", categoryPerformanceBundle);
+            } catch (JSONException e) {
+                // Handle the JSONException appropriately
+                e.printStackTrace();
+                // Optionally show a user-friendly message or take other actions
             }
-            intent.putExtra("CATEGORY_PERFORMANCE", bundle);
 
-            startActivity(intent);
+            // Start StatsActivity
+                startActivity(intent);
+        } else {
+            Toast.makeText(this, "No data found for statId: " + statId, Toast.LENGTH_LONG).show();
+        }
     }
-
 
     private void showImageModal() {
         // Create and configure the dialog
@@ -369,6 +421,25 @@ public class QuizActivity extends AppCompatActivity {
 
         // Show the dialog
         dialog.show();
+    }
+
+    public String generateStatId(String timeStamp) {
+        String uuid = UUID.randomUUID().toString();
+        return uuid + "_" + timeStamp;
+    }
+
+    private String formatTimestamp(String timestampStr) {
+        // Define the input format (yyyyMMddHHmmss)
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+        // Parse the input timestamp to a LocalDateTime object
+        LocalDateTime dateTime = LocalDateTime.parse(timestampStr, inputFormatter);
+
+        // Define the desired output format (e.g., "Tuesday Jan 2 2025 4:30 PM")
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("EEEE MMM d yyyy h:mm a");
+
+        // Format the LocalDateTime to the desired string
+        return dateTime.format(outputFormatter);
     }
 
 }
