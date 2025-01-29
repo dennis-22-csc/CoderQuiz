@@ -3,30 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    !-- Meta Description -->
 <meta name="description" content="CoderQuiz helps you achieve technical mastery with custom quizzes designed for AI, Machine Learning, Backend Engineering, Digital Marketing, and more. Test and consolidate knowledge through engaging and personalized quizzes." />
-
-<!-- Open Graph Meta Tags (for Facebook) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Achieve Expertise with CoderQuiz">
 <meta property="og:description" content="CoderQuiz offers a comprehensive suite of quizzes to master skills in AI, Machine Learning, Backend Engineering, and Digital Marketing. Join millions aiming for technical mastery." />
 <meta property="og:image" content="https://dennis-22-csc.github.io/CoderQuiz/cq_feature.jpg">
 <meta property="og:url" content="https://dennis-22-csc.github.io/CoderQuiz/">
-
-<!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="dennis-22-csc.github.io/CoderQuiz/">
 <meta property="twitter:url" content="https://dennis-22-csc.github.io/CoderQuiz/">
 <meta name="twitter:title" content="Achieve Expertise with CoderQuiz">
 <meta name="twitter:description" content="Master technical skills with CoderQuiz. Test knowledge in AI, Machine Learning, and more with engaging quizzes. Download the app today." />
 <meta name="twitter:image" content="https://dennis-22-csc.github.io/CoderQuiz/cq_feature.jpg">
-
-<!-- Title Tag -->
 <title>CoderQuiz | Download Custom Quizzes</title>
-
-<!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="fav.png">
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-25GQ5MLLLC"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -86,8 +76,12 @@
             transform: translateX(-50%);
         }
         .section {
+            display: flex;
             padding: 20px;
             font-family: Arial, sans-serif;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
 
         .section h2 {
@@ -98,13 +92,6 @@
         .section p {
             font-size: 16px;
             margin-bottom: 20px;
-        }
-
-        .div-part {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
         }
 
         .micro-cards {
@@ -118,7 +105,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 200px;
+            width: 100%;
             text-align: center;
             margin: 15px;
         }
@@ -238,7 +225,7 @@
 <!-- Subscribe Section -->
     <section class="subscribe-section">
         <h2>Stay in the loop</h2>
-        <p>Be the first to get updates when we add new quiz questions, make special offers, and add new features.</p>
+        <p>Be the first to get updates when we add new quiz files and questions, make special offers, and add new features.</p>
         <div class="sib-form" style="text-align: center;">
   <div id="sib-form-container" class="sib-form-container">
     <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; max-width:540px; border-radius:3px; border-width:1px; border-color:#C0CCD9; border-style:solid;">
@@ -290,7 +277,7 @@
         const skills = [
             { name: 'AI and Machine Learning', description: 'Test your knowledge of the latest advancements in AI and Machine Learning.', quizAvailable: true, url: 'https://denniskoko.gumroad.com/l/cq_questions' },
             { name: 'Backend Engineering', description: 'Test your knowledge of server-side development and databases.', quizAvailable: false, url: ' ' },
-            { name: 'Forex and Cryptocurrencies', description: 'Test your understanding of forex and crypto currency trading.', quizAvailable: false, url: ' ' },
+            { name: 'Forex and Cryptocurrencies', description: 'Test your knowledge and understanding of forex and crypto currency trading concepts and strategies.', quizAvailable: false, url: ' ' },
             { name: 'Digital Marketing', description: 'Test your knowledge of strategies for online marketing and advertising.', quizAvailable: false, url: ' ' }
         ];
 
