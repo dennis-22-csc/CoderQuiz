@@ -12,8 +12,8 @@ android {
         applicationId = "com.denniscode.coderquiz"
         minSdk = 26
         targetSdk = 34
-        versionCode = 6
-        versionName = "1.5"
+        versionCode = 7
+        versionName = "1.6"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,5 +51,6 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
+    implementation(libs.photoview)
 
 }

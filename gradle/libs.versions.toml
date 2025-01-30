@@ -13,6 +13,7 @@ coreKtx = "1.15.0"
 compose = "1.6.7"
 activityCompose = "1.8.0"
 lifecycleRuntimeKtx = "2.6.2"
+photoview = "2.3.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,6 +30,7 @@ androidx-compose-material = { module = "androidx.compose.material:material", ver
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+photoview = { group = "com.github.chrisbanes", name = "PhotoView", version.ref = "photoview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
