@@ -17,6 +17,7 @@ gradle-app.setting
 *.apk
 *.ap_
 *.aab
+*.db
 
 # ProGuard
 proguard/
@@ -91,3 +92,7 @@ Desktop.ini
 /captures
 .externalNativeBuild
 .cxx
+
+
+app/google-services.json
+

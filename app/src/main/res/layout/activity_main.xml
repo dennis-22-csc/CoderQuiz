@@ -19,6 +19,14 @@
         android:id="@+id/startQuizButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:text="Start Quiz" />
+
+    <!-- Button to view Progress Dashboard -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/viewDashboardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dashboard"/>
 
 </LinearLayout>

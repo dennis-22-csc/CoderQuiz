@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -126,12 +128,12 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    // Retrieve all data from quiz_stat table
     public List<Map<String, Object>> getAllQuizStats() {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Map<String, Object>> quizStatList = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE_QUIZ_STAT;
+        // Order results by dateTime in ascending order
+        String query = "SELECT * FROM " + TABLE_QUIZ_STAT + " ORDER BY " + COLUMN_DATE_TIME + " ASC";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -142,19 +144,17 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
                 quizStat.put(COLUMN_CORRECT_ANSWERS, cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CORRECT_ANSWERS)));
                 quizStat.put(COLUMN_INCORRECT_ANSWERS, cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_INCORRECT_ANSWERS)));
                 quizStat.put(COLUMN_TOTAL_QUESTIONS, cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_TOTAL_QUESTIONS)));
+
                 // Retrieve and deserialize the category performance JSON string
                 String categoryPerformanceJson = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY_PERFORMANCE));
-
-                // Convert JSON string back to Map<String, Float>
                 Map<String, Float> categoryPerformance = new HashMap<>();
                 try {
-                JSONObject jsonObject = new JSONObject(categoryPerformanceJson);
-
-                Iterator<String> keys = jsonObject.keys();
-                while (keys.hasNext()) {
-                    String key = keys.next();
-                    categoryPerformance.put(key, (float) jsonObject.getDouble(key));
-                }
+                    JSONObject jsonObject = new JSONObject(categoryPerformanceJson);
+                    Iterator<String> keys = jsonObject.keys();
+                    while (keys.hasNext()) {
+                        String key = keys.next();
+                        categoryPerformance.put(key, (float) jsonObject.getDouble(key));
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -166,9 +166,52 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
         return quizStatList;
     }
+
+    public void addQuizStats(List<Map<String, Object>> quizStatsList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            db.beginTransaction();  // Begin transaction
+
+            for (Map<String, Object> quizStat : quizStatsList) {
+                // Extract values from the map
+                String statId = (String) quizStat.get("id");
+                String quizCategory = (String) quizStat.get("quiz_category");  // Fixed key
+                int correctAnswers = (int) quizStat.get("correct_answers");
+                int incorrectAnswers = (int) quizStat.get("incorrect_answers");
+                int totalQuestions = (int) quizStat.get("total_questions");
+                Map<String, Float> categoryPerformance = (Map<String, Float>) quizStat.get("category_performance");
+                String dateTime = (String) quizStat.get("date_time");
+
+                // Convert category performance Map<String, Float> to JSON string
+                JSONObject jsonObject = new JSONObject(categoryPerformance);
+                String categoryPerformanceJson = jsonObject.toString();
+
+                // Insert the stat into the database
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_STAT_ID, statId);
+                values.put(COLUMN_QUIZ_CATEGORY, quizCategory);
+                values.put(COLUMN_CORRECT_ANSWERS, correctAnswers);
+                values.put(COLUMN_INCORRECT_ANSWERS, incorrectAnswers);
+                values.put(COLUMN_TOTAL_QUESTIONS, totalQuestions);
+                values.put(COLUMN_CATEGORY_PERFORMANCE, categoryPerformanceJson);
+                values.put(COLUMN_DATE_TIME, dateTime);
+
+                // Insert into database
+                db.insert(TABLE_QUIZ_STAT, null, values);
+            }
+
+            db.setTransactionSuccessful();  // Commit transaction
+        } catch (Exception e) {
+            // e.getMessage();
+
+        } finally {
+            db.endTransaction();  // Ensure transaction is always ended
+        }
+    }
+
 
     public Map<String, Object> getQuizStatById(String statId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -203,7 +246,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CATEGORY_NAME, category);
         db.insert(TABLE_CATEGORIES, null, values);
-        //db.close();
+        db.close();
     }
 
     public List<String> getCategories() {
@@ -246,7 +289,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_QUIZ_CATEGORY, question.getQuizCategory());
 
         db.insert(TABLE_QUESTIONS, null, values);
-        //db.close();
+        db.close();
         return true;
     }
 

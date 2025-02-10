@@ -1,9 +1,12 @@
 package com.denniscode.coderquiz;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +35,17 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,25 +56,39 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView categoryRecyclerView;
     private List<String> categories;
-
+    SharedPreferences sharedPreferences;
+    boolean dataAvailable;
+    AlertDialog dashboardProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseMessaging.getInstance().subscribeToTopic("cq_all");
 
         dbHelper = new QuizDatabaseHelper(this);
+
+        sharedPreferences = getSharedPreferences("FCM_Preferences", Context.MODE_PRIVATE);
+        dataAvailable = sharedPreferences.getBoolean("data_available", false);
 
         // Button to open file picker
         Button syncButton = findViewById(R.id.syncButton);
         syncButton.setOnClickListener(v -> openFilePicker());
 
+        // Button to view dashboard
+        Button dashboardButton = findViewById(R.id.viewDashboardButton);
+        dashboardButton.setOnClickListener(v -> {
+         showDashboard();
+        });
+
+
         // Button to start the quiz
         Button startQuizButton = findViewById(R.id.startQuizButton);
         startQuizButton.setOnClickListener(v -> {
             if (dbHelper.getCategories().isEmpty()) {
-                showDownloadDialog(this, "https://dennis-22-csc.github.io/CoderQuiz/quiz_download.html");
+                showDialog(this, "Please load a quiz file first", "Would you like to download a quiz file?", "https://dennis-22-csc.github.io/CoderQuiz/quiz_download.html");
             } else {
+                showFCMData(this);
                 showQuizCategories();
             }
         });
@@ -376,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showDownloadDialog(Context context, String downloadUrl) {
+    /*private void showDownloadDialog(Context context, String downloadUrl) {
         // Use MaterialAlertDialogBuilder for a Material Design styled dialog
         new MaterialAlertDialogBuilder(context)
                 .setTitle("Please load a quiz file first")
@@ -392,8 +416,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog.dismiss();
                 })
                 .show();
-    }
-
+    }****/
 
     public void startQuiz (String selectedCategory) {
         Intent intent = new Intent(this, QuizActivity.class);
@@ -463,5 +486,63 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void showFCMData(Context context) {
+        if (dataAvailable) {
+            String title = sharedPreferences.getString("title", "No Title");
+            String message = sharedPreferences.getString("message", "No Message");
+            String url = sharedPreferences.getString("url", null); // URL can be null
+
+            showDialog(context, title, message, url);
+            // Reset flag after reading data
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("data_available", false);
+            editor.apply();
+        }
+    }
+
+    private void showDialog(Context context, String title, String message, String url) {
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    if (url != null && url.matches("^(https?|ftp)://.*$")) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        context.startActivity(intent);
+                    }
+                    dialog.dismiss();
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .setCancelable(false) // Prevent dismissing by touching outside
+                .show();
+    }
+
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // Dismiss the ProgressDialog
+                    dashboardProgressDialog.dismiss();
+
+                }
+            }
+    );
+
+
+    private void showDashboard() {
+        // Create a ProgressDialog using Material Design principles
+        dashboardProgressDialog = new MaterialAlertDialogBuilder(MainActivity.this)
+                .setCancelable(false) // Prevent user from dismissing
+                .setView(createProgressBar()) // Add styled ProgressBar
+                .create();
+
+        // Show the ProgressDialog
+        dashboardProgressDialog.show();
+
+        // Start DashboardActivity
+        Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+        activityResultLauncher.launch(intent);
+    }
 
 }

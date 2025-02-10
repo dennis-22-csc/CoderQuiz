@@ -2,22 +2,30 @@ package com.denniscode.coderquiz;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -130,7 +138,8 @@ public class QuizActivity extends AppCompatActivity {
                 statId = generateStatId(timeStamp);
 
                 dbHelper.addQuizStat(statId, selectedCategory, correctAnswers, incorrectAnswers, totalQuestions, categoryPerformance, timeStamp);
-                }
+                MyBackupAgent.backupQuizStats(this, dbHelper.getAllQuizStats());
+            }
         });
 
         previousButton.setOnClickListener(v -> {
@@ -357,7 +366,7 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             // Start StatsActivity
-                startActivity(intent);
+            startActivity(intent);
         } else {
             Toast.makeText(this, "No data found for statId: " + statId, Toast.LENGTH_LONG).show();
         }
@@ -443,7 +452,11 @@ public class QuizActivity extends AppCompatActivity {
 
         // Set button actions
         finishButton.setOnClickListener(view -> {
-            finish(); // Finish the activity
+            if (!MyBackupAgent.getPrefBackupDialogShown(this)) {
+                showBackupDialog(this);
+            } else {
+                finish(); // Finish the activity
+            }
         });
 
         showStatsButton.setOnClickListener(view -> {
@@ -472,5 +485,37 @@ public class QuizActivity extends AppCompatActivity {
         // Format the LocalDateTime to the desired string
         return dateTime.format(outputFormatter);
     }
+
+    private void showBackupDialog(Context context) {
+        // 1. Inflate a custom layout
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.dialog_backup, null); // dialog_backup.xml
+
+        // 2. Find the ImageView in your layout
+        ImageView imageView = dialogView.findViewById(R.id.backup_image); // ID from dialog_backup.xml
+
+        // 3. Set the image (you can load from resources, URI, etc.)
+        imageView.setImageResource(R.drawable.backup_image);
+        Button okayButton = dialogView.findViewById(R.id.okay_button);
+
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
+                .setTitle("Enable automatic backups of stats")
+                .setMessage("If you would like your stats to backup to your Google Drive, toggle the option to enable mobile data backup in your settings screen")
+                .setView(dialogView)
+                .setCancelable(false)
+                .create(); // Create the dialog
+
+        okayButton.setOnClickListener(v -> { // Set listener on the custom button
+            Intent intent = new Intent();
+            intent.setAction("android.settings.BACKUP_AND_RESET_SETTINGS");
+            startActivity(intent);
+            dialog.dismiss();
+        });
+
+        dialog.show();
+        MyBackupAgent.setPrefBackupDialogShown(this, true);
+    }
+
+
 
 }
