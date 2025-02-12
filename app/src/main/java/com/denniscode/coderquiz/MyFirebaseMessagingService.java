@@ -2,8 +2,6 @@ package com.denniscode.coderquiz;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

@@ -7,7 +7,7 @@ public class Question {
 
     private String question;
 
-    private byte[] imageBlob;
+    private int imageId;
 
     private String optionA;
     private String optionB;
@@ -20,10 +20,10 @@ public class Question {
     private String imageName;
     private String questionStatus;
 
-    public Question(int sourceID, String question, byte[] imageBlob, String optionA, String optionB, String optionC, String optionD, String correctOption, String questionCategory, String quizCategory) {
+    public Question(int sourceID, String question, int imageId, String optionA, String optionB, String optionC, String optionD, String correctOption, String questionCategory, String quizCategory) {
         this.sourceID = sourceID;
         this.question = question;
-        this.imageBlob = imageBlob;
+        this.imageId = imageId;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
@@ -41,8 +41,8 @@ public class Question {
         return question;
     }
 
-    public byte[] getImageBlob() {
-        return imageBlob;
+    public int getImageId() {
+        return imageId;
     }
 
     public String getOptionA() {
@@ -94,8 +94,8 @@ public class Question {
         this.imageName = imageName;
     }
 
-    public void setImageBlob(byte[] imageBlob) {
-       this.imageBlob = imageBlob;
+    public void setImageId(int imageId) {
+       this.imageId = imageId;
     }
 
     public String getImageName() {

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "quiz.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     private static final String TABLE_CATEGORIES = "quiz_categories";
@@ -37,7 +38,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_QUESTION_ID = "id";
     private static final String COLUMN_SOURCE_ID = "source_id";
     private static final String COLUMN_QUESTION = "question";
-    private static final String COLUMN_IMAGE = "image";
+    private static final String COLUMN_IMAGE_ID = "image_id";
     private static final String COLUMN_OPTION_A = "option_a";
     private static final String COLUMN_OPTION_B = "option_b";
     private static final String COLUMN_OPTION_C = "option_c";
@@ -45,6 +46,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_CORRECT_OPTION = "correct_option";
     private static final String COLUMN_QUESTION_CATEGORY = "question_category";
     private static final String COLUMN_QUIZ_CATEGORY = "quiz_category";
+    private static final String COLUMN_LAST_ATTEMPTED = "last_attempted";
     private static final String COLUMN_QUESTION_STATUS = "status";
 
     // Column names for quiz_stat
@@ -55,12 +57,25 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_CATEGORY_PERFORMANCE = "category_performance";
     private static final String COLUMN_DATE_TIME = "date_time";
 
+    // Images Table
+    private static final String TABLE_IMAGES = "images";
+    private static final String COLUMN_IMAGE_ID_PK = "id";
+    private static final String COLUMN_IMAGE_NAME = "name";
+    private static final String COLUMN_IMAGE_BLOB = "data";
+
     public QuizDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Create Images Table
+        String CREATE_IMAGES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_IMAGES + " ("
+                + COLUMN_IMAGE_ID_PK + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_IMAGE_NAME + " TEXT UNIQUE, " // Prevent duplicate images
+                + COLUMN_IMAGE_BLOB + " BLOB)";
+        db.execSQL(CREATE_IMAGES_TABLE);
+
         // Create categories table
         String createCategoriesTable = "CREATE TABLE " + TABLE_CATEGORIES + " ("
                 + COLUMN_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -72,7 +87,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_QUESTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_SOURCE_ID + " INTEGER NOT NULL, "
                 + COLUMN_QUESTION + " TEXT NOT NULL UNIQUE, "
-                + COLUMN_IMAGE + " BLOB, "
+                + COLUMN_IMAGE_ID + " INTEGER, "
                 + COLUMN_OPTION_A + " TEXT NOT NULL, "
                 + COLUMN_OPTION_B + " TEXT NOT NULL, "
                 + COLUMN_OPTION_C + " TEXT, "
@@ -80,8 +95,9 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_CORRECT_OPTION + " TEXT NOT NULL, "
                 + COLUMN_QUESTION_CATEGORY + " TEXT NOT NULL, "
                 + COLUMN_QUIZ_CATEGORY + " TEXT NOT NULL, "
-                + "last_attempted TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
-                + COLUMN_QUESTION_STATUS + " TEXT DEFAULT 'NEW');";
+                + COLUMN_LAST_ATTEMPTED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+                + COLUMN_QUESTION_STATUS + " TEXT DEFAULT 'NEW', "
+                + "FOREIGN KEY (" + COLUMN_IMAGE_ID + ") REFERENCES " + TABLE_IMAGES + "(" + COLUMN_IMAGE_ID_PK + "))";
         db.execSQL(createQuestionsTable);
 
         // Create quiz_stat table
@@ -101,6 +117,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUIZ_STAT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
         onCreate(db);
     }
 
@@ -156,7 +173,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
                         categoryPerformance.put(key, (float) jsonObject.getDouble(key));
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.e("CoderQuiz", e.toString());
                 }
                 quizStat.put(COLUMN_CATEGORY_PERFORMANCE, categoryPerformance);
                 quizStat.put(COLUMN_DATE_TIME, cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE_TIME)));
@@ -279,7 +296,6 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_SOURCE_ID, question.getSourceID());
         values.put(COLUMN_QUESTION, question.getQuestion());
-        values.put(COLUMN_IMAGE, question.getImageBlob());
         values.put(COLUMN_OPTION_A, question.getOptionA());
         values.put(COLUMN_OPTION_B, question.getOptionB());
         values.put(COLUMN_OPTION_C, question.getOptionC());
@@ -287,6 +303,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_CORRECT_OPTION, question.getCorrectOption());
         values.put(COLUMN_QUESTION_CATEGORY, question.getQuestionCategory());
         values.put(COLUMN_QUIZ_CATEGORY, question.getQuizCategory());
+        values.put(COLUMN_IMAGE_ID, question.getImageId());
 
         db.insert(TABLE_QUESTIONS, null, values);
         db.close();
@@ -312,7 +329,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
                 Question question = new Question(
                         cursor.getInt(cursor.getColumnIndex(COLUMN_SOURCE_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION)),
-                        cursor.getBlob(cursor.getColumnIndex(COLUMN_IMAGE)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_IMAGE_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_A)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_B)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_C)),
@@ -412,6 +429,62 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         }
         db.close();
     }
+
+    public int getOrInsertImage(String imageName, byte[] imageBlob) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Check if the image already exists
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_IMAGE_ID_PK + " FROM " + TABLE_IMAGES + " WHERE " + COLUMN_IMAGE_NAME + " = ?", new String[]{imageName});
+        if (cursor.moveToFirst()) {
+            int imageId = cursor.getInt(0);
+            cursor.close();
+            return imageId; // Return existing image ID
+        }
+        cursor.close();
+
+        // Insert new image
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_IMAGE_NAME, imageName);
+        values.put(COLUMN_IMAGE_BLOB, imageBlob);
+
+        long newImageId = db.insert(TABLE_IMAGES, null, values);
+        return (int) newImageId;
+    }
+
+    public Map<Integer, byte[]> getImageBlobsByIds(int[] imageIds) {
+        Map<Integer, byte[]> imageMap = new HashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        StringBuilder placeholders = new StringBuilder();
+        for (int i = 0; i < imageIds.length; i++) {
+            placeholders.append("?");
+            if (i < imageIds.length - 1) {
+                placeholders.append(",");
+            }
+        }
+
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COLUMN_IMAGE_ID_PK + ", " + COLUMN_IMAGE_BLOB +
+                        " FROM " + TABLE_IMAGES +
+                        " WHERE " + COLUMN_IMAGE_ID_PK + " IN (" + placeholders + ")",
+                Arrays.stream(imageIds).mapToObj(String::valueOf).toArray(String[]::new)
+        );
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                int imageId = cursor.getInt(0);
+                byte[] blob = cursor.getBlob(1);
+                imageMap.put(imageId, blob);
+            }
+            cursor.close();
+        }
+
+        db.close();
+        return imageMap;
+    }
+
+
+
 
 
 

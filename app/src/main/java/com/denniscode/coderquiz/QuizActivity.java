@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +32,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import android.animation.ObjectAnimator;
 import android.view.animation.BounceInterpolator;
@@ -62,11 +63,12 @@ public class QuizActivity extends AppCompatActivity {
     private String statId;
 
     // Map to store whether each question has been answered
-    private Map<Integer, Boolean> answeredQuestionsMap = new HashMap<>();
+    private final Map<Integer, Boolean> answeredQuestionsMap = new HashMap<>();
     private final Map<CardView, Integer> defaultColors = new HashMap<>();
 
 
     private CardView lastSelectedCard = null;
+    private Map<Integer, byte[]> imageBlobsMap;
 
 
 
@@ -162,6 +164,20 @@ public class QuizActivity extends AppCompatActivity {
     private void loadQuestions() {
         // Get all questions for the selected category
         questionList = dbHelper.getQuizQuestions(selectedCategory, 60);
+        // Collect all image IDs from questions
+        Set<Integer> imageIds = new HashSet<>();
+        for (Question q : questionList) {
+            if (q.getImageId() > 0) {
+                imageIds.add(q.getImageId());
+            }
+        }
+
+        // Fetch all images at once
+        if (!imageIds.isEmpty()) {
+            imageBlobsMap = dbHelper.getImageBlobsByIds(imageIds.stream().mapToInt(Integer::intValue).toArray());
+        } else {
+            imageBlobsMap = new HashMap<>();
+        }
         //Toast.makeText(this, String.valueOf(questionList.size()), Toast.LENGTH_LONG).show();
     }
 
@@ -184,7 +200,7 @@ public class QuizActivity extends AppCompatActivity {
         questionIdInfo.setText("Source ID: " + question.getSourceID());
 
         // Update question thumbnail
-        byte[] imageBlob = question.getImageBlob();
+        byte[] imageBlob = imageBlobsMap.get(question.getImageId());
         if (imageBlob != null) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
             questionThumbnail.setImageBitmap(bitmap);

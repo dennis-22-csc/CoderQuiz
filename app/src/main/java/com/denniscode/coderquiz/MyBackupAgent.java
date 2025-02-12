@@ -8,7 +8,8 @@ import android.app.backup.SharedPreferencesBackupHelper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.ParcelFileDescriptor;
-import android.widget.Toast;
+import android.util.Log;
+
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -164,7 +165,7 @@ public class MyBackupAgent extends BackupAgentHelper {
                     quizStatsList.add(restoredStat);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("CoderQuiz", e.toString());
             }
         }
 
