@@ -1,34 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center"
-    android:id="@+id/rootLayout"
-    >
+    android:layout_height="match_parent">
 
-    <!-- Button to select file -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/syncButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Quiz File"
-        android:layout_marginBottom="20dp"/>
+    <!-- Main Screen Layout -->
+    <LinearLayout
+        android:id="@+id/rootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center">
 
-    <!-- Button to start the quiz -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/startQuizButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Start Quiz" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/syncButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Quiz File"
+            android:layout_marginBottom="20dp"/>
 
-    <!-- Button to view Progress Dashboard -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/viewDashboardButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dashboard"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/startQuizButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Start Quiz"/>
 
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/viewDashboardButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dashboard"/>
+
+    </LinearLayout>
+
+    <!-- Fragment Container for Quiz Categories -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

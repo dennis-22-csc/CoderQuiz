@@ -165,7 +165,7 @@ public class MyBackupAgent extends BackupAgentHelper {
                     quizStatsList.add(restoredStat);
                 }
             } catch (Exception e) {
-                Log.e("CoderQuiz", e.toString());
+                //Log.e("CoderQuiz", e.toString());
             }
         }
 

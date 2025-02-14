@@ -29,7 +29,7 @@ public class MyApplication extends Application {
             Runtime.getRuntime().exec(cmd);
 
         } catch (IOException e) {
-            Log.e("CoderQuiz", e.toString());
+            //Log.e("CoderQuiz", e.toString());
         }
     }
 }

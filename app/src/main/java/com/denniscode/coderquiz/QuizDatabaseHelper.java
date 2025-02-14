@@ -402,6 +402,65 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         return selectedQuestions.subList(0, Math.min(selectedQuestions.size(), limit));
     }
 
+    public List<Question> getQuestionsByIds(List<Integer> questionIds) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Question> questions = new ArrayList<>();
+
+        if (questionIds == null || questionIds.isEmpty()) {
+            return questions; // Return an empty list if no IDs are provided
+        }
+
+        // Constructing the SQL IN clause dynamically
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM " + TABLE_QUESTIONS + " WHERE " + COLUMN_QUESTION_ID + " IN (");
+        for (int i = 0; i < questionIds.size(); i++) {
+            queryBuilder.append("?");
+            if (i < questionIds.size() - 1) {
+                queryBuilder.append(", ");
+            }
+        }
+        queryBuilder.append(") ORDER BY CASE");
+
+        // Adding ORDER BY CASE for preserving order
+        for (int i = 0; i < questionIds.size(); i++) {
+            queryBuilder.append(" WHEN " + COLUMN_QUESTION_ID + " = ? THEN " + i);
+        }
+        queryBuilder.append(" END");
+
+        // Convert List<Integer> to String[] for rawQuery parameters
+        String[] idArgs = new String[questionIds.size() * 2];
+        for (int i = 0; i < questionIds.size(); i++) {
+            idArgs[i] = String.valueOf(questionIds.get(i));
+            idArgs[questionIds.size() + i] = String.valueOf(questionIds.get(i)); // Used for ORDER BY CASE
+        }
+
+        Cursor cursor = db.rawQuery(queryBuilder.toString(), idArgs);
+
+        if (cursor.moveToFirst()) {
+            do {
+                // Extracting question data and creating Question objects
+                Question question = new Question(
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_SOURCE_ID)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_IMAGE_ID)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_A)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_B)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_C)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_D)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_CORRECT_OPTION)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION_CATEGORY)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_QUIZ_CATEGORY))
+                );
+                question.setQuestionID(cursor.getInt(cursor.getColumnIndex(COLUMN_QUESTION_ID)));
+                question.setQuestionStatus(cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION_STATUS)));
+                questions.add(question);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return questions;
+    }
+
     public void updateQuestionStatus(int questionId, boolean isCorrect) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

@@ -4,9 +4,11 @@ package com.denniscode.coderquiz;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ import java.util.UUID;
 import android.animation.ObjectAnimator;
 import android.view.animation.BounceInterpolator;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -113,11 +116,8 @@ public class QuizActivity extends AppCompatActivity {
 
         dbHelper.resetCorrectQuestions(selectedCategory);
 
-        // Load questions
-        loadQuestions();
-
-        // Display the first question
-        displayQuestion(currentQuestionIndex);
+        // Load quiz
+        loadQuiz();
 
         nextButton.setOnClickListener(v -> {
             currentQuestionIndex++;
@@ -140,6 +140,7 @@ public class QuizActivity extends AppCompatActivity {
                 statId = generateStatId(timeStamp);
 
                 dbHelper.addQuizStat(statId, selectedCategory, correctAnswers, incorrectAnswers, totalQuestions, categoryPerformance, timeStamp);
+                clearQuizState();
                 MyBackupAgent.backupQuizStats(this, dbHelper.getAllQuizStats());
             }
         });
@@ -164,6 +165,11 @@ public class QuizActivity extends AppCompatActivity {
     private void loadQuestions() {
         // Get all questions for the selected category
         questionList = dbHelper.getQuizQuestions(selectedCategory, 60);
+        loadImages();
+        //Toast.makeText(this, String.valueOf(questionList.size()), Toast.LENGTH_LONG).show();
+    }
+
+    private void loadImages() {
         // Collect all image IDs from questions
         Set<Integer> imageIds = new HashSet<>();
         for (Question q : questionList) {
@@ -178,103 +184,107 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             imageBlobsMap = new HashMap<>();
         }
-        //Toast.makeText(this, String.valueOf(questionList.size()), Toast.LENGTH_LONG).show();
     }
 
     private void displayQuestion(int index) {
-        Question question = questionList.get(index);
-        questionText.setText(question.getQuestion());
+        try {
+            Question question = questionList.get(index);
+            questionText.setText(question.getQuestion());
 
-        // Directly refer to the option components
-        optionCards = new CardView[] { option1Card, option2Card, option3Card, option4Card };
-        TextView[] optionTexts = {option1Text, option2Text, option3Text, option4Text};
+            // Directly refer to the option components
+            optionCards = new CardView[]{option1Card, option2Card, option3Card, option4Card};
+            TextView[] optionTexts = {option1Text, option2Text, option3Text, option4Text};
 
-        // Reset isAnswered flag and enable all options
-        boolean isAnswered = answeredQuestionsMap.getOrDefault(index, false);
-        enableOptionCards(optionCards, !isAnswered);
+            // Reset isAnswered flag and enable all options
+            boolean isAnswered = answeredQuestionsMap.getOrDefault(index, false);
+            enableOptionCards(optionCards, !isAnswered);
 
-        // Update the question number and remaining questions
-        questionInfo.setText("Question " + (index + 1) + " of " + questionList.size());
+            // Update the question number and remaining questions
+            questionInfo.setText("Question " + (index + 1) + " of " + questionList.size());
 
-        // Update the question ID
-        questionIdInfo.setText("Source ID: " + question.getSourceID());
+            // Update the question ID
+            questionIdInfo.setText("Source ID: " + question.getSourceID());
 
-        // Update question thumbnail
-        byte[] imageBlob = imageBlobsMap.get(question.getImageId());
-        if (imageBlob != null) {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
-            questionThumbnail.setImageBitmap(bitmap);
-            imageCard.setVisibility(View.VISIBLE);
-            questionThumbnail.setVisibility(View.VISIBLE);
-        } else {
-            questionThumbnail.setVisibility(View.GONE);
-            imageCard.setVisibility(View.GONE);
-        }
-
-        correctAnswerText.setText("");
-        correctAnswerIcon.setImageDrawable(null);
-
-
-        // Create a list of the available options dynamically
-        List<String> options = new ArrayList<>();
-        if (question.getOptionA() != null) options.add(question.getOptionA());
-        if (question.getOptionB() != null) options.add(question.getOptionB());
-        if (question.getOptionC() != null) options.add(question.getOptionC());
-        if (question.getOptionD() != null) options.add(question.getOptionD());
-
-        // Shuffle the options list
-        Collections.shuffle(options);
-
-        String correctAnswer = question.getCorrectOption();
-
-
-        // Ensure the last option is in focus
-        option4Card.getParent().requestChildFocus(option4Card, option4Card);
-
-        // Show or hide cards based on the number of options
-        for (int i = 0; i < optionCards.length; i++) {
-            CardView optionCard = optionCards[i];
-            TextView optionText = optionTexts[i];
-
-            if (i < options.size()) {
-                // Set the option text and make the card visible
-                optionText.setText(options.get(i));
-                optionCard.setVisibility(View.VISIBLE);
+            // Update question thumbnail
+            byte[] imageBlob = imageBlobsMap.get(question.getImageId());
+            if (imageBlob != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
+                questionThumbnail.setImageBitmap(bitmap);
+                imageCard.setVisibility(View.VISIBLE);
+                questionThumbnail.setVisibility(View.VISIBLE);
             } else {
-                // Hide the card if there are fewer than 4 options
-                optionCard.setVisibility(View.GONE);
+                questionThumbnail.setVisibility(View.GONE);
+                imageCard.setVisibility(View.GONE);
             }
 
-            // Set onClickListener for options
-            optionCard.setOnClickListener(v -> {
-                if (!isAnswered) {  // Only process if the question hasn't been answered
-                    // Store the default color only once
-                    if (!defaultColors.containsKey(optionCard)) {
-                        defaultColors.put(optionCard, optionCard.getCardBackgroundColor().getDefaultColor());
-                    }
-                    if (lastSelectedCard != null) {
-                        resetOptionsBackground(lastSelectedCard); // Remove previous highlight
-                    }
-                    lastSelectedCard = optionCard;
-                    //optionCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.optionsColor));
+            correctAnswerText.setText("");
+            correctAnswerIcon.setImageDrawable(null);
 
-                    if (optionText.getText().toString().equals(correctAnswer)) {
-                        highlightCorrectAnswer(optionCard, true, optionText.getText().toString());
-                        // Update the status of a question after an answer is submitted
-                        dbHelper.updateQuestionStatus(question.getQuestionID(), true);
-                        question.setQuestionStatus("CORRECT");
-                    } else {
-                        highlightCorrectAnswer(optionCard, false, correctAnswer);
-                        // Update the status of a question after an answer is submitted
-                        dbHelper.updateQuestionStatus(question.getQuestionID(), false);
-                        question.setQuestionStatus("FAILED");
-                    }
 
-                    // Mark the question as answered and disable further clicks
-                    answeredQuestionsMap.put(index, true);
-                    enableOptionCards(optionCards, false);
+            // Create a list of the available options dynamically
+            List<String> options = new ArrayList<>();
+            if (question.getOptionA() != null) options.add(question.getOptionA());
+            if (question.getOptionB() != null) options.add(question.getOptionB());
+            if (question.getOptionC() != null) options.add(question.getOptionC());
+            if (question.getOptionD() != null) options.add(question.getOptionD());
+
+            // Shuffle the options list
+            Collections.shuffle(options);
+
+            String correctAnswer = question.getCorrectOption();
+
+
+            // Ensure the last option is in focus
+            option4Card.getParent().requestChildFocus(option4Card, option4Card);
+
+            // Show or hide cards based on the number of options
+            for (int i = 0; i < optionCards.length; i++) {
+                CardView optionCard = optionCards[i];
+                TextView optionText = optionTexts[i];
+
+                if (i < options.size()) {
+                    // Set the option text and make the card visible
+                    optionText.setText(options.get(i));
+                    optionCard.setVisibility(View.VISIBLE);
+                } else {
+                    // Hide the card if there are fewer than 4 options
+                    optionCard.setVisibility(View.GONE);
                 }
-            });
+
+                // Set onClickListener for options
+                optionCard.setOnClickListener(v -> {
+                    if (!isAnswered) {  // Only process if the question hasn't been answered
+                        // Store the default color only once
+                        if (!defaultColors.containsKey(optionCard)) {
+                            defaultColors.put(optionCard, optionCard.getCardBackgroundColor().getDefaultColor());
+                        }
+                        if (lastSelectedCard != null) {
+                            resetOptionsBackground(lastSelectedCard); // Remove previous highlight
+                        }
+                        lastSelectedCard = optionCard;
+                        //optionCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.optionsColor));
+
+                        if (optionText.getText().toString().equals(correctAnswer)) {
+                            highlightCorrectAnswer(optionCard, true, optionText.getText().toString());
+                            // Update the status of a question after an answer is submitted
+                            dbHelper.updateQuestionStatus(question.getQuestionID(), true);
+                            question.setQuestionStatus("CORRECT");
+                        } else {
+                            highlightCorrectAnswer(optionCard, false, correctAnswer);
+                            // Update the status of a question after an answer is submitted
+                            dbHelper.updateQuestionStatus(question.getQuestionID(), false);
+                            question.setQuestionStatus("FAILED");
+                        }
+
+                        // Mark the question as answered and disable further clicks
+                        answeredQuestionsMap.put(index, true);
+                        enableOptionCards(optionCards, false);
+                        saveQuizState();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            //Log.e("CoderQuiz", e.toString());
         }
     }
 
@@ -295,8 +305,6 @@ public class QuizActivity extends AppCompatActivity {
             correctAnswerText.setText("Correct Answer: " + correctAnswer);
             selectedCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.incorrectColor));
         }
-
-
 
         // Request focus on the correct answer text
         correctAnswerText.requestFocus();
@@ -324,14 +332,6 @@ public class QuizActivity extends AppCompatActivity {
     private boolean isCardEnabled(CardView card) {
         return card.isClickable(); // Check if the card is enabled
     }
-
-
-    /*private void enableOptionCards(CardView[] optionCards, boolean enable) {
-        for (CardView optionCard : optionCards) {
-            optionCard.setEnabled(enable);
-        }
-    }*/
-
 
     private void showStats() {
         // Instantiate the DB helper
@@ -376,9 +376,7 @@ public class QuizActivity extends AppCompatActivity {
                 // Pass the categoryPerformanceBundle with Intent
                 intent.putExtra("CATEGORY_PERFORMANCE", categoryPerformanceBundle);
             } catch (JSONException e) {
-                // Handle the JSONException appropriately
-                //e.printStackTrace();
-                // Optionally show a user-friendly message or take other actions
+                //Log.e("CoderQuiz", e.toString());
             }
 
             // Start StatsActivity
@@ -531,6 +529,103 @@ public class QuizActivity extends AppCompatActivity {
         dialog.show();
         MyBackupAgent.setPrefBackupDialogShown(this, true);
     }
+
+    private void saveQuizState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("QuizState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        String categoryKey = "quiz_" + selectedCategory; // Unique key per category
+        editor.putInt(categoryKey + "_currentIndex", currentQuestionIndex);
+        editor.putInt(categoryKey + "_score", score);
+
+        // Save the sequence of question IDs
+        JSONArray questionIdsArray = new JSONArray();
+        for (Question question : questionList) {
+            questionIdsArray.put(question.getQuestionID());
+        }
+        editor.putString(categoryKey + "_questionList", questionIdsArray.toString());
+
+        // Save answered state
+        JSONObject answeredMap = new JSONObject();
+        for (Map.Entry<Integer, Boolean> entry : answeredQuestionsMap.entrySet()) {
+            try {
+                answeredMap.put(String.valueOf(entry.getKey()), entry.getValue());
+            } catch (JSONException e) {
+                //Log.e("CoderQuiz", e.toString());
+            }
+        }
+        editor.putString(categoryKey + "_answeredMap", answeredMap.toString());
+
+        editor.apply(); // Save changes
+    }
+
+    private void loadQuiz() {
+        SharedPreferences sharedPreferences = getSharedPreferences("QuizState", MODE_PRIVATE);
+        String categoryKey = "quiz_" + selectedCategory;
+
+        if (sharedPreferences.contains(categoryKey + "_currentIndex")) {
+            currentQuestionIndex = sharedPreferences.getInt(categoryKey + "_currentIndex", 0);
+            currentQuestionIndex++;
+            score = sharedPreferences.getInt(categoryKey + "_score", 0);
+
+            // Restore question sequence
+            String questionListJson = sharedPreferences.getString(categoryKey + "_questionList", "");
+            if (!questionListJson.isEmpty()) {
+                try {
+                    JSONArray jsonArray = new JSONArray(questionListJson);
+                    List<Integer> questionIds = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        questionIds.add(jsonArray.getInt(i));
+                    }
+                    //Log.d("CoderQuiz", "Question Ids succesfully restored");
+                    questionList = dbHelper.getQuestionsByIds(questionIds);
+                    loadImages();
+                    //Log.d("CoderQuiz", "Question List succesfully restored");
+
+                } catch (JSONException e) {
+                    //Log.e("CoderQuiz", e.toString());
+                }
+            }
+
+            // Restore answered state
+            String answeredMapJson = sharedPreferences.getString(categoryKey + "_answeredMap", "");
+            if (!answeredMapJson.isEmpty()) {
+                try {
+                    JSONObject jsonObject = new JSONObject(answeredMapJson);
+                    for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
+                        String key = it.next();
+                        answeredQuestionsMap.put(Integer.parseInt(key), jsonObject.getBoolean(key));
+                    }
+                    //Log.d("CoderQuiz", "Answered Questions Map succesfully restored");
+                } catch (JSONException e) {
+                    //Log.e("CoderQuiz", e.toString());
+                }
+            } else {
+                //Log.d("CoderQuiz", "Answered Questions Map is empty");
+            }
+
+        } else {
+            loadQuestions();  // Load normally if no saved state
+        }
+        // Display the first question
+        displayQuestion(currentQuestionIndex);
+
+    }
+
+
+    private void clearQuizState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("QuizState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String categoryKey = "quiz_" + selectedCategory;
+
+        editor.remove(categoryKey + "_currentIndex");
+        editor.remove(categoryKey + "_score");
+        editor.remove(categoryKey + "_questionList");
+        editor.remove(categoryKey + "_answeredMap");
+
+        editor.apply(); // Clear state
+    }
+
 
 
 
