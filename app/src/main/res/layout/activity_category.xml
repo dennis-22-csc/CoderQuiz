@@ -9,7 +9,7 @@
         android:id="@+id/headingTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Make a Selection"
+        android:text="@string/heading_make_selection"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/holo_blue_dark"

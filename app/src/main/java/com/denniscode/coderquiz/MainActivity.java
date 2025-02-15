@@ -20,8 +20,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.io.File;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,10 +30,6 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     boolean dataAvailable;
     AlertDialog dashboardProgressDialog;
-    private ProgressBar progressBar;
-    private TextView progressText;
-
-    private Map<String, byte[]> imageCache = new HashMap<>();
     private ActivityResultLauncher<Intent> pickFileLauncher;
     private boolean isQuizCategoriesLayout = false;
 
@@ -45,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().subscribeToTopic("cq_all");
 
         dbHelper = new QuizDatabaseHelper(this);
+        MyBackupAgent.backupQuizStats(this, dbHelper.getAllQuizStats());
 
         sharedPreferences = getSharedPreferences("FCM_Preferences", Context.MODE_PRIVATE);
         dataAvailable = sharedPreferences.getBoolean("data_available", false);
@@ -55,10 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Button to view dashboard
         Button dashboardButton = findViewById(R.id.viewDashboardButton);
-        dashboardButton.setOnClickListener(v -> {
-         showDashboard();
-        });
-
+        dashboardButton.setOnClickListener(v -> showDashboard());
 
         // Button to start the quiz
         Button startQuizButton = findViewById(R.id.startQuizButton);
@@ -85,21 +79,23 @@ public class MainActivity extends AppCompatActivity {
 
                     new Thread(() -> {
                         try {
-                            String zipResult = FileUtil.handleZipFile(this, uri, dbHelper, imageCache);
+                            File tempFile = FileHelperAndroid.createTempFileFromUri(this, uri);
+                            runOnUiThread(() -> {
+                            if (tempFile == null) {
+                                showToast("Failed to create temp file");
+                            }
+                            });
+                            String zipResult = ZipProcessor.handleZipFile(dbHelper, tempFile);
 
-                            runOnUiThread(() -> {
-                                Toast.makeText(MainActivity.this, zipResult, Toast.LENGTH_LONG).show();
-                            });
+                            runOnUiThread(() -> showToast(zipResult));
                         } catch (Exception e) {
-                            runOnUiThread(() -> {
-                                Toast.makeText(MainActivity.this, "Error processing file", Toast.LENGTH_LONG).show();
-                            });
+                            runOnUiThread(() -> showToast("Error processing file"));
                         } finally {
                             runOnUiThread(progressDialog::dismiss);
                         }
                     }).start();
                 } else {
-                    Toast.makeText(MainActivity.this, "No file selected", Toast.LENGTH_SHORT).show();
+                    showToast("No file selected");
                 }
             }
         });
@@ -130,11 +126,11 @@ public class MainActivity extends AppCompatActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(padding, padding, padding, padding);
 
-        progressBar = new ProgressBar(this);
+        ProgressBar progressBar = new ProgressBar(this);
         progressBar.setIndeterminate(true); // Indeterminate progress
 
-        progressText = new TextView(this);
-        progressText.setText("Processing...");
+        TextView progressText = new TextView(this);
+        progressText.setText(R.string.processing_text);
         progressText.setGravity(Gravity.CENTER);
 
         layout.addView(progressBar);
@@ -176,9 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     dialog.dismiss();
                 })
-                .setNegativeButton("No", (dialog, which) -> {
-                    dialog.dismiss();
-                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .setCancelable(false) // Prevent dismissing by touching outside
                 .show();
     }
@@ -220,6 +214,10 @@ public class MainActivity extends AppCompatActivity {
         // Hide the main layout
         findViewById(R.id.rootLayout).setVisibility(View.GONE);
 
+    }
+
+    private void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
 }

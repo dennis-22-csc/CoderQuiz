@@ -1,8 +1,6 @@
 package com.denniscode.coderquiz;
 
 import android.app.Application;
-import android.util.Log;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

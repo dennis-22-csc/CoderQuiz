@@ -41,9 +41,6 @@ import android.content.Context
 import android.content.Intent
 import org.json.JSONException
 import org.json.JSONObject
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-
 
 class DashboardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -645,59 +642,6 @@ fun DrawGraph(dataPoints: Map<String, Float>) {
     }
 }
 
-/*fun groupDataByTimeFrame(quizStatsList: List<Map<String, Any>>, timeFrame: String, startDate: Date?, endDate: Date?): Map<String, Float> {
-    val dateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()) // Updated date format
-    val result = mutableMapOf<String, MutableList<Float>>()
-
-    for (quizStat in quizStatsList) {
-        val dateStr = quizStat["dateTime"] as String
-        val correctAnswers = quizStat["correctAnswers"] as Int
-        val incorrectAnswers = quizStat["incorrectAnswers"] as Int
-
-        val date = dateFormat.parse(dateStr) ?: continue
-
-        // Check if the date is within the selected period
-        if (startDate != null && endDate != null && (date.before(startDate) || date.after(endDate))) {
-            continue
-        }
-
-        // Calculate percentage correct
-        val totalAnswers = correctAnswers + incorrectAnswers
-        val correctPercentage = (correctAnswers.toFloat() / totalAnswers) * 100
-
-        // Grouping based on the time frame
-        val timeKey = when (timeFrame) {
-            "1d" -> SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date)
-            "1w" -> {
-                val daysDifference = (date.time - (startDate?.time ?: 0)) / (1000 * 60 * 60 * 24)
-                val weekStartDate = Date((startDate?.time ?: 0) + ((daysDifference / 7) * 7 * 24 * 60 * 60 * 1000))
-                SimpleDateFormat("yyyy-MM-dd", Locale.US).format(weekStartDate)
-            }
-            "1m" -> SimpleDateFormat("yyyy-MM", Locale.US).format(date)
-            "24h" -> dateStr // Use `yyyyMMddHHmmss` directly as the key
-            else -> throw IllegalArgumentException("Invalid time frame: $timeFrame")
-        }
-
-        if (!result.containsKey(timeKey)) {
-            result[timeKey] = mutableListOf()
-        }
-        result[timeKey]?.add(correctPercentage)
-    }
-
-    val finalResult = mutableMapOf<String, Float>()
-    for ((key, percentages) in result) {
-        if (timeFrame == "24h") {
-            percentages.forEach { percentage ->
-                finalResult[key] = percentage // Use only `dateTime` as the key
-            }
-        } else {
-            finalResult[key] = percentages.average().toFloat()
-        }
-    }
-
-    return finalResult
-}*/
-
 fun preprocessDataForGraph(
         groupedData: Map<String, Float>,
         timeFrame: String
@@ -868,17 +812,6 @@ fun updateGraphData(
     )
 }
 
-/*fun convertGroupedDataToString(timeFrame: String, groupedData: Map<String, Float>): String {
-    return buildString {
-        append("$timeFrame: {")
-        groupedData.entries.forEachIndexed { index, (key, value) ->
-            append("$key=${String.format("%.2f", value)}") // Format to 2 decimal places
-            if (index < groupedData.size - 1) append(", ")
-        }
-        append("}")
-    }
-}*/
-
 fun getStartOfDay(date: Date): Date {
     val calendar = Calendar.getInstance().apply {
         time = date
@@ -944,7 +877,7 @@ fun showStats(context: Context, statId: String) {
         val correctAnswers = quizStat["correct_answers"] as Int
         val incorrectAnswers = quizStat["incorrect_answers"] as Int
         val totalQuestions = quizStat["total_questions"] as Int
-        val timeStamp = formatTimestamp(quizStat["date_time"] as String)
+        val timeStamp = Util.formatTimestamp(quizStat["date_time"] as String)
 
         val categoryPerformanceJson = quizStat["category_performance"] as String
 
@@ -982,19 +915,4 @@ fun showStats(context: Context, statId: String) {
     } else {
         Toast.makeText(context, "No data found for statId: $statId", Toast.LENGTH_LONG).show()
     }
-}
-
-
-fun formatTimestamp(timestampStr: String): String {
-    // Define the input format (yyyyMMddHHmmss)
-    val inputFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
-
-    // Parse the input timestamp to a LocalDateTime object
-    val dateTime = LocalDateTime.parse(timestampStr, inputFormatter)
-
-    // Define the desired output format (e.g., "Tuesday Jan 2 2025 4:30 PM")
-    val outputFormatter = DateTimeFormatter.ofPattern("EEEE MMM d yyyy h:mm a")
-
-    // Format the LocalDateTime to the desired string
-    return dateTime.format(outputFormatter)
 }

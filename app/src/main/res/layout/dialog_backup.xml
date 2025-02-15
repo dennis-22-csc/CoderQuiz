@@ -18,13 +18,14 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/backup_image_desc" />
 
     <Button
         android:id="@+id/okay_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Okay"
+        android:text="@string/okay"
         android:textAllCaps="false" />
 </LinearLayout>

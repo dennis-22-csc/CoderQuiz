@@ -2,6 +2,9 @@ package com.denniscode.coderquiz;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import androidx.annotation.NonNull;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,7 +26,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String KEY_SAVED_TOKEN = "saved_token";
 
     @Override
-    public void onNewToken(String token) {
+    public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         String savedToken = getSavedToken();
 
@@ -38,7 +41,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // Check if the message contains data
-        if (remoteMessage.getData().size() > 0) {
+        if (!remoteMessage.getData().isEmpty()) {
             String title = remoteMessage.getData().get("title");
             String message = remoteMessage.getData().get("message");
             String url = remoteMessage.getData().get("url"); // URL may be null
@@ -107,6 +110,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     } else {
                         retryCount++;
                         Thread.sleep(2000);
+                        setTokenSent(false);
                     }
                     response.close();
                 } catch (IOException | InterruptedException | JSONException e) {

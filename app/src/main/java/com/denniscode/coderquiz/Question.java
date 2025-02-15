@@ -3,21 +3,21 @@ package com.denniscode.coderquiz;
 public class Question {
 
     private int questionID;
-    private int sourceID;
+    private final int sourceID;
 
-    private String question;
+    private final String question;
 
-    private int imageId;
+    private final int imageId;
 
-    private String optionA;
-    private String optionB;
-    private String optionC;
-    private String optionD;
-    private String correctOption;
-    private String questionCategory;
+    private final String optionA;
+    private final String optionB;
+    private final String optionC;
+    private final String optionD;
+    private final String correctOption;
+    private final String questionCategory;
 
-    private String quizCategory;
-    private String imageName;
+    private final String quizCategory;
+    //private String imageName;
     private String questionStatus;
 
     public Question(int sourceID, String question, int imageId, String optionA, String optionB, String optionC, String optionD, String correctOption, String questionCategory, String quizCategory) {
@@ -90,7 +90,7 @@ public class Question {
 
 
 
-    public void setImageName(String imageName) {
+    /*public void setImageName(String imageName) {
         this.imageName = imageName;
     }
 
@@ -100,6 +100,6 @@ public class Question {
 
     public String getImageName() {
         return imageName;
-    }
+    }*/
 
 }

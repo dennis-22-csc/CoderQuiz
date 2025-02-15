@@ -42,7 +42,7 @@
                         android:id="@+id/questionInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Question 1 of 60"
+                        android:text="@string/question_info"
                         android:textSize="14sp"
                         android:textColor="@android:color/darker_gray" />
 
@@ -50,7 +50,7 @@
                         android:id="@+id/questionIdInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Question ID: 1"
+                        android:text="@string/source_id_info"
                         android:textSize="14sp"
                         android:textColor="@android:color/darker_gray"
                         android:layout_marginTop="4dp" />
@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:text="Question?"
+                    android:text="@string/question_text"
                     android:textSize="18sp"
                     android:textColor="@color/questionColor" />
             </androidx.cardview.widget.CardView>
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:contentDescription="Question Thumbnail" />
+                    android:contentDescription="@string/question_thumbnail_desc" />
             </androidx.cardview.widget.CardView>
 
             <!-- Options Container -->
@@ -125,7 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
-                        android:text="Option 1"
+                        android:text="@string/option_1"
                         android:textSize="16sp" 
                         android:textColor="@color/optionsColor"
                         android:textStyle="bold"/>
@@ -144,7 +144,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
-                        android:text="Option 2"
+                        android:text="@string/option_2"
                         android:textSize="16sp" 
                         android:textColor="@color/optionsColor"
                         android:textStyle="bold"/>
@@ -163,7 +163,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
-                        android:text="Option 3"
+                        android:text="@string/option_3"
                         android:textSize="16sp" 
                         android:textColor="@color/optionsColor"
                         android:textStyle="bold"/>
@@ -182,7 +182,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
-                        android:text="Option 4"
+                        android:text="@string/option_4"
                         android:textSize="16sp" 
                         android:textColor="@color/optionsColor"
                         android:textStyle="bold"/>
@@ -190,34 +190,21 @@
             </LinearLayout>
 
             <!-- Correct Answer Indicator -->
-            <LinearLayout
-                android:id="@+id/correctAnswerContainer"
+            <TextView
+                android:id="@+id/correctAnswerText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:drawablePadding="8dp"
+                android:text="@string/correct_answer"
+                android:textSize="16sp"
+                android:textColor="@color/correctAnswerTextColor"
+                android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/optionsContainer"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <ImageView
-                    android:id="@+id/correctAnswerIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="8dp"
-                    android:contentDescription="Correct/Incorrect Icon" />
-
-                <TextView
-                    android:id="@+id/correctAnswerText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Correct Answer: ****"
-                    android:textSize="16sp"
-                    android:textColor="@color/correctAnswerTextColor"
-                    android:textStyle="bold"/>
-            </LinearLayout>
+                app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </android.widget.ScrollView>
 
@@ -235,14 +222,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="Previous" />
+            android:text="@string/previous"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/nextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="Next" />
+            android:text="@string/next"/>
 
     </LinearLayout>
 </android.widget.LinearLayout>

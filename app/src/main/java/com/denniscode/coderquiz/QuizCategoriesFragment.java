@@ -13,36 +13,31 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import androidx.annotation.Nullable;
 
 public class QuizCategoriesFragment extends Fragment {
-    private QuizDatabaseHelper dbHelper;
-    private RecyclerView categoryRecyclerView;
-    private CategoryAdapter categoryAdapter;
-    private List<String> categories;
-
     public QuizCategoriesFragment() {
         // Required empty public constructor
     }
 
-    @NonNull
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_category, container, false);
 
-        dbHelper = new QuizDatabaseHelper(getContext());
-        categories = dbHelper.getCategories(); // Get categories from the database
-
-        categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
-        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        categoryAdapter = new CategoryAdapter(categories);
-        categoryRecyclerView.setAdapter(categoryAdapter);
+        try (QuizDatabaseHelper dbHelper = new QuizDatabaseHelper(getContext())) {
+            List<String> categories = dbHelper.getCategories();
+            RecyclerView categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
+            categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
+            categoryRecyclerView.setAdapter(categoryAdapter);
+        }
 
         return view;
     }
 
     private class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
-        private List<String> categories;
+        private final List<String> categories;
 
         public CategoryAdapter(List<String> categories) {
             this.categories = categories;
@@ -60,9 +55,7 @@ public class QuizCategoriesFragment extends Fragment {
             String category = categories.get(position);
             holder.categoryText.setText(category);
 
-            holder.itemView.setOnClickListener(v -> {
-                startQuiz(category);
-            });
+            holder.itemView.setOnClickListener(v -> startQuiz(category));
         }
 
         @Override
@@ -70,7 +63,7 @@ public class QuizCategoriesFragment extends Fragment {
             return categories.size();
         }
 
-        public class CategoryViewHolder extends RecyclerView.ViewHolder {
+        public static class CategoryViewHolder extends RecyclerView.ViewHolder {
             TextView categoryText;
 
             public CategoryViewHolder(View itemView) {

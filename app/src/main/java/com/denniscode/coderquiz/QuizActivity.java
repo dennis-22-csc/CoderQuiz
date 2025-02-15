@@ -4,11 +4,11 @@ package com.denniscode.coderquiz;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,53 +26,33 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 import android.animation.ObjectAnimator;
 import android.view.animation.BounceInterpolator;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class QuizActivity extends AppCompatActivity {
 
     private QuizDatabaseHelper dbHelper;
     private TextView questionInfo, questionIdInfo, questionText, correctAnswerText;
-    private ImageView questionThumbnail, correctAnswerIcon;
+    private ImageView questionThumbnail;
     private MaterialButton nextButton;
-    private String selectedCategory;
-    private List<Question> questionList;
-    private int currentQuestionIndex = 0;
-    private int score = 0;
+
     private CardView imageCard, option1Card, option2Card, option3Card, option4Card;
     private TextView option1Text, option2Text, option3Text, option4Text;
     private CardView[] optionCards;
     private MaterialButton previousButton;
     private ScrollView quizSegment;
-    private String statId;
-
-    // Map to store whether each question has been answered
     private final Map<Integer, Boolean> answeredQuestionsMap = new HashMap<>();
     private final Map<CardView, Integer> defaultColors = new HashMap<>();
 
 
     private CardView lastSelectedCard = null;
-    private Map<Integer, byte[]> imageBlobsMap;
 
+    private QuizManager quizManager;
 
 
     @Override
@@ -96,7 +76,6 @@ public class QuizActivity extends AppCompatActivity {
         option4Card = findViewById(R.id.option4Card);
         option4Text = findViewById(R.id.option4Text);
         correctAnswerText = findViewById(R.id.correctAnswerText);
-        correctAnswerIcon = findViewById(R.id.correctAnswerIcon);
         nextButton = findViewById(R.id.nextButton);
         previousButton = findViewById(R.id.backButton);
         quizSegment = findViewById(R.id.quizSegment);
@@ -109,86 +88,51 @@ public class QuizActivity extends AppCompatActivity {
         dbHelper = new QuizDatabaseHelper(this);
 
         // Retrieve the selected category from MainActivity
-        selectedCategory = getIntent().getStringExtra("CATEGORY");
+        String selectedCategory = getIntent().getStringExtra("CATEGORY");
 
-        //Toast.makeText(getApplicationContext(), selectedCategory, Toast.LENGTH_SHORT).show();
-
+        quizManager = new QuizManager(this, dbHelper, selectedCategory);
 
         dbHelper.resetCorrectQuestions(selectedCategory);
 
         // Load quiz
-        loadQuiz();
+        quizManager.loadQuiz();
+
+        // Display the first question
+        displayCurrentQuestion();
 
         nextButton.setOnClickListener(v -> {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questionList.size()) {
-                if (lastSelectedCard != null) {
-                    resetOptionsBackground(lastSelectedCard); // Remove previous highlight
+            if (quizManager.moveToNextQuestion()) {
+                if (quizManager.getCurrentQuestionIndex() < quizManager.getQuestionList().size()) {
+                    if (lastSelectedCard != null) {
+                        resetOptionsBackground(lastSelectedCard); // Remove previous highlight
+                    }
+                    displayCurrentQuestion();
                 }
-                displayQuestion(currentQuestionIndex);
+
             } else {
-                // Handle quiz completion
                 previousButton.setVisibility(View.GONE);
                 quizSegment.setVisibility(View.GONE);
                 nextButton.setVisibility(View.GONE);
-                showQuizCompletedDialog();
-                int correctAnswers = score;
-                int totalQuestions = questionList.size();
-                int incorrectAnswers = totalQuestions - correctAnswers;
-                Map<String, Float> categoryPerformance = getCategoryPerformance();
-                String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
-                statId = generateStatId(timeStamp);
-
-                dbHelper.addQuizStat(statId, selectedCategory, correctAnswers, incorrectAnswers, totalQuestions, categoryPerformance, timeStamp);
-                clearQuizState();
-                MyBackupAgent.backupQuizStats(this, dbHelper.getAllQuizStats());
+                handleQuizCompletion();
             }
         });
 
         previousButton.setOnClickListener(v -> {
-            //Toast.makeText(getApplicationContext(), String.valueOf(currentQuestionIndex), Toast.LENGTH_SHORT).show();
-            if (currentQuestionIndex >= 0)
-                currentQuestionIndex--;
-            if (currentQuestionIndex < 0) {
-                finish();
-            } else {
+            if (quizManager.moveToPreviousQuestion()) {
                 if (lastSelectedCard != null) {
                     resetOptionsBackground(lastSelectedCard); // Remove previous highlight
                 }
                 enableOptionCards(optionCards, false);
-                displayQuestion(currentQuestionIndex);
+                displayCurrentQuestion();
+            } else {
+                finish();
             }
         });
 
     }
 
-    private void loadQuestions() {
-        // Get all questions for the selected category
-        questionList = dbHelper.getQuizQuestions(selectedCategory, 60);
-        loadImages();
-        //Toast.makeText(this, String.valueOf(questionList.size()), Toast.LENGTH_LONG).show();
-    }
-
-    private void loadImages() {
-        // Collect all image IDs from questions
-        Set<Integer> imageIds = new HashSet<>();
-        for (Question q : questionList) {
-            if (q.getImageId() > 0) {
-                imageIds.add(q.getImageId());
-            }
-        }
-
-        // Fetch all images at once
-        if (!imageIds.isEmpty()) {
-            imageBlobsMap = dbHelper.getImageBlobsByIds(imageIds.stream().mapToInt(Integer::intValue).toArray());
-        } else {
-            imageBlobsMap = new HashMap<>();
-        }
-    }
-
-    private void displayQuestion(int index) {
-        try {
-            Question question = questionList.get(index);
+        private void displayCurrentQuestion() {
+            Question question = quizManager.getCurrentQuestion();
             questionText.setText(question.getQuestion());
 
             // Directly refer to the option components
@@ -196,17 +140,18 @@ public class QuizActivity extends AppCompatActivity {
             TextView[] optionTexts = {option1Text, option2Text, option3Text, option4Text};
 
             // Reset isAnswered flag and enable all options
-            boolean isAnswered = answeredQuestionsMap.getOrDefault(index, false);
+            boolean isAnswered = Boolean.TRUE.equals(answeredQuestionsMap.get(quizManager.getCurrentQuestionIndex()));
+            //boolean isAnswered = answeredQuestionsMap.getOrDefault(index, false);
             enableOptionCards(optionCards, !isAnswered);
 
             // Update the question number and remaining questions
-            questionInfo.setText("Question " + (index + 1) + " of " + questionList.size());
+            questionInfo.setText(getString(R.string.question_info, quizManager.getCurrentQuestionIndex() + 1, quizManager.getQuestionList().size()));
 
             // Update the question ID
-            questionIdInfo.setText("Source ID: " + question.getSourceID());
+            questionIdInfo.setText(getString(R.string.source_id_info, question.getSourceID()));
 
             // Update question thumbnail
-            byte[] imageBlob = imageBlobsMap.get(question.getImageId());
+            byte[] imageBlob = quizManager.getCurrentImage();
             if (imageBlob != null) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
                 questionThumbnail.setImageBitmap(bitmap);
@@ -218,8 +163,7 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             correctAnswerText.setText("");
-            correctAnswerIcon.setImageDrawable(null);
-
+            correctAnswerText.setCompoundDrawables(null, null, null, null);
 
             // Create a list of the available options dynamically
             List<String> options = new ArrayList<>();
@@ -277,32 +221,34 @@ public class QuizActivity extends AppCompatActivity {
                         }
 
                         // Mark the question as answered and disable further clicks
-                        answeredQuestionsMap.put(index, true);
+                        answeredQuestionsMap.put(quizManager.getCurrentQuestionIndex(), true);
                         enableOptionCards(optionCards, false);
-                        saveQuizState();
+                        quizManager.saveQuizState();
                     }
                 });
             }
-        } catch (Exception e) {
-            //Log.e("CoderQuiz", e.toString());
-        }
     }
 
     private void resetOptionsBackground(CardView selectedCard) {
         if (defaultColors.containsKey(selectedCard)) {
-            selectedCard.setCardBackgroundColor(defaultColors.get(selectedCard)); // Restore original color
+            Integer color = defaultColors.get(selectedCard);
+            if (color != null) {
+                selectedCard.setCardBackgroundColor(color);
+            }
         }
     }
 
     private void highlightCorrectAnswer(CardView selectedCard, boolean isCorrect, String correctAnswer) {
         if (isCorrect) {
-            correctAnswerIcon.setImageResource(R.drawable.correct);
-            correctAnswerText.setText("Correct Answer: " + correctAnswer);
+            Drawable icon = ContextCompat.getDrawable(this, R.drawable.correct);
+            correctAnswerText.setCompoundDrawablesWithIntrinsicBounds(resize(icon), null, null, null);
+            correctAnswerText.setText(getString(R.string.correct_answer_text, correctAnswer));
             selectedCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.correctColor));
-            score++;
+            quizManager.incrementScore();
         } else {
-            correctAnswerIcon.setImageResource(R.drawable.incorrect);
-            correctAnswerText.setText("Correct Answer: " + correctAnswer);
+            Drawable icon = ContextCompat.getDrawable(this, R.drawable.incorrect);
+            correctAnswerText.setCompoundDrawablesWithIntrinsicBounds(resize(icon), null, null, null);
+            correctAnswerText.setText(getString(R.string.correct_answer_text, correctAnswer));
             selectedCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.incorrectColor));
         }
 
@@ -321,6 +267,12 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
+    private Drawable resize(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 24, 24, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
+    }
+
     private void enableOptionCards(CardView[] optionCards, boolean enable) {
         for (CardView optionCard : optionCards) {
             optionCard.setClickable(enable);
@@ -328,29 +280,31 @@ public class QuizActivity extends AppCompatActivity {
             optionCard.setAlpha(enable ? 1.0f : 0.5f); // Optional: visually indicate state
         }
     }
-
-    private boolean isCardEnabled(CardView card) {
-        return card.isClickable(); // Check if the card is enabled
-    }
-
     private void showStats() {
+        Map<String, Object> quizStat;
         // Instantiate the DB helper
-        QuizDatabaseHelper dbHelper = new QuizDatabaseHelper(this);
-
-        // Retrieve the stats associated with the statId
-        Map<String, Object> quizStat = dbHelper.getQuizStatById(statId);
+        try (QuizDatabaseHelper dbHelper = new QuizDatabaseHelper(this)) {
+            // Retrieve the stats associated with the statId
+            quizStat = dbHelper.getQuizStatById(quizManager.getStatId());
+        }
 
         // Check if the quizStat is not null before proceeding
         if (quizStat != null) {
-                // Extract relevant data from the Map
-                int correctAnswers = (int) quizStat.get("correct_answers");
-                int incorrectAnswers = (int) quizStat.get("incorrect_answers");
-                int totalQuestions = (int) quizStat.get("total_questions");
-                String timeStamp = formatTimestamp((String) quizStat.get("date_time"));
+            // Extract relevant data from the Map
+            Integer correct = (Integer) quizStat.getOrDefault("correct_answers", 0);
+            Integer incorrect = (Integer) quizStat.getOrDefault("incorrect_answers", 0);
+            Integer total = (Integer) quizStat.getOrDefault("total_questions", 0);
 
-                String categoryPerformanceJson = (String) quizStat.get("category_performance");
+            int correctAnswers = correct == null ? 0 : correct;
+            int incorrectAnswers = incorrect == null ? 0 : incorrect;
+            int totalQuestions = total == null ? 0 : total;
 
-                // Prepare the intent to pass the data to StatsActivity
+            String timeStamp = Util.formatTimestamp((String) quizStat.get("date_time"));
+
+            String categoryPerformanceJson = (String) quizStat.get("category_performance");
+
+
+            // Prepare the intent to pass the data to StatsActivity
                 Intent intent = new Intent(this, StatsActivity.class);
 
                 // Pass the data to the intent
@@ -359,41 +313,20 @@ public class QuizActivity extends AppCompatActivity {
                 intent.putExtra("TOTAL_QUESTIONS", totalQuestions);
                 intent.putExtra("TIME_STAMP", timeStamp);
 
-            try {
-                JSONObject jsonObject = new JSONObject(categoryPerformanceJson);
-
-                // Create a Bundle to hold the category performance values
-                Bundle categoryPerformanceBundle = new Bundle();
-
-                // Loop through the keys in the JSON object and put them into the Bundle
-                Iterator<String> keys = jsonObject.keys();
-
-                while (keys.hasNext()) {
-                    String key = keys.next();
-                    categoryPerformanceBundle.putFloat(key, (float) jsonObject.getInt(key));
-                }
-
-                // Pass the categoryPerformanceBundle with Intent
+                Bundle categoryPerformanceBundle = quizManager.getCategoryPerformanceBundle(categoryPerformanceJson);
                 intent.putExtra("CATEGORY_PERFORMANCE", categoryPerformanceBundle);
-            } catch (JSONException e) {
-                //Log.e("CoderQuiz", e.toString());
-            }
 
-            // Start StatsActivity
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "No data found for statId: " + statId, Toast.LENGTH_LONG).show();
-        }
+                // Start StatsActivity
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "No data found for statId: " + quizManager.getStatId(), Toast.LENGTH_LONG).show();
+            }
     }
 
     private void showImageModal() {
         // Create and configure the dialog
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_image);
-        dialog.getWindow().setLayout(
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT
-        );
 
         // Set the image in the modal
         ImageView fullImageView = dialog.findViewById(R.id.fullImageView);
@@ -404,39 +337,14 @@ public class QuizActivity extends AppCompatActivity {
         closeButton.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
-    }
-
-
-    private Map<String, Float> getCategoryPerformance() {
-        // Map to store category performance
-        Map<String, Integer[]> categoryData = new HashMap<>();
-
-        for (Question question : questionList) {
-            String category = question.getQuestionCategory();
-
-            boolean isCorrect = question.getQuestionStatus().equals("CORRECT");
-
-            // Initialize category data if not already present
-            categoryData.putIfAbsent(category, new Integer[]{0, 0}); // {correctCount, totalCount}
-
-            // Update category data
-            Integer[] counts = categoryData.get(category);
-            if (isCorrect) {
-                counts[0]++; // Increment correct count
-            }
-            counts[1]++; // Increment total count
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+            );
         }
 
-        // Calculate performance for each category
-        Map<String, Float> categoryPerformance = new HashMap<>();
-        for (Map.Entry<String, Integer[]> entry : categoryData.entrySet()) {
-            String category = entry.getKey();
-            Integer[] counts = entry.getValue();
-            float performance = (counts[0] / (float) counts[1]) * 100; // Correct calculation as float
-            categoryPerformance.put(category, performance);
-        }
-
-        return categoryPerformance;
     }
 
     private void showQuizCompletedDialog() {
@@ -473,31 +381,10 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
-        showStatsButton.setOnClickListener(view -> {
-            showStats();
-        });
+        showStatsButton.setOnClickListener(view -> showStats());
 
         // Show the dialog
         dialog.show();
-    }
-
-    public String generateStatId(String timeStamp) {
-        String uuid = UUID.randomUUID().toString();
-        return uuid + "_" + timeStamp;
-    }
-
-    private String formatTimestamp(String timestampStr) {
-        // Define the input format (yyyyMMddHHmmss)
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-
-        // Parse the input timestamp to a LocalDateTime object
-        LocalDateTime dateTime = LocalDateTime.parse(timestampStr, inputFormatter);
-
-        // Define the desired output format (e.g., "Tuesday Jan 2 2025 4:30 PM")
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("EEEE MMM d yyyy h:mm a");
-
-        // Format the LocalDateTime to the desired string
-        return dateTime.format(outputFormatter);
     }
 
     private void showBackupDialog(Context context) {
@@ -530,101 +417,11 @@ public class QuizActivity extends AppCompatActivity {
         MyBackupAgent.setPrefBackupDialogShown(this, true);
     }
 
-    private void saveQuizState() {
-        SharedPreferences sharedPreferences = getSharedPreferences("QuizState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        String categoryKey = "quiz_" + selectedCategory; // Unique key per category
-        editor.putInt(categoryKey + "_currentIndex", currentQuestionIndex);
-        editor.putInt(categoryKey + "_score", score);
-
-        // Save the sequence of question IDs
-        JSONArray questionIdsArray = new JSONArray();
-        for (Question question : questionList) {
-            questionIdsArray.put(question.getQuestionID());
-        }
-        editor.putString(categoryKey + "_questionList", questionIdsArray.toString());
-
-        // Save answered state
-        JSONObject answeredMap = new JSONObject();
-        for (Map.Entry<Integer, Boolean> entry : answeredQuestionsMap.entrySet()) {
-            try {
-                answeredMap.put(String.valueOf(entry.getKey()), entry.getValue());
-            } catch (JSONException e) {
-                //Log.e("CoderQuiz", e.toString());
-            }
-        }
-        editor.putString(categoryKey + "_answeredMap", answeredMap.toString());
-
-        editor.apply(); // Save changes
+    private void handleQuizCompletion() {
+        quizManager.saveQuizResults();
+        showQuizCompletedDialog();
     }
 
-    private void loadQuiz() {
-        SharedPreferences sharedPreferences = getSharedPreferences("QuizState", MODE_PRIVATE);
-        String categoryKey = "quiz_" + selectedCategory;
-
-        if (sharedPreferences.contains(categoryKey + "_currentIndex")) {
-            currentQuestionIndex = sharedPreferences.getInt(categoryKey + "_currentIndex", 0);
-            currentQuestionIndex++;
-            score = sharedPreferences.getInt(categoryKey + "_score", 0);
-
-            // Restore question sequence
-            String questionListJson = sharedPreferences.getString(categoryKey + "_questionList", "");
-            if (!questionListJson.isEmpty()) {
-                try {
-                    JSONArray jsonArray = new JSONArray(questionListJson);
-                    List<Integer> questionIds = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        questionIds.add(jsonArray.getInt(i));
-                    }
-                    //Log.d("CoderQuiz", "Question Ids succesfully restored");
-                    questionList = dbHelper.getQuestionsByIds(questionIds);
-                    loadImages();
-                    //Log.d("CoderQuiz", "Question List succesfully restored");
-
-                } catch (JSONException e) {
-                    //Log.e("CoderQuiz", e.toString());
-                }
-            }
-
-            // Restore answered state
-            String answeredMapJson = sharedPreferences.getString(categoryKey + "_answeredMap", "");
-            if (!answeredMapJson.isEmpty()) {
-                try {
-                    JSONObject jsonObject = new JSONObject(answeredMapJson);
-                    for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
-                        String key = it.next();
-                        answeredQuestionsMap.put(Integer.parseInt(key), jsonObject.getBoolean(key));
-                    }
-                    //Log.d("CoderQuiz", "Answered Questions Map succesfully restored");
-                } catch (JSONException e) {
-                    //Log.e("CoderQuiz", e.toString());
-                }
-            } else {
-                //Log.d("CoderQuiz", "Answered Questions Map is empty");
-            }
-
-        } else {
-            loadQuestions();  // Load normally if no saved state
-        }
-        // Display the first question
-        displayQuestion(currentQuestionIndex);
-
-    }
-
-
-    private void clearQuizState() {
-        SharedPreferences sharedPreferences = getSharedPreferences("QuizState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String categoryKey = "quiz_" + selectedCategory;
-
-        editor.remove(categoryKey + "_currentIndex");
-        editor.remove(categoryKey + "_score");
-        editor.remove(categoryKey + "_questionList");
-        editor.remove(categoryKey + "_answeredMap");
-
-        editor.apply(); // Clear state
-    }
 
 
 

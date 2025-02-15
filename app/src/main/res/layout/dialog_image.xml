@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:contentDescription="Full-size Image" />
+        android:contentDescription="@string/full_image_desc" />
 
     <!-- Close Button -->
     <ImageButton
@@ -21,5 +21,5 @@
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:contentDescription="Close" />
+        android:contentDescription="@string/close" />
 </RelativeLayout>

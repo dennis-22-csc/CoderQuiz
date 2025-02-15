@@ -8,8 +8,6 @@ import android.app.backup.SharedPreferencesBackupHelper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
-
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,13 +35,14 @@ public class MyBackupAgent extends BackupAgentHelper {
     public void onBackup(ParcelFileDescriptor oldState, BackupDataOutput data, ParcelFileDescriptor newState) throws IOException {
         super.onBackup(oldState, data, newState);
     }
-
     @Override
     public void onRestore(BackupDataInput data, int size, ParcelFileDescriptor newState) throws IOException {
         super.onRestore(data, size, newState);
-        List<Map<String, Object>>  stats = MyBackupAgent.restoreQuizStats(this);
-        QuizDatabaseHelper dbHelper = new QuizDatabaseHelper(this);
-        dbHelper.addQuizStats(stats);
+        List<Map<String, Object>> stats = MyBackupAgent.restoreQuizStats(this);
+
+        try (QuizDatabaseHelper dbHelper = new QuizDatabaseHelper(this)) {
+            dbHelper.addQuizStats(stats);
+        }
     }
 
     public static void setPrefBackupDialogShown(Context context, boolean state) {
@@ -59,7 +58,7 @@ public class MyBackupAgent extends BackupAgentHelper {
         return sharedPrefs.getBoolean(PREF_BACKUP_DIALOG_SHOWN, false);
     }
 
-                                                   public static String getUserID(Context context) {
+    public static String getUserID(Context context) {
         if (uniqueID == null) {
             SharedPreferences sharedPrefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
             uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
@@ -93,15 +92,21 @@ public class MyBackupAgent extends BackupAgentHelper {
                 statJson.put("incorrect_answers", quizStat.get("incorrect_answers"));
                 statJson.put("total_questions", quizStat.get("total_questions"));
 
+                @SuppressWarnings("unchecked")
                 Map<String, Float> categoryPerformance = (Map<String, Float>) quizStat.get("category_performance");
                 JSONObject categoryPerformanceJson = new JSONObject();
-                for (Map.Entry<String, Float> entry : categoryPerformance.entrySet()) {
-                    categoryPerformanceJson.put(entry.getKey(), entry.getValue());
+                if (categoryPerformance != null) {
+                    for (Map.Entry<String, Float> entry : categoryPerformance.entrySet()) {
+                        categoryPerformanceJson.put(entry.getKey(), entry.getValue());
+                    }
                 }
                 statJson.put("category_performance", categoryPerformanceJson);
                 statJson.put("date_time", quizStat.get("date_time"));
 
-                quizStatsJson.put((String) quizStat.get("id"), statJson);
+                Object idObj = quizStat.get("id");
+                if (idObj != null) {
+                    quizStatsJson.put((String) idObj, statJson);
+                }
             }
 
             // Save the JSON object to SharedPreferences

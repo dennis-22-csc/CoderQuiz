@@ -15,10 +15,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.json.JSONObject;
 
 
-public class QuizDatabaseHelper extends SQLiteOpenHelper {
+public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseable {
 
     private static final String DATABASE_NAME = "quiz.db";
 
@@ -121,6 +123,11 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
+    public void close() {
+        super.close();
+    }
+
     // Add data to quiz_stat table
     public void addQuizStat(String statId, String quizCategory, int correctAnswers, int incorrectAnswers, int totalQuestions, Map<String, Float> categoryPerformance, String dateTime) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -195,15 +202,23 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
             for (Map<String, Object> quizStat : quizStatsList) {
                 // Extract values from the map
                 String statId = (String) quizStat.get("id");
-                String quizCategory = (String) quizStat.get("quiz_category");  // Fixed key
-                int correctAnswers = (int) quizStat.get("correct_answers");
-                int incorrectAnswers = (int) quizStat.get("incorrect_answers");
-                int totalQuestions = (int) quizStat.get("total_questions");
+                String quizCategory = (String) quizStat.get("quiz_category");
+                Integer correct= (Integer) quizStat.getOrDefault("correct_answers", 0);
+                Integer incorrect = (Integer) quizStat.getOrDefault("incorrect_answers", 0);
+                Integer total= (Integer) quizStat.getOrDefault("total_questions", 0);
+
+                int correctAnswers  = correct == null ? 0 : correct;
+                int incorrectAnswers = incorrect == null ? 0 : incorrect;
+                int totalQuestions  = total == null ? 0 : total;
+
+                @SuppressWarnings("unchecked")
                 Map<String, Float> categoryPerformance = (Map<String, Float>) quizStat.get("category_performance");
                 String dateTime = (String) quizStat.get("date_time");
 
                 // Convert category performance Map<String, Float> to JSON string
-                JSONObject jsonObject = new JSONObject(categoryPerformance);
+                JSONObject jsonObject = Optional.ofNullable(categoryPerformance)
+                        .map(JSONObject::new)
+                        .orElseGet(JSONObject::new);
                 String categoryPerformanceJson = jsonObject.toString();
 
                 // Insert the stat into the database
@@ -278,20 +293,20 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(query, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndexOrThrow(COLUMN_CATEGORY_NAME); // Ensures column exists
             do {
-                categories.add(cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY_NAME)));
+                categories.add(cursor.getString(columnIndex));
             } while (cursor.moveToNext());
             cursor.close();
         }
-
         db.close();
         return categories;
     }
 
 
     // Add a question to the database
-    public boolean addQuestion(Question question) {
+    public void addQuestion(Question question) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_SOURCE_ID, question.getSourceID());
@@ -307,12 +322,10 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_QUESTIONS, null, values);
         db.close();
-        return true;
     }
 
     public List<Question> getQuizQuestions(String category, int limit) {
         SQLiteDatabase db = this.getReadableDatabase();
-        List<Question> questions = new ArrayList<>();
         Map<String, List<Question>> categoryMap = new HashMap<>();
 
         // Query to fetch failed or new questions by category
@@ -325,33 +338,37 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                // Extract question data and create Question objects
                 Question question = new Question(
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_SOURCE_ID)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_IMAGE_ID)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_A)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_B)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_C)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_D)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_CORRECT_OPTION)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION_CATEGORY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_QUIZ_CATEGORY))
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SOURCE_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_A)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_B)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_C)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_D)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CORRECT_OPTION)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_CATEGORY)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUIZ_CATEGORY))
                 );
-                question.setQuestionID(cursor.getInt(cursor.getColumnIndex(COLUMN_QUESTION_ID)));
-                question.setQuestionStatus(cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION_STATUS)));
+                question.setQuestionID(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_ID)));
+                question.setQuestionStatus(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_STATUS)));
 
                 // Group questions by category
                 String questionCategory = question.getQuestionCategory();
-                categoryMap.putIfAbsent(questionCategory, new ArrayList<>());
-                categoryMap.get(questionCategory).add(question);
+                categoryMap.computeIfAbsent(questionCategory, k -> new ArrayList<>()).add(question);
+
             } while (cursor.moveToNext());
         }
+
         cursor.close();
 
         // Sort categories by number of questions
         List<String> categories = new ArrayList<>(categoryMap.keySet());
-        categories.sort(Comparator.comparingInt(cat -> categoryMap.get(cat).size()));
+        categories.sort(Comparator.comparingInt(cat -> {
+            List<Question> list = categoryMap.get(cat);
+            return (list != null) ? list.size() : 0;
+        }));
+        //categories.sort(Comparator.comparingInt(cat -> categoryMap.get(cat).size()));
 
         // Split into bottom half and top half
         int midIndex = categories.size() / 2;
@@ -372,8 +389,9 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
             List<Question> categoryQuestions = categoryMap.get(cat);
 
             // Add all questions from this category
-            selectedQuestions.addAll(categoryQuestions);
-
+            if (categoryQuestions != null ) {
+                selectedQuestions.addAll(categoryQuestions);
+            }
             // Stop if we reach the limit
             if (selectedQuestions.size() >= limit) {
                 break;
@@ -390,7 +408,10 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
                 List<Question> categoryQuestions = categoryMap.get(cat);
 
                 int remainingLimit = limit - selectedQuestions.size();
-                selectedQuestions.addAll(categoryQuestions.subList(0, Math.min(remainingLimit, categoryQuestions.size())));
+                //selectedQuestions.addAll(categoryQuestions.subList(0, Math.min(remainingLimit, categoryQuestions.size())));
+                Optional.ofNullable(categoryQuestions)
+                        .filter(list -> !list.isEmpty())
+                        .ifPresent(list -> selectedQuestions.addAll(list.subList(0, Math.min(remainingLimit, list.size()))));
 
                 if (selectedQuestions.size() >= limit) {
                     break;
@@ -410,21 +431,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
             return questions; // Return an empty list if no IDs are provided
         }
 
-        // Constructing the SQL IN clause dynamically
-        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM " + TABLE_QUESTIONS + " WHERE " + COLUMN_QUESTION_ID + " IN (");
-        for (int i = 0; i < questionIds.size(); i++) {
-            queryBuilder.append("?");
-            if (i < questionIds.size() - 1) {
-                queryBuilder.append(", ");
-            }
-        }
-        queryBuilder.append(") ORDER BY CASE");
-
-        // Adding ORDER BY CASE for preserving order
-        for (int i = 0; i < questionIds.size(); i++) {
-            queryBuilder.append(" WHEN " + COLUMN_QUESTION_ID + " = ? THEN " + i);
-        }
-        queryBuilder.append(" END");
+        String query = buildQuestionQuery(questionIds);
 
         // Convert List<Integer> to String[] for rawQuery parameters
         String[] idArgs = new String[questionIds.size() * 2];
@@ -433,29 +440,27 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
             idArgs[questionIds.size() + i] = String.valueOf(questionIds.get(i)); // Used for ORDER BY CASE
         }
 
-        Cursor cursor = db.rawQuery(queryBuilder.toString(), idArgs);
+        Cursor cursor = db.rawQuery(query, idArgs);
 
         if (cursor.moveToFirst()) {
             do {
-                // Extracting question data and creating Question objects
                 Question question = new Question(
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_SOURCE_ID)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_IMAGE_ID)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_A)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_B)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_C)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_OPTION_D)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_CORRECT_OPTION)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION_CATEGORY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_QUIZ_CATEGORY))
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SOURCE_ID)),
+                        cursor.getString( cursor.getColumnIndexOrThrow(COLUMN_QUESTION)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_A)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_B)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_C)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_D)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CORRECT_OPTION)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_CATEGORY)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUIZ_CATEGORY))
                 );
-                question.setQuestionID(cursor.getInt(cursor.getColumnIndex(COLUMN_QUESTION_ID)));
-                question.setQuestionStatus(cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION_STATUS)));
+                question.setQuestionID(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_ID)));
+                question.setQuestionStatus(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_STATUS)));
                 questions.add(question);
             } while (cursor.moveToNext());
         }
-
         cursor.close();
         db.close();
         return questions;
@@ -478,7 +483,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(checkQuery, new String[]{category});
         cursor.moveToFirst();
         int incompleteCount = cursor.getInt(0);
-        //cursor.close();
+        cursor.close();
 
         if (incompleteCount == 0) {
             // Reset all CORRECT questions to NEW
@@ -529,22 +534,44 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
                 Arrays.stream(imageIds).mapToObj(String::valueOf).toArray(String[]::new)
         );
 
-        if (cursor != null) {
+
             while (cursor.moveToNext()) {
                 int imageId = cursor.getInt(0);
                 byte[] blob = cursor.getBlob(1);
                 imageMap.put(imageId, blob);
             }
             cursor.close();
-        }
 
         db.close();
         return imageMap;
     }
 
+    private String buildQuestionQuery(List<Integer> questionIds) {
+        if (questionIds.isEmpty()) {
+            throw new IllegalArgumentException("Question ID list cannot be empty.");
+        }
 
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM ")
+                .append(TABLE_QUESTIONS)
+                .append(" WHERE ")
+                .append(COLUMN_QUESTION_ID)
+                .append(" IN (");
 
+        // Constructing the SQL IN clause
+        queryBuilder.append("?,".repeat(questionIds.size()));
+        queryBuilder.setLength(queryBuilder.length() - 1); // Remove trailing comma
+        queryBuilder.append(") ORDER BY CASE");
 
+        // Adding ORDER BY CASE to preserve order
+        for (int i = 0; i < questionIds.size(); i++) {
+            queryBuilder.append(" WHEN ")
+                    .append(COLUMN_QUESTION_ID)
+                    .append(" = ? THEN ")
+                    .append(i);
+        }
+        queryBuilder.append(" END");
 
+        return queryBuilder.toString();
+    }
 
 }

@@ -15,7 +15,7 @@
             android:id="@+id/syncButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Quiz File"
+            android:text="@string/select_quiz_file"
             android:layout_marginBottom="20dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -23,13 +23,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="Start Quiz"/>
+            android:text="@string/start_quiz"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/viewDashboardButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dashboard"/>
+            android:text="@string/dashboard"/>
 
     </LinearLayout>
 
