@@ -22,8 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
-import java.util.List;
-
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.android.gms.instantapps.InstantApps;
 
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             boolean categoriesEmpty = dbHelper.getCategories().isEmpty();
             if (isInstantApp && categoriesEmpty) {
                 showToast("Please load sample quiz questions first");
-            } else if (!isInstantApp  && categoriesEmpty) {
+            } else if (!isInstantApp && categoriesEmpty) {
                 showDialog(this, "Please load a quiz file first", "Would you like to download a quiz file?", "https://dennis-22-csc.github.io/CoderQuiz/quiz_download.html");
             } else {
                 showFCMData(this);
@@ -93,12 +91,14 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             File tempFile = FileHelperAndroid.createTempFileFromUri(this, uri);
                             runOnUiThread(() -> {
-                            if (tempFile == null) {
-                                showToast("Failed to create temp file");
-                            }
+                                if (tempFile == null) {
+                                    showToast("Failed to create temp file");
+                                }
                             });
                             String zipResult = ZipProcessor.handleZipFile(dbHelper, tempFile);
-                            tempFile.delete();
+                            if (tempFile != null) {
+                                tempFile.delete();
+                            }
                             runOnUiThread(() -> showToast(zipResult));
                         } catch (Exception e) {
                             runOnUiThread(() -> showToast("Error processing file"));
@@ -129,11 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
-
 
     // Helper method to create a ProgressBar with proper styling
     private View createProgressBar() {

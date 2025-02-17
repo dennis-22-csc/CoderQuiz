@@ -36,7 +36,9 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="dennis-22-csc.github.io" android:pathPattern="/CoderQuiz/try_app" />
+                <data android:scheme="https"
+                    android:host="dennis-22-csc.github.io"
+                    android:path="/CoderQuiz/try_app" />
             </intent-filter>
         </activity>
     </application>
