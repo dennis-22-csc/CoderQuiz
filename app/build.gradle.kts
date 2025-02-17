@@ -13,8 +13,8 @@ android {
         applicationId = "com.denniscode.coderquiz"
         minSdk = 26
         targetSdk = 34
-        versionCode = 17
-        versionName = "2.6"
+        versionCode = 18
+        versionName = "2.7"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,8 +35,8 @@ android {
             dimension = "instantExperience"
             applicationIdSuffix = ".instant"
             versionNameSuffix = "-instant"
-            versionCode = 2
-            versionName = "1.1"
+            versionCode = 3
+            versionName = "1.2"
 
 
         }

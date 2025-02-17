@@ -1,9 +1,0 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.denniscode.coderquiz.debug",
-    "sha256_cert_fingerprints":
-    ["5C:FD:02:8D:59:1A:DC:34:36:96:27:B1:78:16:83:E9:D2:3D:ED:46:A4:FD:36:24:81:FD:0C:9C:3B:D7:C6:A6"]
-  }
-}]
