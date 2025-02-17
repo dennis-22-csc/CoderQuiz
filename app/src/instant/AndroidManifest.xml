@@ -15,6 +15,9 @@
         <!-- MainActivity accessible in both instant and installed versions -->
         <activity android:name=".MainActivity"
             android:exported="true">
+            <meta-data
+               android:name="default-url"
+               android:value="dennis-22-csc.github.io/CoderQuiz/try_app" />
 
             <!-- Standard launcher intent -->
             <intent-filter>
@@ -33,7 +36,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="dennis-22-csc.github.io" android:pathPrefix="/CoderQuiz/" />
+                <data android:scheme="https" android:host="dennis-22-csc.github.io" android:pathPattern="/CoderQuiz/try_app" />
             </intent-filter>
         </activity>
     </application>

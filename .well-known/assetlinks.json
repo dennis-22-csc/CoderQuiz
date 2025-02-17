@@ -2,8 +2,8 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "com.denniscode.coderquiz",
+    "package_name": "com.denniscode.coderquiz.debug",
     "sha256_cert_fingerprints":
-    ["1A:B8:BB:2C:0A:43:67:C4:4C:65:8E:51:A5:DC:6E:CD:B5:19:4B:D7:D7:85:73:FC:FF:56:B0:59:F1:98:8A:C3"]
+    ["5C:FD:02:8D:59:1A:DC:34:36:96:27:B1:78:16:83:E9:D2:3D:ED:46:A4:FD:36:24:81:FD:0C:9C:3B:D7:C6:A6"]
   }
 }]
