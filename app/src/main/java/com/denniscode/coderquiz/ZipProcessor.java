@@ -1,8 +1,17 @@
 package com.denniscode.coderquiz;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.net.Uri;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -12,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public class ZipProcessor {
     public static String handleZipFile(QuizDatabaseHelper dbHelper, File zipFile) {
@@ -46,28 +56,14 @@ public class ZipProcessor {
                         } else {
                             String errorResult = "Zip file not accepted";
                             zip.close();
-                            if (zipFile != null) {
-                                if (!zipFile.delete()) {
-                                    return "Failed to delete file: " + zipFile.getAbsolutePath();
-                                }
-                            }
                             return errorResult;
                         }
 
                     }
                 }
             }
-            if (zipFile != null) {
-                if (!zipFile.delete()) {
-                    return "Failed to delete file: " + zipFile.getAbsolutePath();
-                }
-            }
+
         } catch (Exception e) {
-            if (zipFile != null) {
-                if (!zipFile.delete()) {
-                    return "Failed to delete file: " + zipFile.getAbsolutePath();
-                }
-            }
             return "Error processing Zip file";
         }
         return zipResult;
@@ -210,5 +206,39 @@ public class ZipProcessor {
         }
 
     }
+
+    public static String loadFromZipAsset(Context context, QuizDatabaseHelper dbHelper) {
+        String assetFileName = "sample_questions.zip";
+        AssetManager assetManager = context.getAssets();
+
+        try {
+            InputStream inputStream = assetManager.open(assetFileName);
+            File tempFile = createTempFileFromInputStream(context, inputStream, assetFileName); // See helper function below
+
+            if (tempFile != null) {
+                String result = handleZipFile(dbHelper, tempFile);
+                tempFile.delete();
+                return result;
+            } else {
+                return "Failed to create temp file from asset: " + assetFileName;
+            }
+
+        } catch (IOException e) {
+            return "Failed to load questions from " + assetFileName + ": " + e.getMessage();
+        }
+    }
+    private static File createTempFileFromInputStream(Context context, InputStream inputStream, String fileName) throws IOException {
+        File tempFile = File.createTempFile(fileName.substring(0, fileName.lastIndexOf('.')), "." + fileName.substring(fileName.lastIndexOf('.') + 1), context.getCacheDir());
+        try (OutputStream outputStream = new FileOutputStream(tempFile)) {
+            byte[] buffer = new byte[4096];
+            int read;
+            while ((read = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, read);
+            }
+            outputStream.flush();
+        }
+        return tempFile;
+    }
+
 
 }

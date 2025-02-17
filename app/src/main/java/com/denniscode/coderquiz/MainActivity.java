@@ -22,7 +22,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
+import java.util.List;
+
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.android.gms.instantapps.InstantApps;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog dashboardProgressDialog;
     private ActivityResultLauncher<Intent> pickFileLauncher;
     private boolean isQuizCategoriesLayout = false;
+    private boolean isInstantApp = false;
 
 
     @Override
@@ -46,9 +50,14 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("FCM_Preferences", Context.MODE_PRIVATE);
         dataAvailable = sharedPreferences.getBoolean("data_available", false);
 
+        isInstantApp = InstantApps.getPackageManagerCompat(this).isInstantApp();
+
         // Button to open file picker
         Button syncButton = findViewById(R.id.syncButton);
         syncButton.setOnClickListener(v -> openFilePicker());
+        if (isInstantApp) {
+            syncButton.setText(getString(R.string.sample_quiz_questions));
+        }
 
         // Button to view dashboard
         Button dashboardButton = findViewById(R.id.viewDashboardButton);
@@ -57,7 +66,10 @@ public class MainActivity extends AppCompatActivity {
         // Button to start the quiz
         Button startQuizButton = findViewById(R.id.startQuizButton);
         startQuizButton.setOnClickListener(v -> {
-            if (dbHelper.getCategories().isEmpty()) {
+            boolean categoriesEmpty = dbHelper.getCategories().isEmpty();
+            if (isInstantApp && categoriesEmpty) {
+                showToast("Please load sample quiz questions first");
+            } else if (!isInstantApp  && categoriesEmpty) {
                 showDialog(this, "Please load a quiz file first", "Would you like to download a quiz file?", "https://dennis-22-csc.github.io/CoderQuiz/quiz_download.html");
             } else {
                 showFCMData(this);
@@ -86,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             });
                             String zipResult = ZipProcessor.handleZipFile(dbHelper, tempFile);
-
+                            tempFile.delete();
                             runOnUiThread(() -> showToast(zipResult));
                         } catch (Exception e) {
                             runOnUiThread(() -> showToast("Error processing file"));
@@ -108,7 +120,11 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.rootLayout).setVisibility(View.VISIBLE);
                     isQuizCategoriesLayout = false;
                 } else {
-                    finish();
+                    if (isInstantApp) {
+                        showInstallPrompt();
+                    } else {
+                        finish();
+                    }
                 }
             }
         });
@@ -142,9 +158,28 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void openFilePicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/zip");
-        pickFileLauncher.launch(intent);
+        if (isInstantApp) {
+            AlertDialog progressDialog = new MaterialAlertDialogBuilder(MainActivity.this)
+                    .setCancelable(false)
+                    .setView(createProgressBar())
+                    .create();
+            progressDialog.show();
+
+            new Thread(() -> {
+                try {
+                    String result = ZipProcessor.loadFromZipAsset(this, dbHelper);
+                    runOnUiThread(() -> showToast(result));
+                } catch (Exception e) {
+                    runOnUiThread(() -> showToast("Error loading questions"));
+                } finally {
+                    runOnUiThread(progressDialog::dismiss);
+                }
+            }).start();
+        } else {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("application/zip");
+            pickFileLauncher.launch(intent);
+        }
     }
 
     private void showFCMData(Context context) {
@@ -218,6 +253,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void showToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+    }
+
+    private void showInstallPrompt() {
+        Intent postInstall = new Intent(Intent.ACTION_VIEW)
+                .addCategory(Intent.CATEGORY_BROWSABLE)
+                .setPackage("com.denniscode.coderquiz");
+
+        InstantApps.showInstallPrompt(this, postInstall, 1001, null);
     }
 
 }

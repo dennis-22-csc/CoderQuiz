@@ -5,7 +5,8 @@
     <string name="source_id_info">Source ID: %1$d</string>
     <string name="correct_answer_text">Correct Answer: %1$s</string>
     <string name="heading_make_selection">Make a Selection</string>
-    <string name="select_quiz_file">Select Quiz File</string>
+    <string name="select_quiz_file">Load Quiz File</string>
+    <string name="sample_quiz_questions">Load Sample Quiz Questions</string>
     <string name="start_quiz">Start Quiz</string>
     <string name="dashboard">Dashboard</string>
     <string name="question_text">Question?</string>

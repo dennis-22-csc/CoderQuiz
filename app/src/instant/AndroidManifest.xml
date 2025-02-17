@@ -1,0 +1,40 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.denniscode.coderquiz"
+    android:targetSandboxVersion="2">
+
+    <!-- Mark as an instant app module -->
+    <dist:module dist:instant="true" />
+
+    <application>
+        <!-- Declare Instant App support -->
+        <meta-data
+            android:name="instantapps.support"
+            android:value="true" />
+
+        <!-- MainActivity accessible in both instant and installed versions -->
+        <activity android:name=".MainActivity"
+            android:exported="true">
+
+            <!-- Standard launcher intent -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <!-- Install intent filter -->
+            <intent-filter>
+                <action android:name="com.google.android.gms.instantapps.INSTALL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- App link intent filter -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="dennis-22-csc.github.io" android:pathPrefix="/CoderQuiz/" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

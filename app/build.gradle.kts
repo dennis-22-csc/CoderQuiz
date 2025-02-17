@@ -13,8 +13,8 @@ android {
         applicationId = "com.denniscode.coderquiz"
         minSdk = 26
         targetSdk = 34
-        versionCode = 15
-        versionName = "2.4"
+        versionCode = 17
+        versionName = "2.6"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,6 +29,26 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+    flavorDimensions += "instantExperience"
+    productFlavors {
+        create("instant") {
+            dimension = "instantExperience"
+            applicationIdSuffix = ".instant"
+            versionNameSuffix = "-instant"
+            versionCode = 2
+            versionName = "1.1"
+
+
+        }
+        create("installed") {
+            dimension = "instantExperience"
+        }
+    }
+
+    sourceSets.named("instant") {
+        manifest.srcFile("src/instant/AndroidManifest.xml")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -59,5 +79,6 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.photoview)
     implementation(libs.firebase.messaging)
-    implementation (libs.okhttp)
+    implementation(libs.okhttp)
+    implementation(libs.play.services.instantapps)
 }
