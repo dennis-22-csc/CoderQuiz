@@ -252,11 +252,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showInstallPrompt() {
-        Intent postInstall = new Intent(Intent.ACTION_VIEW)
-                .addCategory(Intent.CATEGORY_BROWSABLE)
-                .setPackage("com.denniscode.coderquiz");
+        Intent postInstall = new Intent("com.denniscode.coderquiz.INSTALL_COMPLETE"); // Use the custom action
+        postInstall.setPackage("com.denniscode.coderquiz"); // Still set the package
 
-        InstantApps.showInstallPrompt(this, postInstall, 1001, null);
+        InstantApps.showInstallPrompt(this, null, 0, null);
     }
-
 }

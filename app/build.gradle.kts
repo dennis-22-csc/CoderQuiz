@@ -13,8 +13,8 @@ android {
         applicationId = "com.denniscode.coderquiz"
         minSdk = 26
         targetSdk = 34
-        versionCode = 18
-        versionName = "2.7"
+        versionCode = 24
+        versionName = "3.3"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,25 +28,6 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
-    }
-    flavorDimensions += "instantExperience"
-    productFlavors {
-        create("instant") {
-            dimension = "instantExperience"
-            applicationIdSuffix = ".instant"
-            versionNameSuffix = "-instant"
-            versionCode = 3
-            versionName = "1.2"
-
-
-        }
-        create("installed") {
-            dimension = "instantExperience"
-        }
-    }
-
-    sourceSets.named("instant") {
-        manifest.srcFile("src/instant/AndroidManifest.xml")
     }
 
     compileOptions {
