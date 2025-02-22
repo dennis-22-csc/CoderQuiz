@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +47,8 @@ public class QuizActivity extends AppCompatActivity {
     private CardView[] optionCards;
     private MaterialButton previousButton;
     private ScrollView quizSegment;
-    private final Map<Integer, Boolean> answeredQuestionsMap = new HashMap<>();
     private final Map<CardView, Integer> defaultColors = new HashMap<>();
-
-
     private CardView lastSelectedCard = null;
-
     private QuizManager quizManager;
 
 
@@ -133,15 +130,14 @@ public class QuizActivity extends AppCompatActivity {
 
         private void displayCurrentQuestion() {
             Question question = quizManager.getCurrentQuestion();
-            questionText.setText(question.getQuestion());
+            questionText.setText(quizManager.unescape(question.getQuestion()));
 
             // Directly refer to the option components
             optionCards = new CardView[]{option1Card, option2Card, option3Card, option4Card};
             TextView[] optionTexts = {option1Text, option2Text, option3Text, option4Text};
 
             // Reset isAnswered flag and enable all options
-            boolean isAnswered = Boolean.TRUE.equals(answeredQuestionsMap.get(quizManager.getCurrentQuestionIndex()));
-            //boolean isAnswered = answeredQuestionsMap.getOrDefault(index, false);
+            boolean isAnswered = Boolean.TRUE.equals(quizManager.getAnsweredQuestionsMap().get(quizManager.getCurrentQuestionIndex()));
             enableOptionCards(optionCards, !isAnswered);
 
             // Update the question number and remaining questions
@@ -206,7 +202,6 @@ public class QuizActivity extends AppCompatActivity {
                             resetOptionsBackground(lastSelectedCard); // Remove previous highlight
                         }
                         lastSelectedCard = optionCard;
-                        //optionCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.optionsColor));
 
                         if (optionText.getText().toString().equals(correctAnswer)) {
                             highlightCorrectAnswer(optionCard, true, optionText.getText().toString());
@@ -221,7 +216,7 @@ public class QuizActivity extends AppCompatActivity {
                         }
 
                         // Mark the question as answered and disable further clicks
-                        answeredQuestionsMap.put(quizManager.getCurrentQuestionIndex(), true);
+                        quizManager.getAnsweredQuestionsMap().put(quizManager.getCurrentQuestionIndex(), true);
                         enableOptionCards(optionCards, false);
                         quizManager.saveQuizState();
                     }

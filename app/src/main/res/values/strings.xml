@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoderQuiz</string>
+    <string name="app_name">@string/app_name</string>
     <string name="processing_text">Processing...</string>
     <string name="question_info">Question %1$d of %2$d</string>
     <string name="source_id_info">Source ID: %1$d</string>

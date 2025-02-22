@@ -24,7 +24,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
 
     private static final String DATABASE_NAME = "quiz.db";
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
 
     private static final String TABLE_CATEGORIES = "quiz_categories";
@@ -88,7 +88,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
         String createQuestionsTable = "CREATE TABLE " + TABLE_QUESTIONS + " ("
                 + COLUMN_QUESTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_SOURCE_ID + " INTEGER NOT NULL, "
-                + COLUMN_QUESTION + " TEXT NOT NULL UNIQUE, "
+                + COLUMN_QUESTION + " TEXT NOT NULL, "
                 + COLUMN_IMAGE_ID + " INTEGER, "
                 + COLUMN_OPTION_A + " TEXT NOT NULL, "
                 + COLUMN_OPTION_B + " TEXT NOT NULL, "

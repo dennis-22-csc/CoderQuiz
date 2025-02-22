@@ -259,4 +259,12 @@ public class QuizManager {
     public String getStatId(){
         return statId;
     }
+
+    public Map<Integer, Boolean>  getAnsweredQuestionsMap() {
+        return answeredQuestionsMap;
+    }
+
+    public String unescape(String text) {
+        return text.replaceAll("\\\\n", "\\\n");
+    }
 }

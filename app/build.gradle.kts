@@ -12,9 +12,9 @@ android {
     defaultConfig {
         applicationId = "com.denniscode.coderquiz"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 24
-        versionName = "3.3"
+        targetSdk = 35
+        versionCode = 29
+        versionName = "3.8"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -22,9 +22,11 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
+            resValue("string", "app_name", "CoderQuiz Debug")
         }
 
         release {
+            resValue("string", "app_name", "CoderQuiz")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }

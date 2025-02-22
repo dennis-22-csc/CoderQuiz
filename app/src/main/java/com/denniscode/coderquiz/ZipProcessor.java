@@ -2,9 +2,6 @@ package com.denniscode.coderquiz;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.net.Uri;
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,7 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 public class ZipProcessor {
     public static String handleZipFile(QuizDatabaseHelper dbHelper, File zipFile) {
@@ -83,7 +79,7 @@ public class ZipProcessor {
                     InputStreamReader(zipFile.getInputStream(txtEntry)))) {
 
                 String line;
-                int lineNumber = 1;
+                int lineNumber = 0;
 
                 List<Question> validQuestions = new ArrayList<>();
                 List<String> validCategories = new ArrayList<>();
@@ -94,6 +90,8 @@ public class ZipProcessor {
                 if (!quizCategory.isEmpty()) {
                     validCategories.add(quizCategory);
                 }
+
+                lineNumber++;
 
                 // Process each question line
                 while ((line = reader.readLine()) != null) {
@@ -215,13 +213,10 @@ public class ZipProcessor {
             InputStream inputStream = assetManager.open(assetFileName);
             File tempFile = createTempFileFromInputStream(context, inputStream, assetFileName); // See helper function below
 
-            if (tempFile != null) {
-                String result = handleZipFile(dbHelper, tempFile);
-                tempFile.delete();
-                return result;
-            } else {
-                return "Failed to create temp file from asset: " + assetFileName;
-            }
+
+            String result = handleZipFile(dbHelper, tempFile);
+            tempFile.delete();
+            return result;
 
         } catch (IOException e) {
             return "Failed to load questions from " + assetFileName + ": " + e.getMessage();
