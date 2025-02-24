@@ -81,6 +81,14 @@
                     android:textColor="@color/questionColor"
                     android:textIsSelectable="true"
                     />
+                <ImageView
+                    android:id="@+id/questionImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    android:contentDescription="@string/question_image_desc" />
             </androidx.cardview.widget.CardView>
 
             <!-- Image Card -->
@@ -99,7 +107,8 @@
                     android:id="@+id/questionThumbnail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
                     android:contentDescription="@string/question_thumbnail_desc" />
             </androidx.cardview.widget.CardView>
 

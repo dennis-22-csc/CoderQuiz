@@ -19,6 +19,7 @@
     <string name="next">Next</string>
     <string name="backup_image_desc">Settings Screenshot</string>
     <string name="question_thumbnail_desc">Question Thumbnail</string>
+    <string name="question_image_desc">Question Image</string>
     <string name="okay">Okay</string>
     <string name="close">Close</string>
     <string name="full_image_desc">Full-size Image</string>

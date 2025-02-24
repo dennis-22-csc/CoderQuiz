@@ -20,6 +20,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class ZipProcessor {
+    private static final Pattern csvPattern = Pattern.compile(
+            "\"([^\"]*)\"|'([^']*)'|\\[([^\\]]+)\\]|([^,]+)");
+
     public static String handleZipFile(QuizDatabaseHelper dbHelper, File zipFile) {
         Map<String, byte[]> imageCache =  new HashMap<>();
         String zipResult = null;
@@ -67,115 +70,73 @@ public class ZipProcessor {
 
     private static String processTxtFile(QuizDatabaseHelper dbHelper, ZipFile zipFile, String folderName, Map<String, byte[]> imageCache) {
         try {
-
             ZipEntry txtEntry = zipFile.getEntry(folderName + "questions.txt");
-
             if (txtEntry == null) {
                 return "Question file not found.";
             }
 
-            try (BufferedReader reader = new
-                    BufferedReader(new
-                    InputStreamReader(zipFile.getInputStream(txtEntry)))) {
-
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(txtEntry)))) {
                 String line;
                 int lineNumber = 0;
-
                 List<Question> validQuestions = new ArrayList<>();
                 List<String> validCategories = new ArrayList<>();
-                Pattern bracketPattern = Pattern.compile("\\[(.*?)]"); // Pattern to match text inside []
 
                 // Read quiz category from the first line
                 String quizCategory = reader.readLine().trim();
                 if (!quizCategory.isEmpty()) {
                     validCategories.add(quizCategory);
                 }
-
                 lineNumber++;
 
-                // Process each question line
                 while ((line = reader.readLine()) != null) {
                     lineNumber++;
-
                     if (line.trim().isEmpty()) {
                         continue;
                     }
 
-                    // Extract text inside square brackets before splitting
-                    Matcher matcher = bracketPattern.matcher(line);
-                    List<String> extractedTexts = new ArrayList<>();
+                    List<String> columns = new ArrayList<>();
+                    Matcher matcher = csvPattern.matcher(line.trim());
+
                     while (matcher.find()) {
-                        String fullMatch = matcher.group(0);
-                        String extractedText = matcher.group(1);
-
-                        if (fullMatch != null) {
-                            extractedTexts.add(extractedText);
-                            line = line.replace(fullMatch, "PLACEHOLDER" + extractedTexts.size());
+                        if (matcher.group(1) != null) {
+                            columns.add(matcher.group(1));  // Matches "double-quoted"
+                        } else if (matcher.group(2) != null) {
+                            columns.add(matcher.group(2));  // Matches 'single-quoted'
+                        } else if (matcher.group(3) != null) {
+                            columns.add(matcher.group(3));  // Matches [bracketed list] → Removed extra brackets
+                        } else if (matcher.group(4) != null) {
+                            columns.add(matcher.group(4).trim());  // Matches regular text
                         }
                     }
 
-                    String[] columns = line.split(",");
+                    int columnCount = columns.size();
 
-                    // Restore extracted text in respective positions
-                    for (int i = 0; i < columns.length; i++) {
-                        if (columns[i].startsWith("PLACEHOLDER")) {
-                            int index = Integer.parseInt(columns[i].replace("PLACEHOLDER", "")) - 1;
-                            columns[i] = extractedTexts.get(index);
-                        }
-                        columns[i] = columns[i].trim(); // Trim whitespace
-                    }
-
-                    int columnCount = columns.length;
-
-                    // Validate column count
+                    // Step 2: Validate column count
                     if (columnCount < 6 || columnCount > 9) {
                         return "Line " + lineNumber + ": Invalid column count (" + columnCount + " columns)";
                     }
 
-                    if (FileUtil.isTrueOrFalseQuestion(columns)) {
-                        if (columnCount > 7) {
-                            return "Line " + lineNumber + ": True/False question must have 6 or 7 columns";
-                        }
-                        if (columnCount == 7) {
-                            if (!FileUtil.hasImageFileName(columns)) {
-                                return "Line " + lineNumber + ": True/False question with 7 columns must include an image file name";
-                            }
-                            if (FileUtil.imageNotInZip(zipFile, folderName + "images/" + FileUtil.getImageFileName(columns))) {
-                                return "Line " + lineNumber + ": Image file '" + FileUtil.getImageFileName(columns) + "' does not exist";
-                            }
-                        }
-                    } else {
-                        if (columnCount < 8) {
-                            return "Line " + lineNumber + ": Non-True/False question must have 8 or 9 columns";
-                        }
-                        if (columnCount == 9) {
-                            if (!FileUtil.hasImageFileName(columns)) {
-                                return "Line " + lineNumber + ": Non-True/False question with 9 columns must include an image file name";
-                            }
-                            if (FileUtil.imageNotInZip(zipFile, folderName + "images/" + FileUtil.getImageFileName(columns))) {
-                                return "Line " + lineNumber + ": Image file '" + FileUtil.getImageFileName(columns) + "' does not exist";
-                            }
-                        }
-
-                    }
-
-                    // Process the question data
+                    // Step 3: Process extracted data
                     try {
-                        int sourceId = Integer.parseInt(columns[0].trim());
-                        String questionText = columns[1].trim();
-                        String optionA = columns[2].trim();
-                        String optionB = columns[3].trim();
-                        String optionC = (columns.length >= 8) ? columns[4].trim() : null;
-                        String optionD = (columns.length >= 8) ? columns[5].trim() : null;
-                        String correctOption = (columns.length >= 8) ? columns[6].trim() : columns[4].trim();
-                        String questionCategory = (columns.length >= 8) ? columns[7].trim() : columns[5].trim();
-
+                        int sourceId = Integer.parseInt(columns.get(0).trim());
+                        String questionText = columns.get(1).trim();
+                        String optionA = columns.get(2).trim();
+                        String optionB = columns.get(3).trim();
+                        String optionC = (columnCount >= 8) ? columns.get(4).trim() : null;
+                        String optionD = (columnCount >= 8) ? columns.get(5).trim() : null;
+                        String correctOption = (columnCount >= 8) ? columns.get(6).trim() : columns.get(4).trim();
+                        String questionCategory = (columnCount >= 8) ? columns.get(7).trim() : columns.get(5).trim();
 
                         int imageId = -1;
-                        if (FileUtil.hasImageFileName(columns)) {
-                            String imageName = FileUtil.getImageFileName(columns);
+                        if (FileUtil.hasImageFileName(columns.toArray(new String[0]))) {
+                            String imageName = FileUtil.getImageFileName(columns.toArray(new String[0]));
                             byte[] imageBlob = FileUtil.getImageBlob(zipFile, imageCache, folderName + "images/" + imageName);
                             imageId = dbHelper.getOrInsertImage(imageName, imageBlob);
+                        }
+                        if (FileUtil.isImageFileName(questionText)) {
+                            byte[] imageBlob = FileUtil.getImageBlob(zipFile, imageCache, folderName + "images/" + questionText);
+                            int questionImageId = dbHelper.getOrInsertImage(questionText, imageBlob);
+                            questionText = "IMG_" + questionImageId;
                         }
 
                         Question question = new Question(
@@ -188,7 +149,7 @@ public class ZipProcessor {
                     }
                 }
 
-                // Add categories and questions to the database
+                // Step 4: Save to database
                 for (String category : validCategories) {
                     dbHelper.addCategory(category);
                 }
@@ -202,8 +163,9 @@ public class ZipProcessor {
         } catch (Exception e) {
             return "Error processing .txt file: " + e.getMessage();
         }
-
     }
+
+
 
     public static String loadFromZipAsset(Context context, QuizDatabaseHelper dbHelper) {
         String assetFileName = "sample_questions.zip";

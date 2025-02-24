@@ -574,4 +574,24 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
         return queryBuilder.toString();
     }
 
+    public byte[] getImageBlobById(int imageId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        byte[] imageBlob = null;
+
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COLUMN_IMAGE_BLOB +
+                        " FROM " + TABLE_IMAGES +
+                        " WHERE " + COLUMN_IMAGE_ID_PK + " = ?",
+                new String[]{String.valueOf(imageId)}
+        );
+
+        if (cursor.moveToFirst()) {
+            imageBlob = cursor.getBlob(0); // Retrieve the image blob
+        }
+        cursor.close();
+        db.close();
+
+        return imageBlob; // Returns null if not found
+    }
+
 }

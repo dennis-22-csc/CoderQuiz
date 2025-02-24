@@ -39,7 +39,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private QuizDatabaseHelper dbHelper;
     private TextView questionInfo, questionIdInfo, questionText, correctAnswerText;
-    private ImageView questionThumbnail;
+    private ImageView questionImage,questionThumbnail;
     private MaterialButton nextButton;
 
     private CardView imageCard, option1Card, option2Card, option3Card, option4Card;
@@ -62,6 +62,7 @@ public class QuizActivity extends AppCompatActivity {
         questionInfo = findViewById(R.id.questionInfo);
         questionIdInfo = findViewById(R.id.questionIdInfo);
         questionText = findViewById(R.id.questionText);
+        questionImage = findViewById(R.id.questionImage);
         imageCard = findViewById(R.id.imageCard);
         questionThumbnail = findViewById(R.id.questionThumbnail);
         option1Card = findViewById(R.id.option1Card);
@@ -130,8 +131,35 @@ public class QuizActivity extends AppCompatActivity {
 
         private void displayCurrentQuestion() {
             Question question = quizManager.getCurrentQuestion();
-            questionText.setText(quizManager.unescape(question.getQuestion()));
+            String questionString = quizManager.unescape(question.getQuestion());
+            if (questionString.equals("IMG")) {
+                if (questionImage.getVisibility() == View.VISIBLE) {
+                    questionImage.setVisibility(View.GONE);
+                }
+                questionText.setVisibility(View.GONE);
+            } else if (questionString.startsWith("IMG_")) {
+                try {
+                    int imageId = Integer.parseInt(questionString.substring(4));
+                    byte[] imageBlob = quizManager.getQuestionImage(imageId);
+                    if (imageBlob != null) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
+                        questionImage.setImageBitmap(bitmap);
+                        questionText.setVisibility(View.GONE);
+                        questionImage.setVisibility(View.VISIBLE);
+                    }
 
+                } catch (NumberFormatException e) {
+
+                }
+            } else {
+                if (questionImage.getVisibility() == View.VISIBLE) {
+                    questionImage.setVisibility(View.GONE);
+                }
+                if (questionText.getVisibility() != View.VISIBLE) {
+                    questionText.setVisibility(View.VISIBLE);
+                }
+                questionText.setText(questionString);
+            }
             // Directly refer to the option components
             optionCards = new CardView[]{option1Card, option2Card, option3Card, option4Card};
             TextView[] optionTexts = {option1Text, option2Text, option3Text, option4Text};

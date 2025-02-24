@@ -13,8 +13,8 @@ android {
         applicationId = "com.denniscode.coderquiz"
         minSdk = 26
         targetSdk = 35
-        versionCode = 29
-        versionName = "3.8"
+        versionCode = 32
+        versionName = "4.1"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

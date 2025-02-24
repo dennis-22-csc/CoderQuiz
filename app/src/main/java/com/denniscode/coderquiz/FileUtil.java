@@ -3,10 +3,12 @@ package com.denniscode.coderquiz;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class FileUtil {
+    private static final Pattern IMAGE_FILE_PATTERN = Pattern.compile("(?i)\\.(jpg|jpeg|png|gif|bmp|webp)$");
 
     public static boolean hasImageFileName(String[] columns) {
         String lastColumn = columns[columns.length - 1].trim();
@@ -60,6 +62,13 @@ public class FileUtil {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static boolean isImageFileName(String fileName) {
+        if (fileName == null || fileName.trim().isEmpty()) {
+            return false;
+        }
+        return IMAGE_FILE_PATTERN.matcher(fileName).find();
     }
 
 

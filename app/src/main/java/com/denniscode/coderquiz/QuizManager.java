@@ -216,6 +216,19 @@ public class QuizManager {
         return imageBlobsMap.get(getCurrentQuestion().getImageId());
     }
 
+    public byte[] getQuestionImage(int imageId) {
+        if (imageBlobsMap.containsKey(imageId)) {
+            return imageBlobsMap.get(imageId);
+        } else {
+            byte[] imageData = dbHelper.getImageBlobById(imageId);
+            if (imageData != null) {
+                imageBlobsMap.put(imageId, imageData);
+                return imageData;
+            }
+        }
+        return null;
+    }
+
     public boolean moveToNextQuestion() {
         if (currentQuestionIndex < questionList.size() - 1) {
             currentQuestionIndex++;
