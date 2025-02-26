@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dennis-22-csc.github.io/CoderQuiz/sitemap.xml
