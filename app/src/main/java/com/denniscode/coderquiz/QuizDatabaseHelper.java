@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,26 +19,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.json.JSONObject;
-
-
 public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseable {
 
-    private static final String DATABASE_NAME = "quiz.db";
-
-    private static final int DATABASE_VERSION = 3;
-
+    private static final String DATABASE_NAME = "coderquiz.db";
+    private static final int DATABASE_VERSION = 1; // Incremented version
 
     private static final String TABLE_CATEGORIES = "quiz_categories";
-
-    private static final String TABLE_QUESTIONS = "quiz_questions";
     private static final String TABLE_QUIZ_STAT = "quiz_stat";
+
 
     // Column names for categories
     private static final String COLUMN_CATEGORY_ID = "id";
     private static final String COLUMN_CATEGORY_NAME = "category_name";
 
-    // Column names for questions
+    // Column names for questions (common across all category tables)
     private static final String COLUMN_QUESTION_ID = "id";
     private static final String COLUMN_SOURCE_ID = "source_id";
     private static final String COLUMN_QUESTION = "question";
@@ -47,7 +43,6 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
     private static final String COLUMN_OPTION_D = "option_d";
     private static final String COLUMN_CORRECT_OPTION = "correct_option";
     private static final String COLUMN_QUESTION_CATEGORY = "question_category";
-    private static final String COLUMN_QUIZ_CATEGORY = "quiz_category";
     private static final String COLUMN_LAST_ATTEMPTED = "last_attempted";
     private static final String COLUMN_QUESTION_STATUS = "status";
 
@@ -56,8 +51,11 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
     private static final String COLUMN_CORRECT_ANSWERS = "correct_answers";
     private static final String COLUMN_INCORRECT_ANSWERS = "incorrect_answers";
     private static final String COLUMN_TOTAL_QUESTIONS = "total_questions";
+    private static final String COLUMN_QUIZ_CATEGORY = "quiz_category";
+
     private static final String COLUMN_CATEGORY_PERFORMANCE = "category_performance";
     private static final String COLUMN_DATE_TIME = "date_time";
+
 
     // Images Table
     private static final String TABLE_IMAGES = "images";
@@ -74,36 +72,18 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
         // Create Images Table
         String CREATE_IMAGES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_IMAGES + " ("
                 + COLUMN_IMAGE_ID_PK + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUMN_IMAGE_NAME + " TEXT UNIQUE, " // Prevent duplicate images
+                + COLUMN_IMAGE_NAME + " TEXT UNIQUE, "
                 + COLUMN_IMAGE_BLOB + " BLOB)";
         db.execSQL(CREATE_IMAGES_TABLE);
 
         // Create categories table
-        String createCategoriesTable = "CREATE TABLE " + TABLE_CATEGORIES + " ("
+        String createCategoriesTable = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIES + " ("
                 + COLUMN_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_CATEGORY_NAME + " TEXT NOT NULL UNIQUE);";
         db.execSQL(createCategoriesTable);
 
-        // Create questions table
-        String createQuestionsTable = "CREATE TABLE " + TABLE_QUESTIONS + " ("
-                + COLUMN_QUESTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUMN_SOURCE_ID + " INTEGER NOT NULL, "
-                + COLUMN_QUESTION + " TEXT NOT NULL, "
-                + COLUMN_IMAGE_ID + " INTEGER, "
-                + COLUMN_OPTION_A + " TEXT NOT NULL, "
-                + COLUMN_OPTION_B + " TEXT NOT NULL, "
-                + COLUMN_OPTION_C + " TEXT, "
-                + COLUMN_OPTION_D + " TEXT, "
-                + COLUMN_CORRECT_OPTION + " TEXT NOT NULL, "
-                + COLUMN_QUESTION_CATEGORY + " TEXT NOT NULL, "
-                + COLUMN_QUIZ_CATEGORY + " TEXT NOT NULL, "
-                + COLUMN_LAST_ATTEMPTED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
-                + COLUMN_QUESTION_STATUS + " TEXT DEFAULT 'NEW', "
-                + "FOREIGN KEY (" + COLUMN_IMAGE_ID + ") REFERENCES " + TABLE_IMAGES + "(" + COLUMN_IMAGE_ID_PK + "))";
-        db.execSQL(createQuestionsTable);
-
         // Create quiz_stat table
-        String createQuizStatTable = "CREATE TABLE " + TABLE_QUIZ_STAT + " ("
+        String createQuizStatTable = "CREATE TABLE IF NOT EXISTS " + TABLE_QUIZ_STAT + " ("
                 + COLUMN_STAT_ID + " TEXT PRIMARY KEY, "
                 + COLUMN_QUIZ_CATEGORY + " TEXT NOT NULL, "
                 + COLUMN_CORRECT_ANSWERS + " INTEGER NOT NULL, "
@@ -116,16 +96,22 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUIZ_STAT);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTIONS);
+        // Drop all per-category question tables
+        Cursor cursor = db.rawQuery(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'quiz_questions_%'",
+                null
+        );
+        while (cursor.moveToNext()) {
+            String tableName = cursor.getString(0);
+            db.execSQL("DROP TABLE IF EXISTS " + tableName);
+        }
+        cursor.close();
+
+        // Drop other tables
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUIZ_STAT);
         onCreate(db);
-    }
-
-    @Override
-    public void close() {
-        super.close();
     }
 
     // Add data to quiz_stat table
@@ -148,9 +134,6 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
         db.insert(TABLE_QUIZ_STAT, null, values);
         db.close();
     }
-
-
-
 
     public List<Map<String, Object>> getAllQuizStats() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -271,70 +254,239 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
         return quizStat;
     }
 
-
-    // Add category to the database
     public void addCategory(String category) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CATEGORY_NAME, category);
-        db.insert(TABLE_CATEGORIES, null, values);
+        long categoryId = db.insert(TABLE_CATEGORIES, null, values);
+        if (categoryId != -1) {
+            createQuestionTableForCategory(db, categoryId);
+        }
         db.close();
+    }
+
+    private void createQuestionTableForCategory(SQLiteDatabase db, long categoryId) {
+        String tableName = "quiz_questions_" + categoryId;
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                + COLUMN_QUESTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_SOURCE_ID + " INTEGER NOT NULL UNIQUE, "
+                + COLUMN_QUESTION + " TEXT NOT NULL, "
+                + COLUMN_IMAGE_ID + " INTEGER, "
+                + COLUMN_OPTION_A + " TEXT NOT NULL, "
+                + COLUMN_OPTION_B + " TEXT NOT NULL, "
+                + COLUMN_OPTION_C + " TEXT, "
+                + COLUMN_OPTION_D + " TEXT, "
+                + COLUMN_CORRECT_OPTION + " TEXT NOT NULL, "
+                + COLUMN_QUESTION_CATEGORY + " TEXT NOT NULL, "
+                + COLUMN_LAST_ATTEMPTED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+                + COLUMN_QUESTION_STATUS + " TEXT DEFAULT 'NEW', "
+                + "FOREIGN KEY (" + COLUMN_IMAGE_ID + ") REFERENCES " + TABLE_IMAGES + "(" + COLUMN_IMAGE_ID_PK + "))";
+        db.execSQL(createTableSQL);
     }
 
     public List<String> getCategories() {
         List<String> categories = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // SQL query to fetch categories that have at least one question
-        String query = "SELECT DISTINCT " + COLUMN_CATEGORY_NAME + " FROM " + TABLE_CATEGORIES +
-                " WHERE EXISTS (SELECT 1 FROM " + TABLE_QUESTIONS +
-                " WHERE " + TABLE_QUESTIONS + "." + COLUMN_QUIZ_CATEGORY + " = " +
-                TABLE_CATEGORIES + "." + COLUMN_CATEGORY_NAME + ")";
+        Cursor categoryCursor = db.rawQuery(
+                "SELECT " + COLUMN_CATEGORY_ID + ", " + COLUMN_CATEGORY_NAME + " FROM " + TABLE_CATEGORIES,
+                null
+        );
 
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            int columnIndex = cursor.getColumnIndexOrThrow(COLUMN_CATEGORY_NAME); // Ensures column exists
+        if (categoryCursor.moveToFirst()) {
             do {
-                categories.add(cursor.getString(columnIndex));
-            } while (cursor.moveToNext());
-            cursor.close();
+                long categoryId = categoryCursor.getLong(categoryCursor.getColumnIndexOrThrow(COLUMN_CATEGORY_ID));
+                String categoryName = categoryCursor.getString(categoryCursor.getColumnIndexOrThrow(COLUMN_CATEGORY_NAME));
+
+                String tableName = "quiz_questions_" + categoryId;
+                Cursor questionCursor = db.rawQuery(
+                        "SELECT COUNT(*) FROM " + tableName,
+                        null
+                );
+                if (questionCursor.moveToFirst() && questionCursor.getInt(0) > 0) {
+                    categories.add(categoryName);
+                }
+                questionCursor.close();
+            } while (categoryCursor.moveToNext());
         }
+        categoryCursor.close();
         db.close();
         return categories;
     }
 
-
-    // Add a question to the database
     public void addQuestion(Question question) {
+        long categoryId = getCategoryId(question.getQuizCategory());
+        if (categoryId == -1) {
+            return;
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
+
+        String tableName = "quiz_questions_" + categoryId;
         ContentValues values = new ContentValues();
         values.put(COLUMN_SOURCE_ID, question.getSourceID());
         values.put(COLUMN_QUESTION, question.getQuestion());
+        values.put(COLUMN_IMAGE_ID, question.getImageId());
         values.put(COLUMN_OPTION_A, question.getOptionA());
         values.put(COLUMN_OPTION_B, question.getOptionB());
         values.put(COLUMN_OPTION_C, question.getOptionC());
         values.put(COLUMN_OPTION_D, question.getOptionD());
         values.put(COLUMN_CORRECT_OPTION, question.getCorrectOption());
         values.put(COLUMN_QUESTION_CATEGORY, question.getQuestionCategory());
-        values.put(COLUMN_QUIZ_CATEGORY, question.getQuizCategory());
-        values.put(COLUMN_IMAGE_ID, question.getImageId());
 
-        db.insert(TABLE_QUESTIONS, null, values);
+        db.insert(tableName, null, values);
         db.close();
     }
 
+    private long getCategoryId(String categoryName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        long categoryId = -1;
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COLUMN_CATEGORY_ID + " FROM " + TABLE_CATEGORIES + " WHERE " + COLUMN_CATEGORY_NAME + " = ?",
+                new String[]{categoryName}
+        );
+        if (cursor.moveToFirst()) {
+            categoryId = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY_ID));
+        }
+        cursor.close();
+        db.close();
+        return categoryId;
+    }
+
+    public int getOrInsertImage(String imageName, byte[] imageBlob) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Check if the image already exists
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_IMAGE_ID_PK + " FROM " + TABLE_IMAGES + " WHERE " + COLUMN_IMAGE_NAME + " = ?", new String[]{imageName});
+        if (cursor.moveToFirst()) {
+            int imageId = cursor.getInt(0);
+            cursor.close();
+            return imageId; // Return existing image ID
+        }
+        cursor.close();
+
+        // Insert new image
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_IMAGE_NAME, imageName);
+        values.put(COLUMN_IMAGE_BLOB, imageBlob);
+
+        long newImageId = db.insert(TABLE_IMAGES, null, values);
+        return (int) newImageId;
+    }
+
+    public Map<Integer, byte[]> getImageBlobsByIds(int[] imageIds) {
+        Map<Integer, byte[]> imageMap = new HashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        StringBuilder placeholders = new StringBuilder();
+        for (int i = 0; i < imageIds.length; i++) {
+            placeholders.append("?");
+            if (i < imageIds.length - 1) {
+                placeholders.append(",");
+            }
+        }
+
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COLUMN_IMAGE_ID_PK + ", " + COLUMN_IMAGE_BLOB +
+                        " FROM " + TABLE_IMAGES +
+                        " WHERE " + COLUMN_IMAGE_ID_PK + " IN (" + placeholders + ")",
+                Arrays.stream(imageIds).mapToObj(String::valueOf).toArray(String[]::new)
+        );
+
+
+        while (cursor.moveToNext()) {
+            int imageId = cursor.getInt(0);
+            byte[] blob = cursor.getBlob(1);
+            imageMap.put(imageId, blob);
+        }
+        cursor.close();
+
+        db.close();
+        return imageMap;
+    }
+
+    public byte[] getImageBlobById(int imageId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        byte[] imageBlob = null;
+
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COLUMN_IMAGE_BLOB +
+                        " FROM " + TABLE_IMAGES +
+                        " WHERE " + COLUMN_IMAGE_ID_PK + " = ?",
+                new String[]{String.valueOf(imageId)}
+        );
+
+        if (cursor.moveToFirst()) {
+            imageBlob = cursor.getBlob(0); // Retrieve the image blob
+        }
+        cursor.close();
+        db.close();
+
+        return imageBlob; // Returns null if not found
+    }
+
+    public void resetCorrectQuestions(String categoryName) {
+        long categoryId = getCategoryId(categoryName);
+        if (categoryId == -1) return;
+
+        String tableName = "quiz_questions_" + categoryId;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Check if any questions in the category are NOT CORRECT
+        String checkQuery = "SELECT COUNT(*) FROM " + tableName + " WHERE " + COLUMN_QUESTION_STATUS + " != 'CORRECT'";
+        Cursor cursor = db.rawQuery(checkQuery, null);
+        cursor.moveToFirst();
+        int incompleteCount = cursor.getInt(0);
+        cursor.close();
+
+        if (incompleteCount == 0) {
+            // Reset all CORRECT questions to NEW (no category filter needed)
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_QUESTION_STATUS, "NEW");
+            db.update(tableName, values, COLUMN_QUESTION_STATUS + " = 'CORRECT'", null);
+        }
+        db.close();
+    }
+
+    public void updateQuestionStatus(String categoryName, int questionId, boolean isCorrect) {
+        long categoryId = getCategoryId(categoryName);
+
+        if (categoryId == -1) {
+            return;
+        }
+
+        String tableName = "quiz_questions_" + categoryId;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("status", isCorrect ? "CORRECT" : "FAILED");
+        values.put("last_attempted", System.currentTimeMillis()); // Update timestamp
+        db.update(tableName, values, COLUMN_QUESTION_ID + " = ?", new String[]{String.valueOf(questionId)});
+        db.close();
+    }
+
+
+
     public List<Question> getQuizQuestions(String category, int limit) {
+        List<Question> questions = new ArrayList<>();
+        long categoryId = getCategoryId(category);
+        if (categoryId == -1) {
+            return questions;
+        }
+
         SQLiteDatabase db = this.getReadableDatabase();
         Map<String, List<Question>> categoryMap = new HashMap<>();
 
         // Query to fetch failed or new questions by category
-        String query = "SELECT * FROM " + TABLE_QUESTIONS + " WHERE " + COLUMN_QUIZ_CATEGORY + " = ? "
-                + "AND (status = 'FAILED' OR status = 'NEW') "
-                + "ORDER BY CASE WHEN status = 'FAILED' THEN 1 "
-                + "WHEN status = 'NEW' THEN 2 ELSE 3 END, last_attempted ASC";
+        String tableName = "quiz_questions_" + categoryId;
 
-        Cursor cursor = db.rawQuery(query, new String[]{category});
+        String query = "SELECT * FROM " + tableName
+                + " WHERE (" + COLUMN_QUESTION_STATUS + " = 'FAILED' OR " + COLUMN_QUESTION_STATUS + " = 'NEW') "
+                + "ORDER BY CASE WHEN " + COLUMN_QUESTION_STATUS + " = 'FAILED' THEN 1 "
+                + "WHEN " + COLUMN_QUESTION_STATUS + " = 'NEW' THEN 2 ELSE 3 END, "
+                + COLUMN_LAST_ATTEMPTED + " ASC";
+
+        Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -348,7 +500,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
                         cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_D)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CORRECT_OPTION)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_CATEGORY)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUIZ_CATEGORY))
+                        category
                 );
                 question.setQuestionID(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_ID)));
                 question.setQuestionStatus(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_STATUS)));
@@ -423,15 +575,26 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
         return selectedQuestions.subList(0, Math.min(selectedQuestions.size(), limit));
     }
 
-    public List<Question> getQuestionsByIds(List<Integer> questionIds) {
-        SQLiteDatabase db = this.getReadableDatabase();
+    public List<Question> getQuestionsByIds(String categoryName, List<Integer> questionIds) {
+
         List<Question> questions = new ArrayList<>();
 
         if (questionIds == null || questionIds.isEmpty()) {
             return questions; // Return an empty list if no IDs are provided
         }
 
-        String query = buildQuestionQuery(questionIds);
+        long categoryId = getCategoryId(categoryName);
+
+        if (categoryId == -1) {
+            return questions;
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String tableName = "quiz_questions_" + categoryId;
+
+
+        String query = buildQuestionQuery(tableName, questionIds);
 
         // Convert List<Integer> to String[] for rawQuery parameters
         String[] idArgs = new String[questionIds.size() * 2];
@@ -454,7 +617,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
                         cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_OPTION_D)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CORRECT_OPTION)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_CATEGORY)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUIZ_CATEGORY))
+                        categoryName
                 );
                 question.setQuestionID(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_ID)));
                 question.setQuestionStatus(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_QUESTION_STATUS)));
@@ -466,93 +629,13 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
         return questions;
     }
 
-    public void updateQuestionStatus(int questionId, boolean isCorrect) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("status", isCorrect ? "CORRECT" : "FAILED");
-        values.put("last_attempted", System.currentTimeMillis()); // Update timestamp
-        db.update(TABLE_QUESTIONS, values, COLUMN_QUESTION_ID + " = ?", new String[]{String.valueOf(questionId)});
-        db.close();
-    }
-
-    public void resetCorrectQuestions(String category) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // Check if all questions in the category are marked as CORRECT
-        String checkQuery = "SELECT COUNT(*) FROM " + TABLE_QUESTIONS + " WHERE " + COLUMN_QUIZ_CATEGORY + " = ? AND status != 'CORRECT'";
-        Cursor cursor = db.rawQuery(checkQuery, new String[]{category});
-        cursor.moveToFirst();
-        int incompleteCount = cursor.getInt(0);
-        cursor.close();
-
-        if (incompleteCount == 0) {
-            // Reset all CORRECT questions to NEW
-            ContentValues values = new ContentValues();
-            values.put("status", "NEW");
-            db.update(TABLE_QUESTIONS, values, COLUMN_QUIZ_CATEGORY + " = ? AND status = 'CORRECT'", new String[]{category});
-        }
-        db.close();
-    }
-
-    public int getOrInsertImage(String imageName, byte[] imageBlob) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // Check if the image already exists
-        Cursor cursor = db.rawQuery("SELECT " + COLUMN_IMAGE_ID_PK + " FROM " + TABLE_IMAGES + " WHERE " + COLUMN_IMAGE_NAME + " = ?", new String[]{imageName});
-        if (cursor.moveToFirst()) {
-            int imageId = cursor.getInt(0);
-            cursor.close();
-            return imageId; // Return existing image ID
-        }
-        cursor.close();
-
-        // Insert new image
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_IMAGE_NAME, imageName);
-        values.put(COLUMN_IMAGE_BLOB, imageBlob);
-
-        long newImageId = db.insert(TABLE_IMAGES, null, values);
-        return (int) newImageId;
-    }
-
-    public Map<Integer, byte[]> getImageBlobsByIds(int[] imageIds) {
-        Map<Integer, byte[]> imageMap = new HashMap<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        StringBuilder placeholders = new StringBuilder();
-        for (int i = 0; i < imageIds.length; i++) {
-            placeholders.append("?");
-            if (i < imageIds.length - 1) {
-                placeholders.append(",");
-            }
-        }
-
-        Cursor cursor = db.rawQuery(
-                "SELECT " + COLUMN_IMAGE_ID_PK + ", " + COLUMN_IMAGE_BLOB +
-                        " FROM " + TABLE_IMAGES +
-                        " WHERE " + COLUMN_IMAGE_ID_PK + " IN (" + placeholders + ")",
-                Arrays.stream(imageIds).mapToObj(String::valueOf).toArray(String[]::new)
-        );
-
-
-            while (cursor.moveToNext()) {
-                int imageId = cursor.getInt(0);
-                byte[] blob = cursor.getBlob(1);
-                imageMap.put(imageId, blob);
-            }
-            cursor.close();
-
-        db.close();
-        return imageMap;
-    }
-
-    private String buildQuestionQuery(List<Integer> questionIds) {
+    private String buildQuestionQuery(String tableName, List<Integer> questionIds) {
         if (questionIds.isEmpty()) {
             throw new IllegalArgumentException("Question ID list cannot be empty.");
         }
 
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM ")
-                .append(TABLE_QUESTIONS)
+                .append(tableName)
                 .append(" WHERE ")
                 .append(COLUMN_QUESTION_ID)
                 .append(" IN (");
@@ -574,24 +657,7 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper implements AutoCloseabl
         return queryBuilder.toString();
     }
 
-    public byte[] getImageBlobById(int imageId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        byte[] imageBlob = null;
 
-        Cursor cursor = db.rawQuery(
-                "SELECT " + COLUMN_IMAGE_BLOB +
-                        " FROM " + TABLE_IMAGES +
-                        " WHERE " + COLUMN_IMAGE_ID_PK + " = ?",
-                new String[]{String.valueOf(imageId)}
-        );
 
-        if (cursor.moveToFirst()) {
-            imageBlob = cursor.getBlob(0); // Retrieve the image blob
-        }
-        cursor.close();
-        db.close();
-
-        return imageBlob; // Returns null if not found
-    }
 
 }

@@ -87,19 +87,4 @@ public class Question {
         return sourceID;
     }
 
-
-
-
-    /*public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
-    public void setImageId(int imageId) {
-       this.imageId = imageId;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }*/
-
 }

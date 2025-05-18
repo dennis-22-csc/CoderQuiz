@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +39,9 @@ import android.view.animation.BounceInterpolator;
 public class QuizActivity extends AppCompatActivity {
 
     private QuizDatabaseHelper dbHelper;
-    private TextView questionInfo, questionIdInfo, questionText, correctAnswerText;
+    private TextView questionInfo, questionIdInfo, questionText, correctAnswerText, referenceTextView;
     private ImageView questionImage,questionThumbnail;
     private MaterialButton nextButton;
-
     private CardView imageCard, option1Card, option2Card, option3Card, option4Card;
     private TextView option1Text, option2Text, option3Text, option4Text;
     private CardView[] optionCards;
@@ -74,6 +74,7 @@ public class QuizActivity extends AppCompatActivity {
         option4Card = findViewById(R.id.option4Card);
         option4Text = findViewById(R.id.option4Text);
         correctAnswerText = findViewById(R.id.correctAnswerText);
+        referenceTextView = findViewById(R.id.referenceText);
         nextButton = findViewById(R.id.nextButton);
         previousButton = findViewById(R.id.backButton);
         quizSegment = findViewById(R.id.quizSegment);
@@ -188,6 +189,7 @@ public class QuizActivity extends AppCompatActivity {
 
             correctAnswerText.setText("");
             correctAnswerText.setCompoundDrawables(null, null, null, null);
+            referenceTextView.setText("");
 
             // Create a list of the available options dynamically
             List<String> options = new ArrayList<>();
@@ -232,14 +234,14 @@ public class QuizActivity extends AppCompatActivity {
                         lastSelectedCard = optionCard;
 
                         if (optionText.getText().toString().equals(correctAnswer)) {
-                            highlightCorrectAnswer(optionCard, true, optionText.getText().toString());
+                            highlightCorrectAnswer(optionCard, true, question);
                             // Update the status of a question after an answer is submitted
-                            dbHelper.updateQuestionStatus(question.getQuestionID(), true);
+                            dbHelper.updateQuestionStatus(question.getQuizCategory(), question.getQuestionID(), true);
                             question.setQuestionStatus("CORRECT");
                         } else {
-                            highlightCorrectAnswer(optionCard, false, correctAnswer);
+                            highlightCorrectAnswer(optionCard, false, question);
                             // Update the status of a question after an answer is submitted
-                            dbHelper.updateQuestionStatus(question.getQuestionID(), false);
+                            dbHelper.updateQuestionStatus(question.getQuizCategory(), question.getQuestionID(), false);
                             question.setQuestionStatus("FAILED");
                         }
 
@@ -261,17 +263,29 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    private void highlightCorrectAnswer(CardView selectedCard, boolean isCorrect, String correctAnswer) {
+    private void highlightCorrectAnswer(CardView selectedCard, boolean isCorrect, Question question) {
+
+        String referenceUrl = "https://coderquiz.vercel.app/docs/" + question.getQuizCategory()  + "/question" + question.getQuestionID();
+
+        String displayText = "View Reference";
+
+        String referenceHtml = "<a href=\"" + referenceUrl + "\">" + displayText + "</a>";
+        //String fullText = getString(R.string.correct_answer_text, question.getCorrectOption(), referenceHtml);
+        //correctAnswerText.setText(Html.fromHtml(fullText, Html.FROM_HTML_MODE_LEGACY));
+        correctAnswerText.setText("Correct Answer: " + question.getCorrectOption());
+        referenceTextView.setText(Html.fromHtml(referenceHtml, Html.FROM_HTML_MODE_LEGACY));
+        referenceTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
         if (isCorrect) {
             Drawable icon = ContextCompat.getDrawable(this, R.drawable.correct);
             correctAnswerText.setCompoundDrawablesWithIntrinsicBounds(resize(icon), null, null, null);
-            correctAnswerText.setText(getString(R.string.correct_answer_text, correctAnswer));
+            //correctAnswerText.setText(getString(R.string.correct_answer_text, correctAnswer));
             selectedCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.correctColor));
             quizManager.incrementScore();
         } else {
             Drawable icon = ContextCompat.getDrawable(this, R.drawable.incorrect);
             correctAnswerText.setCompoundDrawablesWithIntrinsicBounds(resize(icon), null, null, null);
-            correctAnswerText.setText(getString(R.string.correct_answer_text, correctAnswer));
+            //correctAnswerText.setText(getString(R.string.correct_answer_text, correctAnswer));
             selectedCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.incorrectColor));
         }
 

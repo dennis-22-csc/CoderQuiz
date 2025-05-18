@@ -86,7 +86,7 @@ public class QuizManager {
                         questionIds.add(jsonArray.getInt(i));
                     }
                     //Log.d("CoderQuiz", "Question Ids succesfully restored");
-                    questionList = dbHelper.getQuestionsByIds(questionIds);
+                    questionList = dbHelper.getQuestionsByIds(selectedCategory, questionIds);
                     loadImages();
                     //Log.d("CoderQuiz", "Question List succesfully restored");
 
