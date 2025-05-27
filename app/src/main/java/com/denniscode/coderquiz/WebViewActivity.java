@@ -1,35 +1,60 @@
 package com.denniscode.coderquiz;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class WebViewActivity extends AppCompatActivity {
-
-    WebView webView;
+    private WebView webView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
-        webView = findViewById(R.id.webview);
+        webView = findViewById(R.id.webView);
+        progressBar = findViewById(R.id.progressBar);
 
         String url = getIntent().getStringExtra("url");
+        Uri uri = Uri.parse(url);
+        String fragment = uri.getFragment(); // Extract the anchor (e.g., "question123")
 
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
+        webView.getSettings().setJavaScriptEnabled(true); // Required for dynamic content
 
-        webView.setWebViewClient(new WebViewClient());
+        // Hide WebView initially
+        webView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE); // Show loading spinner
 
-        if (url != null) {
-            webView.loadUrl(url);
-        }
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                // Scroll to the fragment using JavaScript
+                if (fragment != null && !fragment.isEmpty()) {
+                    String js = "javascript:document.getElementById('" + fragment + "').scrollIntoView();";
+                    webView.evaluateJavascript(js, value -> {
+                        // After scrolling, show the WebView and hide the spinner
+                        webView.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                    });
+                } else {
+                    // No fragment; just show the WebView
+                    webView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        webView.loadUrl(url); // Load the full URL (with anchor)
     }
 }

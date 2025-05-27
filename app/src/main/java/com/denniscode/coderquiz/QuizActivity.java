@@ -6,11 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -270,21 +275,28 @@ public class QuizActivity extends AppCompatActivity {
                     + "/index.html#question"
                     + question.getQuestionID();
 
-        String displayText = "View Reference";
-
-        String referenceHtml = "<a href=\"" + referenceUrl + "\">" + displayText + "</a>";
         correctAnswerText.setText("Correct Answer: " + question.getCorrectOption());
-        referenceTextView.setText(Html.fromHtml(referenceHtml, Html.FROM_HTML_MODE_LEGACY));
-        referenceTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-        referenceTextView.setOnClickListener(new View.OnClickListener() {
+        SpannableString spannable = new SpannableString("View Reference");
+        ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View widget) {
                 Intent intent = new Intent(QuizActivity.this, WebViewActivity.class);
                 intent.putExtra("url", referenceUrl);
                 startActivity(intent);
             }
-        });
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(Color.BLUE); // Link color
+                ds.setUnderlineText(true); // Underline
+            }
+        };
+
+        spannable.setSpan(clickableSpan, 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        referenceTextView.setText(spannable);
+        referenceTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
         if (isCorrect) {
             Drawable icon = ContextCompat.getDrawable(this, R.drawable.correct);
