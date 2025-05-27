@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formatted Document</title>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <style>
+        
+    </style>
+</head>
+<body>
+<div class="question" id="question1">
+<h2>1,What is the primary function of a language model?,To translate languages,To predict the probability of a sequence of words,To summarize text,To answer questions,</h2>
+<p>The correct answer is:</p>
+<p><strong>To predict the probability of a sequence of words</strong></p>
+<p>A language model's primary function is to <strong>estimate the likelihood of word sequences</strong> in a given language. This allows it to generate coherent text, autocomplete sentences, and understand context. While translation, summarization, and question-answering are applications of language models, their core function is predicting word probabilities.</p>
+</div>
+<div class="question" id="question2">
+<h2>2,Which architecture is most commonly used in Large Language Models (LLMs)?,Recurrent Neural Networks (RNNs),Convolutional Neural Networks (CNNs),Transformers,Long Short-Term Memory (LSTMs)</h2>
+<p>The correct answer is:</p>
+<p><strong>Transformers</strong></p>
+<p>Large Language Models (LLMs), such as GPT and BERT, are based on the <strong>Transformer</strong> architecture. Transformers use self-attention mechanisms to process entire sequences in parallel, making them highly efficient and effective for handling long-range dependencies in text. This is a major improvement over RNNs and LSTMs, which process sequences sequentially and struggle with long dependencies.</p>
+</div>
+<div class="question" id="question3">
+<h2>3,What does "pre-training" in the context of LLMs refer to?,Fine-tuning the model on a specific task,Training the model on a massive dataset of unlabeled text,Evaluating the model's performance on benchmarks,Deploying the model for real-world applications</h2>
+<p>The correct answer is:</p>
+<p><strong>Training the model on a massive dataset of unlabeled text</strong></p>
+<p>Pre-training in LLMs refers to the initial phase where the model learns language patterns, grammar, and general knowledge from a vast corpus of <strong>unlabeled text</strong>. This stage helps the model develop a strong foundational understanding before being fine-tuned on specific tasks like translation, summarization, or question-answering.</p>
+</div>
+<div class="question" id="question4">
+<h2>4,What is one of the main challenges in training LLMs?,Limited computational resources,Data sparsity,Lack of labeled data,All of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>D. All of the above</strong></p>
+<p>Training Large Language Models (LLMs) comes with multiple challenges:</p>
+<p>* <strong>Limited computational resources</strong>: LLMs require massive GPU/TPU clusters and high memory bandwidth.</p>
+<p>* <strong>Data sparsity</strong>: Some concepts may not appear frequently in training data, making it difficult for the model to learn them effectively.</p>
+<p>* <strong>Lack of labeled data</strong>: While pre-training uses unlabeled text, fine-tuning often requires high-quality labeled datasets, which can be expensive and time-consuming to obtain.</p>
+<p>These challenges make training LLMs resource-intensive and complex.</p>
+</div>
+<div class="question" id="question5">
+<h2>5,What is a common technique to address data sparsity in language models?,Smoothing,Regularization,Normalization,All of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>Smoothing</strong></p>
+<p>Smoothing techniques help address <strong>data sparsity</strong> by adjusting probability distributions to account for unseen words or n-grams. Common methods include <strong>Laplace smoothing</strong>, <strong>Add-k smoothing</strong>, and <strong>Backoff and Interpolation</strong> in language modeling.</p>
+<p>While <strong>regularization</strong> and <strong>normalization</strong> are useful in machine learning, they primarily help with overfitting and training stability rather than directly handling data sparsity.</p>
+</div>
+<div class="question" id="question6">
+<h2>6,What are embedding vectors in the context of neural language models?,High-dimensional representations of words,Low-dimensional representations of words,Discrete representations of words,None of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>Low-dimensional representations of words</strong></p>
+<p>Embedding vectors are <strong>low-dimensional continuous representations</strong> of words, capturing semantic relationships based on context. These vectors are learned during training and allow similar words to have similar representations in a multi-dimensional space. Examples include <strong>Word2Vec, GloVe, and Transformer-based embeddings</strong> like those from BERT and GPT.</p>
+</div>
+<div class="question" id="question7">
+<h2>7,What is the "pre-training and fine-tuning" paradigm?,A method for training LLMs,A method for evaluating LLMs,A method for deploying LLMs,None of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>A method for training LLMs</strong></p>
+<p>The <strong>pre-training and fine-tuning</strong> paradigm is a common approach for training Large Language Models (LLMs). It consists of two stages:</p>
+<p>1. <strong>Pre-training</strong>: The model learns general language patterns from a large, unlabeled text corpus.</p>
+<p>2. <strong>Fine-tuning</strong>: The model is further trained on a smaller, task-specific dataset to adapt it for specialized applications like translation, summarization, or sentiment analysis.</p>
+<p>This approach helps LLMs generalize well while being adaptable to specific tasks.</p>
+</div>
+<div class="question" id="question8">
+<h2>8,Which of the following is an example of an encoder-only LLM?,GPT-3,BERT,T5,LLaMA</h2>
+<p>The correct answer is:</p>
+<p><strong>BERT</strong></p>
+<p>BERT (<strong>Bidirectional Encoder Representations from Transformers</strong>) is an <strong>encoder-only</strong> model. It uses a transformer encoder to learn deep contextual representations of text, making it well-suited for tasks like <strong>text classification, named entity recognition (NER), and question answering</strong>.</p>
+<p>Other models:</p>
+<p>* <strong>GPT-3</strong> and <strong>LLaMA</strong> are <strong>decoder-only</strong> models, designed for text generation.</p>
+<p>* <strong>T5</strong> (Text-to-Text Transfer Transformer) is a <strong>encoder-decoder</strong> model, useful for tasks like translation and summarization.</p>
+</div>
+<div class="question" id="question9">
+<h2>9,Which of the following is an example of a decoder-only LLM?,BERT,GPT-3,T5,BARTThe correct answer is:</h2>
+<p><strong>GPT-3</strong></p>
+<p><strong>GPT-3 (Generative Pre-trained Transformer 3)</strong> is a <strong>decoder-only</strong> model. It uses the transformer <strong>decoder</strong> architecture and is designed for <strong>generative tasks</strong>, such as text completion, storytelling, and dialogue generation.</p>
+<p>Other models:</p>
+<p>* <strong>BERT</strong> is an <strong>encoder-only</strong> model.</p>
+<p>* <strong>T5</strong> and <strong>BART</strong> are <strong>encoder-decoder</strong> models.</p>
+</div>
+<div class="question" id="question10">
+<h2>10,Which of the following is an example of an encoder-decoder LLM?,GPT-2,BERT,T5,GPT-3</h2>
+<p>The correct answer is:</p>
+<p><strong>T5</strong></p>
+<p><strong>T5 (Text-to-Text Transfer Transformer)</strong> is an <strong>encoder-decoder</strong> model. It processes input using an <strong>encoder</strong> and generates output using a <strong>decoder</strong>, making it well-suited for tasks like <strong>translation, summarization, and text generation</strong>.</p>
+<p>Other models:</p>
+<p>* <strong>GPT-2</strong> and <strong>GPT-3</strong> are <strong>decoder-only</strong> models.</p>
+<p>* <strong>BERT</strong> is an <strong>encoder-only</strong> model.</p>
+</div>
+<div class="question" id="question11">
+<h2>11,What is "in-context learning" in the context of LLMs?,The ability to learn from a small set of examples in the prompt,The ability to fine-tune the model on a specific task,The ability to generalize to unseen data,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>The ability to learn from a small set of examples in the prompt</strong></p>
+<p><strong>In-context learning</strong> refers to an LLM’s ability to <strong>understand and adapt</strong> to a task based on examples provided <strong>within the prompt</strong>, without updating its weights. This allows models like GPT-3 to perform various tasks (e.g., translation, summarization) simply by being given well-structured examples in the input.</p>
+</div>
+<div class="question" id="question12">
+<h2>12,What is "instruction following" in the context of LLMs?,The ability to follow instructions given in the prompt,The ability to generate creative text,The ability to translate languages,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>The ability to follow instructions given in the prompt</strong></p>
+<p><strong>Instruction following</strong> in LLMs refers to the model’s ability to <strong>understand and execute commands</strong> provided in the prompt. This is a key feature of instruction-tuned models like <strong>GPT-4, ChatGPT, and FLAN-T5</strong>, which are trained to respond accurately to user instructions across various tasks.</p>
+</div>
+<div class="question" id="question13">
+<h2>13,What is "multi-step reasoning" in the context of LLMs?,The ability to solve complex tasks by breaking them down into smaller steps,The ability to perform complex calculations,The ability to access external knowledge,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>The ability to solve complex tasks by breaking them down into smaller steps</strong></p>
+<p><strong>Multi-step reasoning</strong> allows LLMs to tackle complex problems by logically breaking them down into smaller, sequential steps. This is crucial for tasks like <strong>math problem-solving, logical reasoning, and coding</strong>, where step-by-step thinking improves accuracy. Techniques like <strong>Chain of Thought (CoT) prompting</strong> enhance multi-step reasoning in LLMs.</p>
+</div>
+<div class="question" id="question14">
+<h2>14,Which LLM family is known for being open-source?,GPT,LLaMA,PaLM,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>LLaMA</strong></p>
+<p><strong>LLaMA (Large Language Model Meta AI)</strong> is an <strong>open-source</strong> LLM family developed by <strong>Meta</strong>. It is widely used for research and fine-tuning due to its open availability.</p>
+<p>Other models:</p>
+<p>* <strong>GPT (e.g., GPT-3, GPT-4)</strong> is proprietary and developed by OpenAI.</p>
+<p>* <strong>PaLM</strong> (Pathways Language Model) is developed by Google and is not fully open-source.</p>
+</div>
+<div class="question" id="question15">
+<h2>15,Which LLM family is known for its use in ChatGPT?,GPT,LLaMA,PaLM,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>GPT</strong></p>
+<p>ChatGPT is based on the <strong>GPT (Generative Pre-trained Transformer)</strong> family, developed by <strong>OpenAI</strong>. Versions like <strong>GPT-3.5 and GPT-4</strong> power ChatGPT, enabling it to generate human-like responses and follow instructions effectively.</p>
+<p>Other models:</p>
+<p>* <strong>LLaMA</strong> is an open-source LLM from Meta.</p>
+<p>* <strong>PaLM</strong> is a language model developed by Google.</p>
+</div>
+<div class="question" id="question16">
+<h2>16,Which company developed the PaLM family of LLMs?,OpenAI,Meta,Google,Microsoft</h2>
+<p>The correct answer is:</p>
+<p><strong>Google</strong></p>
+<p>The <strong>PaLM (Pathways Language Model)</strong> family of LLMs was developed by <strong>Google</strong>. It is part of Google's efforts to build advanced AI models for tasks like text generation, reasoning, and coding. Models like <strong>PaLM 2</strong> and <strong>Gemini</strong> (formerly PaLM-based) are widely used in Google's AI applications.</p>
+</div>
+<div class="question" id="question17">
+<h2>17,What does RLHF stand for?,Reinforcement Learning from Human Feedback,Regularized Learning from Human Feedback,Reinforcement Learning from Human Features,Randomized Learning from Human Feedbac</h2>
+<p>The correct answer is:</p>
+<p><strong>Reinforcement Learning from Human Feedback</strong></p>
+<p><strong>RLHF (Reinforcement Learning from Human Feedback)</strong> is a technique used to fine-tune language models by incorporating human preferences. It involves:</p>
+<p>1. <strong>Pre-training</strong> the model on large datasets.</p>
+<p>2. <strong>Supervised fine-tuning</strong> with human-labeled examples.</p>
+<p>3. <strong>Reinforcement learning</strong>, where a reward model (trained on human feedback) helps optimize responses.</p>
+<p>This approach improves model behavior, making it more aligned with user expectations, as seen in <strong>ChatGPT and GPT-4</strong>.</p>
+</div>
+<div class="question" id="question18">
+<h2>18,What is a common technique used to align LLMs with human preferences?,RLHF,Fine-tuning,Instruction tuning,All of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>All of the above</strong></p>
+<p>Several techniques are used to align <strong>Large Language Models (LLMs)</strong> with human preferences:</p>
+<p>1. <strong>RLHF (Reinforcement Learning from Human Feedback)</strong> – Uses human feedback to train a reward model, refining the LLM’s responses.</p>
+<p>2. <strong>Fine-tuning</strong> – Adjusts a pre-trained model on a specific dataset to improve performance on targeted tasks.</p>
+<p>3. <strong>Instruction tuning</strong> – Trains the model to better follow user instructions by using task-specific datasets.</p>
+<p>These methods help make LLMs more useful, safe, and aligned with human intent.</p>
+</div>
+<div class="question" id="question19">
+<h2>19,What is "hallucination" in the context of LLMs?,Generating factually incorrect information,Generating nonsensical text,Generating biased text,All of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>Generating factually incorrect information</strong></p>
+<p>In the context of <strong>LLMs (Large Language Models)</strong>, <strong>hallucination</strong> refers to the model producing <strong>factually incorrect or fabricated information</strong> that appears plausible. This can happen because LLMs generate text based on patterns rather than verified facts.</p>
+<p>While hallucinations can sometimes lead to <strong>nonsensical or biased text</strong>, the primary issue is the creation of <strong>false but convincing information</strong>.</p>
+</div>
+<div class="question" id="question20">
+<h2>20,What is prompt engineering?,The process of designing effective prompts for LLMs,The process of training LLMs,The process of evaluating LLMs,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>The process of designing effective prompts for LLMs</strong></p>
+<p><strong>Prompt engineering</strong> is the practice of crafting <strong>structured and optimized inputs</strong> to guide <strong>LLMs</strong> toward producing desired outputs. This involves techniques like:</p>
+<p>* <strong>Few-shot prompting</strong> (providing examples in the prompt)</p>
+<p>* <strong>Chain-of-thought prompting</strong> (breaking problems into steps)</p>
+<p>* <strong>Instruction tuning</strong> (giving clear, direct instructions)</p>
+<p>Effective prompt engineering improves model accuracy, relevance, and usability without modifying the underlying model.</p>
+</div>
+<div class="question" id="question21">
+<h2>21,What is "chain of thought" prompting?,A technique to guide LLMs through a reasoning process,A technique to improve the fluency of LLM outputs,A technique to reduce the computational cost of LLMs,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>A technique to guide LLMs through a reasoning process</strong></p>
+<p><strong>Chain of Thought (CoT) prompting</strong> helps <strong>LLMs</strong> improve their reasoning by <strong>explicitly breaking down complex problems into step-by-step logical explanations</strong>. This is particularly useful for tasks like <strong>math problem-solving, logical reasoning, and commonsense reasoning</strong>.</p>
+<p>For example, instead of asking:</p>
+<p>*"What is 27 × 14?"*</p>
+<p>A CoT prompt would guide the model:</p>
+<p>*"First, multiply 27 by 10. Then multiply 27 by 4. Finally, add the results."*</p>
+<p>This structured approach enhances accuracy and interpretability.</p>
+</div>
+<div class="question" id="question22">
+<h2>22,What is Retrieval Augmented Generation (RAG)?,A method for accessing external knowledge sources,A method for fine-tuning LLMs,A method for evaluating LLMs,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>A method for accessing external knowledge sources</strong></p>
+<p><strong>Retrieval Augmented Generation (RAG)</strong> is a technique that enhances LLMs by <strong>retrieving relevant information from external sources</strong> (e.g., databases, documents, or APIs) before generating a response.</p>
+<p>This helps models:</p>
+<p>* <strong>Reduce hallucinations</strong> by grounding responses in factual data.</p>
+<p>* <strong>Improve accuracy</strong> by incorporating real-time knowledge.</p>
+<p>* <strong>Handle domain-specific queries</strong> more effectively.</p>
+<p>RAG is widely used in applications like <strong>chatbots, search engines, and enterprise AI assistants</strong>.</p>
+</div>
+<div class="question" id="question23">
+<h2>23,What are "tools" in the context of LLM agents?,External functions or services that LLMs can use,Internal components of LLMs,Evaluation metrics for LLMs,None of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>External functions or services that LLMs can use</strong></p>
+<p>In the context of <strong>LLM agents</strong>, <strong>tools</strong> refer to <strong>external APIs, databases, or functions</strong> that an LLM can interact with to <strong>enhance its capabilities</strong>. These tools allow the model to:</p>
+<p>* <strong>Retrieve real-time information</strong> (e.g., web search, weather data)</p>
+<p>* <strong>Perform calculations</strong> (e.g., using a calculator or Python code execution)</p>
+<p>* <strong>Access structured knowledge</strong> (e.g., querying a database)</p>
+<p>For example, <strong>ChatGPT with browsing</strong> can use a <strong>web search tool</strong> to fetch up-to-date information beyond its training data.</p>
+</div>
+<div class="question" id="question24">
+<h2>24,What is an LLM agent?,An autonomous entity that can interact with the environment,A method for training LLMs,A type of evaluation metric,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>An autonomous entity that can interact with the environment</strong></p>
+<p>An <strong>LLM agent</strong> is an AI system that <strong>leverages an LLM to make decisions, interact with tools, and perform tasks autonomously</strong>. These agents can:</p>
+<p>* <strong>Retrieve real-time information</strong> (e.g., search the web)</p>
+<p>* <strong>Use APIs or databases</strong> to fetch structured data</p>
+<p>* <strong>Perform reasoning and planning</strong> for complex workflows</p>
+<p>Examples include <strong>AutoGPT, LangChain agents, and AI assistants</strong> that can complete multi-step tasks with minimal human intervention.</p>
+</div>
+<div class="question" id="question25">
+<h2>25,What is a common technique used for cost-effective LLM training?,Quantization,Low-Rank Adaptation (LoRA),Knowledge Distillation,All of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>All of the above</strong></p>
+<p>Several techniques help make <strong>LLM training</strong> more <strong>cost-effective</strong> by reducing computational requirements while maintaining performance:</p>
+<p>1. <strong>Quantization</strong> – Reduces the precision of model weights (e.g., from <strong>FP32 to INT8</strong>) to lower memory usage and speed up inference.</p>
+<p>2. <strong>Low-Rank Adaptation (LoRA)</strong> – Fine-tunes <strong>only a small subset of model parameters</strong>, making training more efficient.</p>
+<p>3. <strong>Knowledge Distillation</strong> – Trains a <strong>smaller "student" model</strong> to mimic a larger <strong>"teacher" model</strong>, reducing size while retaining knowledge.</p>
+<p>These techniques are widely used to optimize LLMs for <strong>deployment on edge devices, mobile applications, and cloud-based AI services</strong>.</p>
+</div>
+<div class="question" id="question26">
+<h2>26,What is one benefit of using Low-Rank Adaptation (LoRA)?,Reduced number of trainable parameters,Faster training,Smaller model size,All of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>All of the above</strong></p>
+<p><strong>Low-Rank Adaptation (LoRA)</strong> is a technique that makes fine-tuning <strong>LLMs more efficient</strong> by modifying only a small subset of parameters. Benefits include:</p>
+<p>1. <strong>Reduced number of trainable parameters</strong> – Instead of updating the entire model, LoRA adds small low-rank matrices, minimizing computational cost.</p>
+<p>2. <strong>Faster training</strong> – Since fewer parameters are updated, training requires less time and fewer resources.</p>
+<p>3. <strong>Smaller model size</strong> – LoRA keeps the base model unchanged and only stores small adapter weights, reducing storage needs.</p>
+<p>LoRA is widely used for <strong>efficient fine-tuning of large models</strong> in applications like <strong>personalized AI assistants and domain-specific LLMs</strong>.</p>
+</div>
+<div class="question" id="question27">
+<h2>27,What is knowledge distillation?,Training a smaller model by learning from a larger model,A method for evaluating LLMs,A type of data augmentation,None of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>Training a smaller model by learning from a larger model</strong></p>
+<p><strong>Knowledge distillation</strong> is a technique where a <strong>large, pre-trained "teacher" model</strong> transfers its knowledge to a <strong>smaller "student" model</strong>. This process helps:</p>
+<p>* <strong>Reduce model size</strong> while maintaining performance</p>
+<p>* <strong>Speed up inference</strong> for deployment on edge devices</p>
+<p>* <strong>Lower computational costs</strong> compared to training a large model from scratch</p>
+<p>The student model is trained using the teacher’s <strong>soft labels</strong> (probabilistic outputs), helping it generalize better than training on raw data alone.</p>
+</div>
+<div class="question" id="question28">
+<h2>28,What is a decoding strategy used in LLMs?,Greedy search,Beam search,Top-k sampling,All of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>All of the above</strong></p>
+<p>Decoding strategies in <strong>LLMs</strong> determine how text is generated from predicted probabilities. Common strategies include:</p>
+<p>1. <strong>Greedy Search</strong> – Selects the highest-probability word at each step (<strong>risk of repetitive and generic text</strong>).</p>
+<p>2. <strong>Beam Search</strong> – Expands multiple possible sequences and selects the most probable (<strong>better fluency but can be rigid</strong>).</p>
+<p>3. <strong>Top-k Sampling</strong> – Randomly samples from the <strong>k most likely words</strong>, adding <strong>diversity and creativity</strong>.</p>
+<p>Different tasks may require different decoding strategies to balance <strong>coherence, diversity, and randomness</strong> in text generation.</p>
+</div>
+<div class="question" id="question29">
+<h2>29,What is the purpose of tokenization in LLMs?,To break down text into smaller units,To translate languages,To summarize text,To answer questions,</h2>
+<p>The correct answer is:</p>
+<p><strong>To break down text into smaller units</strong></p>
+<p><strong>Tokenization</strong> is the process of <strong>splitting text into smaller units</strong> (tokens) before feeding it into an <strong>LLM</strong>. Tokens can be:</p>
+<p>* <strong>Words</strong> (e.g., "hello", "world")</p>
+<p>* <strong>Subwords</strong> (e.g., "un-", "break-", "-able")</p>
+<p>* <strong>Characters</strong> (e.g., "H", "e", "l", "l", "o")</p>
+<p>Tokenization helps <strong>LLMs process text efficiently</strong>, handle <strong>unknown words</strong>, and improve <strong>performance in different languages</strong>.</p>
+</div>
+<div class="question" id="question30">
+<h2>30,What is a major limitation of early neural language models?,Data sparsity,Lack of context,Limited computational resources,All of the above</h2>
+<p>The correct answer is:</p>
+<p><strong>All of the above</strong></p>
+<p>Early <strong>neural language models</strong> faced several limitations:</p>
+<p>1. <strong>Data Sparsity</strong> – They struggled with <strong>rare words</strong> and required large labeled datasets.</p>
+<p>2. <strong>Lack of Context</strong> – Models like <strong>n-grams and early RNNs</strong> had <strong>short context windows</strong>, leading to poor long-term dependencies.</p>
+<p>3. <strong>Limited Computational Resources</strong> – Training deep models was <strong>computationally expensive</strong>, making large-scale learning impractical.</p>
+<p>These challenges led to the development of <strong>attention mechanisms and transformers</strong>, which improved context handling and efficiency.</p>
+</div>
+<div class="question" id="question31">
+<h2>31,Is the transformer architecture more parallelizable than RNNs?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p>The <strong>Transformer architecture</strong> is <strong>more parallelizable</strong> than <strong>RNNs</strong> because:</p>
+<p>1. <strong>Self-attention mechanism</strong> – Unlike RNNs, which process tokens sequentially, Transformers <strong>process all tokens at once</strong>, allowing for <strong>parallel computation</strong>.</p>
+<p>2. <strong>Eliminates sequential dependencies</strong> – RNNs require previous steps to be computed before the next, while Transformers can <strong>compute all word relationships simultaneously</strong>.</p>
+<p>3. <strong>Efficient training on GPUs/TPUs</strong> – Transformers leverage <strong>matrix operations</strong>, making them <strong>faster</strong> and more <strong>scalable</strong> for large datasets.</p>
+<p>This is why Transformers power <strong>modern LLMs like GPT, BERT, and T5</strong>, enabling <strong>faster training and better performance</strong>.</p>
+</div>
+<div class="question" id="question32">
+<h2>32,Are LLMs typically trained on massive amounts of text data?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p><strong>LLMs (Large Language Models)</strong> are typically trained on <strong>massive amounts of text data</strong> to develop a broad understanding of language. This includes:</p>
+<p>* <strong>Books, articles, and research papers</strong></p>
+<p>* <strong>Web content, forums, and Wikipedia</strong></p>
+<p>* <strong>Code repositories and transcripts</strong></p>
+<p>Training on such <strong>diverse and large-scale data</strong> helps LLMs generalize well, understand <strong>context, semantics, and grammar</strong>, and generate <strong>coherent and relevant responses</strong>.</p>
+</div>
+<div class="question" id="question33">
+<h2>33,Is RLHF primarily used for model alignment?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p><strong>Reinforcement Learning from Human Feedback (RLHF)</strong> is primarily used for <strong>model alignment</strong>, ensuring that <strong>LLMs behave in ways that align with human preferences, ethics, and safety</strong>. RLHF involves:</p>
+<p>1. <strong>Collecting human feedback</strong> – Human reviewers rank model outputs based on quality, helpfulness, and safety.</p>
+<p>2. <strong>Training a reward model</strong> – The feedback trains a model to predict <strong>preferred responses</strong>.</p>
+<p>3. <strong>Fine-tuning with reinforcement learning</strong> – The LLM is adjusted using <strong>reinforcement learning</strong> to maximize alignment with human intent.</p>
+<p>RLHF helps <strong>reduce harmful, biased, or misleading outputs</strong>, making AI assistants like <strong>ChatGPT</strong> safer and more user-friendly.</p>
+</div>
+<div class="question" id="question34">
+<h2>34,Is prompt engineering crucial for effective LLM usage?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p><strong>Prompt engineering</strong> is crucial for <strong>effective LLM usage</strong> because it helps guide the model to produce <strong>more accurate, relevant, and useful</strong> responses. Well-designed prompts can:</p>
+<p>1. <strong>Improve response quality</strong> – Clear, structured prompts yield <strong>better outputs</strong>.</p>
+<p>2. <strong>Enhance task-specific performance</strong> – Carefully crafted prompts help models <strong>perform specific tasks</strong> (e.g., summarization, translation, coding).</p>
+<p>3. <strong>Reduce errors and ambiguity</strong> – Precise prompts minimize <strong>misinterpretation and irrelevant responses</strong>.</p>
+<p>Mastering <strong>prompt engineering</strong> allows users to <strong>optimize LLM performance</strong> without needing additional training or fine-tuning.</p>
+</div>
+<div class="question" id="question35">
+<h2>35,Does RAG enhance LLMs' access to external knowledge?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p><strong>Retrieval-Augmented Generation (RAG)</strong> enhances <strong>LLMs' access to external knowledge</strong> by:</p>
+<p>1. <strong>Retrieving relevant information</strong> – The model searches <strong>external knowledge sources</strong> (e.g., databases, documents, or APIs) before generating a response.</p>
+<p>2. <strong>Improving factual accuracy</strong> – Since LLMs have a <strong>fixed knowledge cutoff</strong>, RAG helps them access <strong>up-to-date and reliable</strong> information.</p>
+<p>3. <strong>Reducing hallucinations</strong> – By incorporating <strong>retrieved facts</strong>, RAG minimizes the risk of <strong>generating incorrect or outdated content</strong>.</p>
+<p>RAG is widely used in <strong>question-answering, research assistants, and enterprise AI systems</strong> to ensure <strong>more accurate and context-aware</strong> responses.</p>
+</div>
+<div class="question" id="question36">
+<h2>36,Are LLM agents typically capable of interacting with their environment?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p><strong>LLM agents</strong> are typically capable of <strong>interacting with their environment</strong> by:</p>
+<p>1. <strong>Using external tools and APIs</strong> – They can call <strong>search engines, databases, or other software</strong> to gather real-time information.</p>
+<p>2. <strong>Executing code</strong> – Some LLM agents can run <strong>Python scripts</strong> or interact with programming environments.</p>
+<p>3. <strong>Following multi-step workflows</strong> – They can <strong>plan, reason, and execute</strong> tasks, such as booking appointments or analyzing documents.</p>
+<p>LLM agents, like those in <strong>AI-powered chatbots and automation tools</strong>, extend beyond text generation to <strong>real-world applications</strong>.</p>
+</div>
+<div class="question" id="question37">
+<h2>37,Is quantization a technique for making LLMs more efficient?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p><strong>Quantization</strong> is a technique for making <strong>LLMs more efficient</strong> by:</p>
+<p>1. <strong>Reducing model size</strong> – It <strong>lowers the precision</strong> of numerical weights (e.g., from <strong>32-bit floating-point to 8-bit integers</strong>), reducing memory usage.</p>
+<p>2. <strong>Speeding up inference</strong> – Smaller models require <strong>fewer computations</strong>, making them faster on CPUs and GPUs.</p>
+<p>3. <strong>Lowering hardware requirements</strong> – Enables <strong>LLMs to run on edge devices</strong> with limited resources.</p>
+<p>Quantization is widely used to <strong>optimize LLMs</strong> for deployment on <strong>mobile devices, embedded systems, and cloud applications</strong>.</p>
+</div>
+<div class="question" id="question38">
+<h2>38,Is greedy search a computationally expensive decoding strategy?,No,Yes,</h2>
+<p>The correct answer is:</p>
+<p><strong>No</strong></p>
+<p><strong>Greedy search</strong> is <strong>not</strong> a computationally expensive decoding strategy because:</p>
+<p>1. <strong>It selects the highest-probability token at each step</strong> without considering alternative sequences.</p>
+<p>2. <strong>It does not explore multiple paths</strong> like <strong>beam search</strong>, making it <strong>faster and less resource-intensive</strong>.</p>
+<p>3. <strong>Lower memory usage</strong> since it processes <strong>only one token at a time</strong>, unlike <strong>sampling-based methods</strong> that track multiple candidates.</p>
+<p>However, <strong>greedy search</strong> can produce <strong>suboptimal outputs</strong> because it <strong>doesn't account for long-term coherence</strong> in text generation.</p>
+</div>
+<div class="question" id="question39">
+<h2>39,Is tokenization a necessary preprocessing step for LLMs?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p><strong>Tokenization</strong> is a <strong>necessary preprocessing step</strong> for LLMs because:</p>
+<p>1. <strong>It converts raw text into smaller units (tokens)</strong> – These tokens can be <strong>words, subwords, or characters</strong>.</p>
+<p>2. <strong>It enables LLMs to process text efficiently</strong> – Neural networks operate on <strong>numerical representations</strong>, so text must be <strong>converted into token IDs</strong>.</p>
+<p>3. <strong>It improves model generalization</strong> – Subword tokenization (e.g., <strong>Byte Pair Encoding, WordPiece</strong>) helps handle <strong>rare or unseen words</strong> effectively.</p>
+<p>Without tokenization, <strong>LLMs wouldn't understand input text</strong>, making it a fundamental step in NLP pipelines.</p>
+</div>
+<div class="question" id="question40">
+<h2>40,Is data cleaning important for improving LLM performance?,Yes,No,</h2>
+<p>The correct answer is:</p>
+<p><strong>Yes</strong></p>
+<p><strong>Data cleaning</strong> is important for improving <strong>LLM performance</strong> because:</p>
+<p>1. <strong>Removes noise and inconsistencies</strong> – Eliminates <strong>duplicates, typos, and irrelevant text</strong> that could degrade model quality.</p>
+<p>2. <strong>Reduces biases</strong> – Filtering <strong>offensive, misleading, or imbalanced</strong> data helps create a <strong>fairer model</strong>.</p>
+<p>3. <strong>Improves generalization</strong> – A well-cleaned dataset ensures the model learns <strong>useful patterns</strong> rather than memorizing errors.</p>
+<p>High-quality training data leads to <strong>better accuracy, coherence, and factual consistency</strong> in LLM outputs.</p>
+</div>
+<div class="question" id="question41">
+<h2>41,Is "in-context learning" a characteristic of only smaller LLMs?,False,True,</h2>
+<p>The correct answer is:</p>
+<p><strong>False</strong></p>
+<p><strong>In-context learning</strong> is <strong>not limited to smaller LLMs</strong>—it is actually a key feature of <strong>larger LLMs</strong>.</p>
+<p>1. <strong>Larger models demonstrate stronger in-context learning</strong> – They can <strong>generalize</strong> from examples in the prompt <strong>without additional training</strong>.</p>
+<p>2. <strong>Smaller models have limited in-context learning</strong> – They may struggle to understand <strong>complex patterns</strong> from just a few examples.</p>
+<p>3. <strong>Scaling laws show improved performance</strong> – Bigger models tend to <strong>learn more effectively</strong> from context due to their increased capacity.</p>
+<p>Thus, <strong>in-context learning is more prominent in larger LLMs</strong> like <strong>GPT-4, PaLM, and LLaMA 2</strong> rather than smaller ones.</p>
+</div>
+<div class="question" id="question42">
+<h2>42,Is "hallucination" a desirable characteristic of LLMs?,False,True,</h2>
+<p>The correct answer is:</p>
+<p><strong>False</strong></p>
+<p><strong>Hallucination</strong> is <strong>not</strong> a desirable characteristic of LLMs because:</p>
+<p>1. <strong>It leads to factually incorrect outputs</strong> – The model generates <strong>plausible but false information</strong>, which can be misleading.</p>
+<p>2. <strong>It reduces trust and reliability</strong> – Users may <strong>lose confidence</strong> in LLMs if they consistently produce <strong>inaccurate responses</strong>.</p>
+<p>3. <strong>It can have real-world consequences</strong> – In areas like <strong>medicine, law, or finance</strong>, hallucinations can <strong>spread misinformation or cause harm</strong>.</p>
+<p>Researchers are actively working on <strong>reducing hallucinations</strong> using techniques like <strong>Retrieval-Augmented Generation (RAG), fine-tuning, and RLHF</strong>.</p>
+</div>
+<div class="question" id="question43">
+<h2>43,Is beam search typically more computationally expensive than greedy search?,True,False,</h2>
+<p>The correct answer is:</p>
+<p><strong>True</strong></p>
+<p><strong>Beam search</strong> is typically <strong>more computationally expensive</strong> than <strong>greedy search</strong> because:</p>
+<p>1. <strong>It keeps track of multiple possible sequences</strong> (beam width > 1), whereas <strong>greedy search selects only the highest-probability token at each step</strong>.</p>
+<p>2. <strong>It requires more memory and processing power</strong> since it maintains and evaluates multiple candidate sequences simultaneously.</p>
+<p>3. <strong>It searches a broader space for better outputs</strong>, leading to <strong>higher-quality text generation</strong> but at the cost of increased computation.</p>
+<p>While <strong>beam search improves fluency and coherence</strong>, it is <strong>slower</strong> and <strong>more resource-intensive</strong> compared to <strong>greedy search</strong>.</p>
+</div>
+<div class="question" id="question44">
+<h2>44,Is RLHF an alignment technique that solely relies on AI feedback?,False,True,</h2>
+<p>The correct answer is:</p>
+<p><strong>False</strong></p>
+<p><strong>Reinforcement Learning from Human Feedback (RLHF)</strong> <strong>does not solely rely on AI feedback</strong>—it incorporates <strong>human preferences</strong> in the training process.</p>
+<p>1. <strong>Human evaluators rank model outputs</strong> – AI generates responses, and humans provide <strong>feedback</strong> on which ones are better.</p>
+<p>2. <strong>A reward model is trained based on human preferences</strong> – This model helps guide the LLM towards more <strong>aligned and desirable responses</strong>.</p>
+<p>3. <strong>RL is used to fine-tune the LLM</strong> – The AI learns to optimize its responses using <strong>reinforcement learning</strong> guided by human feedback.</p>
+<p>While <strong>AI models assist in training</strong>, <strong>human feedback is essential</strong> in shaping model behavior and improving alignment.</p>
+</div>
+<div class="question" id="question45">
+<h2>45,Is the "pre-training and fine-tuning" paradigm specific to LLMs?,False,True,</h2>
+<p>The correct answer is:</p>
+<p><strong>False</strong></p>
+<p>The <strong>pre-training and fine-tuning paradigm</strong> is <strong>not specific</strong> to LLMs—it is widely used in <strong>various machine learning domains</strong>, including:</p>
+<p>1. <strong>Computer Vision</strong> – Models like <strong>ResNet and ViTs</strong> are pre-trained on large image datasets (e.g., <strong>ImageNet</strong>) and fine-tuned for specific tasks (e.g., medical imaging, object detection).</p>
+<p>2. <strong>Speech Recognition</strong> – Models like <strong>wav2vec 2.0</strong> are pre-trained on unlabeled speech data and fine-tuned for speech-to-text applications.</p>
+<p>3. <strong>Reinforcement Learning</strong> – Pre-trained agents in robotics can be fine-tuned for <strong>specific environments</strong>.</p>
+<p>While <strong>LLMs heavily rely on this paradigm</strong>, <strong>it is a general approach</strong> used across AI fields.</p>
+</div>
+<div class="question" id="question46">
+<h2>46,Is the attention mechanism a core component of the transformer architecture?,True,False,</h2>
+<p>The correct answer is:</p>
+<p><strong>True</strong></p>
+<p>The <strong>attention mechanism</strong> is a <strong>core component</strong> of the <strong>transformer architecture</strong>, specifically <strong>self-attention (Scaled Dot-Product Attention)</strong>.</p>
+<p>1. <strong>Enables parallel processing</strong> – Unlike RNNs, transformers use <strong>self-attention</strong> to process all tokens <strong>simultaneously</strong>, improving efficiency.</p>
+<p>2. <strong>Captures long-range dependencies</strong> – Self-attention allows the model to <strong>weigh the importance of each word</strong> in a sequence, regardless of distance.</p>
+<p>3. <strong>Key innovation behind LLMs</strong> – <strong>Multi-Head Attention</strong> enhances the model's ability to focus on <strong>different aspects</strong> of input text.</p>
+<p>Without the attention mechanism, transformers <strong>wouldn't function effectively</strong>, making it the <strong>backbone</strong> of models like <strong>GPT, BERT, and T5</strong>.</p>
+</div>
+<div class="question" id="question47">
+<h2>47,Is data sparsity a significant challenge in training early language models?,True,False,</h2>
+<p>The correct answer is:</p>
+<p><strong>True</strong></p>
+<p><strong>Data sparsity</strong> was a <strong>significant challenge</strong> in training <strong>early language models</strong> because:</p>
+<p>1. <strong>Limited training data</strong> – Early models lacked <strong>large-scale datasets</strong>, making it difficult to generalize.</p>
+<p>2. <strong>Rare word problem</strong> – Words with <strong>low occurrence</strong> in training data were <strong>poorly represented</strong>, leading to <strong>low-quality predictions</strong>.</p>
+<p>3. <strong>N-gram models struggled</strong> – Traditional <strong>n-gram models</strong> couldn't effectively capture long-range dependencies due to <strong>sparse co-occurrences</strong>.</p>
+<p>4. <strong>Neural networks helped mitigate this</strong> – Techniques like <strong>word embeddings (Word2Vec, GloVe) and transformers</strong> improved the representation of <strong>rare words</strong> and <strong>contextual understanding</strong>.</p>
+<p>Modern LLMs address data sparsity by leveraging <strong>massive pre-training datasets</strong> and <strong>context-aware embeddings</strong>.</p>
+</div>
+<div class="question" id="question48">
+<h2>48,Is knowledge distillation a technique for creating smaller more efficient models?,True,False,</h2>
+<p>The correct answer is:</p>
+<p><strong>True</strong></p>
+<p><strong>Knowledge distillation</strong> is a technique used to create <strong>smaller, more efficient models</strong> by transferring knowledge from a <strong>large (teacher) model</strong> to a <strong>smaller (student) model</strong>.</p>
+<h3>Key Benefits:</h3>
+<p>1. <strong>Reduces model size</strong> – The student model is much smaller but retains most of the teacher model's performance.</p>
+<p>2. <strong>Improves efficiency</strong> – Requires <strong>less computation</strong>, making it <strong>faster and more cost-effective</strong>.</p>
+<p>3. <strong>Maintains accuracy</strong> – The student model learns to <strong>mimic</strong> the teacher’s outputs, preserving key insights.</p>
+<p>This technique is widely used in <strong>LLMs, computer vision, and speech recognition</strong> to deploy models on <strong>resource-constrained devices</strong> like <strong>mobile phones</strong>.</p>
+</div>
+<div class="question" id="question49">
+<h2>49,Is RAG a technique that solely relies on internal model knowledge?,False,True,</h2>
+<p>The correct answer is:</p>
+<p><strong>False</strong></p>
+<p><strong>Retrieval-Augmented Generation (RAG)</strong> does <strong>not</strong> solely rely on internal model knowledge. Instead, it <strong>enhances LLMs</strong> by retrieving relevant information from <strong>external sources</strong> before generating responses.</p>
+<h3>How RAG Works:</h3>
+<p>1. <strong>Retrieval</strong> – The model fetches <strong>relevant documents</strong> or facts from a <strong>knowledge base</strong> (e.g., Wikipedia, private databases).</p>
+<p>2. <strong>Augmentation</strong> – The retrieved information is <strong>incorporated into the prompt</strong> given to the LLM.</p>
+<p>3. <strong>Generation</strong> – The model generates a response using both its <strong>internal knowledge</strong> and <strong>retrieved information</strong>.</p>
+<h3>Why RAG is Useful:</h3>
+<p>* <strong>Improves factual accuracy</strong> (reduces hallucinations).</p>
+<p>* <strong>Keeps responses up-to-date</strong> (retrieves the latest information).</p>
+<p>* <strong>Allows domain-specific knowledge retrieval</strong> (e.g., finance, law, medicine).</p>
+<p>Thus, RAG <strong>combines both internal model knowledge and external retrieval</strong>, making it <strong>more reliable</strong> than standalone LLMs.</p>
+</div>
+<div class="question" id="question50">
+<h2>50,Are LLM agents designed to operate autonomously?,True,False</h2>
+<p>The correct answer is:</p>
+<p><strong>True</strong></p>
+<p><strong>LLM agents</strong> are designed to operate <strong>autonomously</strong> by interacting with their environment, making decisions, and executing tasks <strong>without constant human intervention</strong>.</p>
+<h3>Key Characteristics of LLM Agents:</h3>
+<p>1. <strong>Autonomous Decision-Making</strong> – Can perform <strong>multi-step reasoning</strong>, plan actions, and refine outputs dynamically.</p>
+<p>2. <strong>Tool Use & API Calls</strong> – Can integrate with <strong>external tools</strong>, databases, or APIs to retrieve and process information.</p>
+<p>3. <strong>Memory & Adaptation</strong> – Some agents have <strong>memory mechanisms</strong> to retain context across interactions.</p>
+<p>4. <strong>Task Execution</strong> – Used in <strong>chatbots, research assistants, and automation systems</strong>.</p>
+<h3>Examples:</h3>
+<p>* <strong>Auto-GPT, BabyAGI</strong> – Fully autonomous AI agents that can set goals and execute tasks.</p>
+<p>* <strong>ChatGPT Plugins</strong> – Use tools like search engines or calculators <strong>autonomously</strong> when needed.</p>
+<p>While <strong>human oversight</strong> is often preferred for safety, LLM agents are fundamentally <strong>designed to function autonomously</strong> in many scenarios.</p>
+</div>
+<div class="question" id="question52">
+<h2>52,What is a major limitation of n-gram models?,Limited context,High computational cost,Data sparsity,All of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>All of the above</strong></p>
+<h3>Explanation:</h3>
+<p><strong>N-gram models</strong> are simple but have several major limitations:</p>
+<p>1. <strong>Limited Context</strong> –</p>
+<p>   * N-gram models <strong>only consider a fixed number of previous words</strong> (e.g., bigrams use 1 word, trigrams use 2).</p>
+<p>   * This means they <strong>fail to capture long-range dependencies</strong> in text.</p>
+<p>2. <strong>High Computational Cost</strong> –</p>
+<p>   * Larger n-grams require <strong>more memory and processing power</strong>.</p>
+<p>   * Storing probabilities for all possible n-grams <strong>grows exponentially</strong> with n.</p>
+<p>3. <strong>Data Sparsity</strong> –</p>
+<p>   * Many word combinations <strong>never appear in training data</strong>, leading to <strong>zero probabilities</strong> for unseen sequences.</p>
+<p>   * <strong>Smoothing techniques</strong> (e.g., Laplace smoothing) are needed to handle this.</p>
+<h3>Example:</h3>
+<p>* A <strong>trigram model</strong> (“the cat sits”) can predict the next word.</p>
+<p>* But it <strong>cannot understand deeper meaning</strong> across longer sentences.</p>
+<p>Thus, <strong>n-gram models struggle with context, efficiency, and data sparsity</strong>, making them less effective than modern <strong>neural language models (e.g., Transformers)</strong>.</p>
+</div>
+<div class="question" id="question53">
+<h2>53,How do early neural language models (NLMs) address data sparsity?,Using smoothing techniques,Mapping words to low-dimensional continuous vectors,Using recurrent neural networks,All of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>Mapping words to low-dimensional continuous vectors</strong></p>
+<h3>Explanation:</h3>
+<p>Early <strong>neural language models (NLMs)</strong> addressed <strong>data sparsity</strong> by using <strong>word embeddings</strong>, which map words to <strong>low-dimensional continuous vectors</strong>. This technique allows models to generalize better by capturing <strong>semantic similarities</strong> between words.</p>
+<h3>How It Works:</h3>
+<p>1. <strong>Traditional models (e.g., N-grams) struggle with unseen words</strong> → They assign <strong>zero probabilities</strong> to new word sequences.</p>
+<p>2. <strong>NLMs use embeddings</strong> (e.g., Word2Vec, GloVe) → Words with similar meanings have <strong>similar vector representations</strong>, reducing sparsity.</p>
+<p>3. <strong>Neural networks learn meaningful word relationships</strong> → Instead of storing <strong>individual word probabilities</strong>, they learn patterns from <strong>contextual similarity</strong>.</p>
+<h3>Why Not the Other Options?</h3>
+<p>* <strong>Smoothing techniques</strong> are used in <strong>statistical models (e.g., N-grams)</strong> but not in neural models.</p>
+<p>* <strong>Recurrent Neural Networks (RNNs)</strong> help with sequential data but don’t directly solve sparsity.</p>
+<p>* <strong>"All of the above" is incorrect</strong> because early NLMs mainly relied on embeddings, not smoothing.</p>
+<p>Thus, <strong>word embeddings revolutionized language modeling</strong> by overcoming the sparsity issue and improving generalization.</p>
+</div>
+<div class="question" id="question54">
+<h2>54,What is a key characteristic of pre-trained language models (PLMs)?,Task-specific training,Task-agnostic training,Limited data requirements,All of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>Task-agnostic training</strong></p>
+<h3>Explanation:</h3>
+<p><strong>Pre-trained Language Models (PLMs)</strong> are trained on <strong>large-scale corpora</strong> in a <strong>task-agnostic</strong> manner, meaning they are not limited to a specific task during training. Instead, they learn <strong>general language representations</strong>, which can later be fine-tuned for specific tasks like translation, summarization, or question answering.</p>
+<h3>Why?</h3>
+<p>1. <strong>Task-agnostic training</strong> → PLMs learn general linguistic knowledge from massive datasets before fine-tuning for specific applications.</p>
+<p>2. <strong>Not task-specific training</strong> → Unlike traditional models trained for one task, PLMs can adapt to multiple tasks via fine-tuning.</p>
+<p>3. <strong>Not limited data requirements</strong> → PLMs require massive amounts of text data for effective pre-training.</p>
+<p>Thus, <strong>PLMs are designed to be task-agnostic during pre-training, making them highly adaptable across various NLP tasks</strong>.</p>
+</div>
+<div class="question" id="question55">
+<h2>55,What architecture revolutionized the development of neural language models?,Recurrent Neural Networks (RNNs),Convolutional Neural Networks (CNNs),Transformers,Long Short-Term Memory (LSTMs),</h2>
+<p>The correct answer is:</p>
+<p><strong>Transformers</strong></p>
+<h3>Explanation:</h3>
+<p>The <strong>Transformer architecture</strong>, introduced in the paper *"Attention Is All You Need"* (Vaswani et al., 2017), revolutionized neural language models by replacing sequential models like <strong>RNNs and LSTMs</strong> with a fully <strong>attention-based mechanism</strong>. This allowed for <strong>parallel processing</strong>, making training more efficient and improving performance on large-scale text data.</p>
+<h3>Why Not the Other Options?</h3>
+<p>* <strong>RNNs</strong>: Limited by sequential processing, making them slow and inefficient for long sequences.</p>
+<p>* <strong>LSTMs</strong>: Improved upon RNNs with better long-term dependencies but still suffered from sequential processing limitations.</p>
+<p>* <strong>CNNs</strong>: Effective in capturing <strong>local patterns</strong>, but not ideal for long-range dependencies in text.</p>
+<h3>Key Benefits of Transformers:</h3>
+<p>✅ <strong>Self-attention</strong> → Models long-range dependencies efficiently.</p>
+<p>✅ <strong>Parallelization</strong> → Enables faster training on large datasets.</p>
+<p>✅ <strong>Scalability</strong> → Used in large models like <strong>BERT, GPT, T5, and PaLM</strong>.</p>
+<p>Thus, <strong>Transformers are the foundation of modern LLMs and have set the standard for state-of-the-art NLP models.</strong></p>
+</div>
+<div class="question" id="question556">
+<h2>56,Which type of LLM architecture is primarily used for language understanding tasks?,Decoder-only,Encoder-only,Encoder-decoder,Both Decoder-only and Encoder-only,</h2>
+<p>The correct answer is:</p>
+<p><strong>Encoder-only</strong></p>
+<h3>Explanation:</h3>
+<p>Encoder-only architectures, such as <strong>BERT (Bidirectional Encoder Representations from Transformers)</strong>, are primarily used for <strong>language understanding tasks</strong> like:</p>
+<p>* <strong>Text classification</strong></p>
+<p>* <strong>Named entity recognition (NER)</strong></p>
+<p>* <strong>Sentiment analysis</strong></p>
+<p>* <strong>Question answering</strong> (extractive)</p>
+<h3>Why Encoder-only?</h3>
+<p>✅ <strong>Bidirectional Context:</strong> Encoder models process input text <strong>in both directions (left and right context)</strong>, making them well-suited for understanding meaning and relationships between words.</p>
+<p>✅ <strong>Strong Representations:</strong> They generate <strong>rich contextual embeddings</strong> for downstream tasks.</p>
+<p>✅ <strong>Pretraining on MLM (Masked Language Modeling):</strong> This helps the model learn deep <strong>semantic representations</strong>.</p>
+<h3>Why Not Other Architectures?</h3>
+<p>* <strong>Decoder-only (e.g., GPT-3, LLaMA):</strong> Optimized for <strong>language generation</strong>, not understanding.</p>
+<p>* <strong>Encoder-Decoder (e.g., T5, BART):</strong> Best for <strong>seq-to-seq tasks</strong> like translation and summarization, not pure understanding.</p>
+<p>* <strong>Both Encoder-only and Decoder-only:</strong> Not entirely correct because <strong>decoder-only models focus on generation, not understanding.</strong></p>
+<h3>Final Answer: <strong>Encoder-only models</strong> are best suited for <strong>language understanding</strong> tasks.</h3>
+</div>
+<div class="question" id="question60">
+<h2>60,What is "masked language modeling" in the context of LLM pre-training?,Predicting the next word in a sequence,Predicting masked words based on context,Generating creative text,Translating languages,Predicting masked words based on context,LLM Training</h2>
+<p>The correct answer is:</p>
+<p><strong>Predicting masked words based on context</strong></p>
+<h3>Explanation:</h3>
+<p><strong>Masked Language Modeling (MLM)</strong> is a pre-training objective where some words in a sentence are <strong>randomly masked</strong> (hidden), and the model learns to <strong>predict the masked words</strong> using the surrounding context.</p>
+<h4><strong>How it Works:</strong></h4>
+<p>* A certain percentage of words in the input sentence are replaced with a special token (e.g., `[MASK]` in BERT).</p>
+<p>* The model is trained to predict the <strong>original words</strong> based on the context from both the left and right sides.</p>
+<h4><strong>Example:</strong></h4>
+<p><strong>Input:</strong> "The cat sat on the <strong>\[MASK]</strong>."</p>
+<p><strong>Model Prediction:</strong> "mat"</p>
+<h3><strong>Why is MLM Important?</strong></h3>
+<p>✅ <strong>Bidirectional Understanding:</strong> Unlike autoregressive models (which predict the next word), MLM allows the model to <strong>understand context from both sides</strong>.</p>
+<p>✅ <strong>Stronger Representations:</strong> Helps models like <strong>BERT</strong> learn <strong>deep contextual embeddings</strong> useful for NLP tasks (e.g., sentiment analysis, question answering).</p>
+<p>✅ <strong>Better Generalization:</strong> Since the model is trained to <strong>recover missing words</strong>, it develops a <strong>robust understanding</strong> of language.</p>
+<h3><strong>Which Models Use MLM?</strong></h3>
+<p>* <strong>BERT (Bidirectional Encoder Representations from Transformers)</strong></p>
+<p>* <strong>RoBERTa (Robustly Optimized BERT)</strong></p>
+<p>* <strong>T5 (uses a variant of MLM with span corruption)</strong></p>
+<h3><strong>Final Answer:</strong> <strong>Predicting masked words based on context</strong></h3>
+</div>
+<div class="question" id="question61">
+<h2>61,What does "in-context learning" enable LLMs to do?,Learn from a massive dataset of unlabeled text,Learn from a small set of examples in the prompt,Fine-tune on a specific task,All of the above,</h2>
+<p>The correct answer is:</p>
+<p><strong>Learn from a small set of examples in the prompt</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>In-Context Learning (ICL)</strong> is the ability of Large Language Models (LLMs) to <strong>learn from examples provided within a prompt</strong> <strong>without modifying the model's parameters</strong>.</p>
+<h4><strong>How it Works:</strong></h4>
+<p>* Instead of fine-tuning on a dataset, the model <strong>adapts on the fly</strong> based on <strong>few-shot examples</strong> in the input.</p>
+<p>* The model uses <strong>pattern recognition</strong> to generalize from these examples and <strong>generate relevant responses</strong>.</p>
+<h4><strong>Example:</strong></h4>
+<p><strong>Prompt:</strong></p>
+<p>*"Translate the following English sentences into French:*</p>
+<p>1. <strong>The cat is sleeping</strong> → *Le chat dort*</p>
+<p>2. <strong>The sun is shining</strong> → ???"</p>
+<p><strong>Model Output:</strong></p>
+<p>*"Le soleil brille"*</p>
+<h3><strong>Why is In-Context Learning Important?</strong></h3>
+<p>✅ <strong>No need for parameter updates:</strong> The model does not require re-training to adapt to new tasks.</p>
+<p>✅ <strong>Efficient and flexible:</strong> Works for multiple tasks without explicitly training on them.</p>
+<p>✅ <strong>Used in GPT models:</strong> OpenAI's <strong>GPT-3 and GPT-4</strong> leverage in-context learning to <strong>adapt quickly to user instructions</strong>.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p><strong>Learn from a small set of examples in the prompt</strong></p>
+</div>
+<div class="question" id="question103">
+<p>103,What is a key characteristic of transformer-based models?,Use of n-grams,Recurrent layers,Self-attention mechanism,Fixed input size,</p>
+<p>The correct answer is:</p>
+<p>✅ <strong>Self-attention mechanism</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Transformer-based models <strong>rely heavily on self-attention</strong> to process input sequences efficiently. Unlike earlier architectures like RNNs and CNNs, transformers <strong>do not require recurrence or fixed input sizes</strong>.</p>
+<h4><strong>Key Characteristics of Transformer Models:</strong></h4>
+<p>1. <strong>Self-Attention Mechanism:</strong></p>
+<p>   * Enables the model to <strong>weigh the importance of different words</strong> in a sequence, regardless of their position.</p>
+<p>   * Allows <strong>parallel processing</strong>, making transformers <strong>more efficient</strong> than RNNs.</p>
+<p>2. <strong>Positional Encoding:</strong></p>
+<p>   * Since transformers <strong>do not process data sequentially</strong>, they use <strong>positional encoding</strong> to maintain order information.</p>
+<p>3. <strong>Scalability & Parallelism:</strong></p>
+<p>   * Unlike RNNs, transformers <strong>process entire sequences in parallel</strong>, speeding up training.</p>
+<p>4. <strong>Layered Structure:</strong></p>
+<p>   * Uses <strong>stacked encoder and decoder layers</strong> (in models like BERT and T5) to learn complex patterns in data.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Self-attention mechanism</strong></p>
+</div>
+<div class="question" id="question104">
+<h2>104,Which process reduces data sparsity in early neural language models?,Embedding words into vectors,Using n-grams,Applying smoothing,Data augmentation,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>Embedding words into vectors</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Early neural language models <strong>suffered from data sparsity</strong> because they relied on discrete word representations, where each word had a unique ID, leading to a massive vocabulary with many unseen words.</p>
+<p><strong>Word embeddings</strong> (such as Word2Vec, GloVe, or FastText) helped address this by:</p>
+<p>* <strong>Mapping words into dense, low-dimensional vector spaces</strong> instead of one-hot encoding.</p>
+<p>* <strong>Capturing semantic relationships</strong> between words (e.g., "king" and "queen" have similar vector structures).</p>
+<p>* <strong>Reducing sparsity</strong>, allowing models to generalize better even with limited data.</p>
+<h4><strong>Why not the other options?</strong></h4>
+<p>❌ <strong>Using n-grams</strong> – N-grams suffer from sparsity issues, especially for large vocabularies.</p>
+<p>❌ <strong>Applying smoothing</strong> – Smoothing helps in <strong>probabilistic language models</strong> but is not the primary solution for neural models.</p>
+<p>❌ <strong>Data augmentation</strong> – While it can help in some cases, it is not the main method for reducing data sparsity in early neural models.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Embedding words into vectors</strong></p>
+</div>
+<div class="question" id="question105">
+<h2>105,What is the main advantage of pre-trained language models (PLMs)?,Task-specific tuning,Task-agnostic design,Small model size,No training needed,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>Task-agnostic design</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Pre-trained language models (PLMs) are <strong>trained on a large corpus of text in an unsupervised manner</strong> and can then be <strong>fine-tuned</strong> for various downstream tasks. Their <strong>task-agnostic nature</strong> allows them to be applied to multiple tasks (e.g., sentiment analysis, summarization, translation) without requiring training from scratch.</p>
+<h4><strong>Why not the other options?</strong></h4>
+<p>❌ <strong>Task-specific tuning</strong> – PLMs <strong>can be fine-tuned</strong> for specific tasks, but their main advantage is their broad applicability <strong>before fine-tuning</strong>.</p>
+<p>❌ <strong>Small model size</strong> – Many PLMs (e.g., GPT-3, BERT) are <strong>large</strong> and computationally expensive. However, techniques like quantization and distillation help make them smaller.</p>
+<p>❌ <strong>No training needed</strong> – PLMs require <strong>pre-training</strong> on massive datasets, though users can use them without additional training in some cases (zero-shot learning).</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Task-agnostic design</strong></p>
+</div>
+<div class="question" id="question106">
+<h2>106,What are emergent abilities in LLMs?,Abilities present in all models,Abilities unique to small models,Abilities that arise at scale,Abilities specific to GPT-4,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>Abilities that arise at scale</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>Emergent abilities</strong> in Large Language Models (LLMs) refer to <strong>new capabilities that only appear when a model reaches a certain scale</strong> in terms of <strong>parameters, data, and computation</strong>. These abilities are <strong>not explicitly programmed</strong> but emerge as a result of the complex interactions within the model.</p>
+<h4><strong>Examples of Emergent Abilities:</strong></h4>
+<p>* <strong>In-context learning</strong> (learning from a prompt without additional training)</p>
+<p>* <strong>Better reasoning and few-shot learning</strong></p>
+<p>* <strong>Understanding and following complex instructions</strong></p>
+<p>* <strong>Multi-step problem-solving</strong></p>
+<h4><strong>Why not the other options?</strong></h4>
+<p>❌ <strong>Abilities present in all models</strong> – Smaller models often lack emergent abilities; they only appear at <strong>large scales</strong>.</p>
+<p>❌ <strong>Abilities unique to small models</strong> – The opposite is true; emergent abilities are observed in <strong>larger models</strong>.</p>
+<p>❌ <strong>Abilities specific to GPT-4</strong> – Emergent abilities are observed in <strong>many LLMs</strong>, not just GPT-4 (e.g., GPT-3, PaLM, LLaMA).</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Abilities that arise at scale</strong></p>
+</div>
+<div class="question" id="question109">
+<h2>109,What technique allows LLMs to perform new tasks during inference?,Data augmentation,Chain-of-thought prompting,Instruction tuning,In-context learning,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>In-context learning</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>In-context learning (ICL)</strong> is a technique that allows <strong>Large Language Models (LLMs) to perform new tasks during inference</strong> by <strong>providing a few examples in the input prompt</strong>. The model <strong>does not require fine-tuning</strong>; instead, it generalizes from the examples and generates appropriate responses.</p>
+<h4><strong>How In-Context Learning Works:</strong></h4>
+<p>1. <strong>User provides a prompt</strong> with examples of the desired task (e.g., translation, summarization, classification).</p>
+<p>2. <strong>LLM identifies patterns</strong> from the examples.</p>
+<p>3. <strong>Model generates a response</strong> for new inputs based on the learned pattern.</p>
+<h4><strong>Example of In-Context Learning:</strong></h4>
+<p><strong>Prompt:</strong></p>
+<p>*"Translate the following English sentences to French."*</p>
+<p>* <strong>Example 1:</strong> "Hello" → "Bonjour"</p>
+<p>* <strong>Example 2:</strong> "Good morning" → "Bonjour"</p>
+<p>* <strong>New input:</strong> "How are you?" → *(LLM infers the correct translation: "Comment ça va?")*</p>
+<h4><strong>Why not the other options?</strong></h4>
+<p>❌ <strong>Data augmentation</strong> – Involves expanding a dataset using transformations, but it’s used <strong>during training, not inference</strong>.</p>
+<p>❌ <strong>Chain-of-thought prompting</strong> – Helps with <strong>multi-step reasoning</strong>, but <strong>does not enable task learning itself</strong>.</p>
+<p>❌ <strong>Instruction tuning</strong> – Involves <strong>fine-tuning</strong> a model on instructions but requires additional training, whereas <strong>ICL works at inference time</strong>.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>In-context learning</strong></p>
+</div>
+<div class="question" id="question110">
+<h2>110,What problem do n-gram models face?,Limited vocabulary,Data sparsity,Overfitting,High computation cost,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>Data sparsity</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>N-gram models</strong> estimate the probability of a word given its previous words. However, they suffer from <strong>data sparsity</strong>, meaning they struggle when encountering unseen or rare word sequences.</p>
+<h4><strong>Why is data sparsity a problem?</strong></h4>
+<p>1. <strong>Limited Training Data</strong> – There are countless possible word combinations, but a dataset only contains a small fraction of them.</p>
+<p>2. <strong>Zero Probability Issue</strong> – If a word sequence is <strong>absent from the training data</strong>, the model assigns it a <strong>zero probability</strong>, making it ineffective for real-world language modeling.</p>
+<p>3. <strong>Poor Generalization</strong> – Since n-grams rely on exact word sequences, they fail to generalize beyond what they have seen.</p>
+<h4><strong>Why not the other options?</strong></h4>
+<p>❌ <strong>Limited vocabulary</strong> – While n-gram models can have a fixed vocabulary, the real issue is handling <strong>rare or unseen sequences</strong>, not just vocabulary size.</p>
+<p>❌ <strong>Overfitting</strong> – N-grams usually underfit rather than overfit because they don't learn deep patterns—just word co-occurrences.</p>
+<p>❌ <strong>High computation cost</strong> – N-gram models are computationally simpler than neural models like transformers. The main challenge is <strong>storing large n-gram tables</strong>, not computation itself.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Data sparsity</strong></p>
+</div>
+<div class="question" id="question111">
+<h2>111,How are embeddings used in NLP?,To map words into fixed probabilities,To reduce dimensionality,To represent words in continuous space,To improve grammar checking,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>To represent words in continuous space</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Embeddings are <strong>dense vector representations</strong> of words, phrases, or sentences in a continuous space. Instead of using <strong>one-hot encoding</strong> (which is sparse and high-dimensional), embeddings <strong>capture semantic relationships</strong> between words by placing similar words closer together in a multi-dimensional space.</p>
+<h4><strong>Why are embeddings important?</strong></h4>
+<p>* <strong>They capture meaning</strong> – Similar words (e.g., "king" and "queen") have similar vector representations.</p>
+<p>* <strong>They handle synonyms better</strong> – Unlike one-hot encoding, embeddings recognize words with similar meanings.</p>
+<p>* <strong>They reduce sparsity</strong> – Since they are low-dimensional, embeddings avoid the sparsity issue seen in traditional word representations.</p>
+<h4><strong>Why not the other options?</strong></h4>
+<p>❌ <strong>To map words into fixed probabilities</strong> – Embeddings <strong>do not assign probabilities</strong>; they provide vector representations instead.</p>
+<p>❌ <strong>To reduce dimensionality</strong> – While embeddings often use <strong>lower-dimensional representations</strong>, their primary purpose is <strong>capturing relationships between words</strong>, not just reducing dimensions.</p>
+<p>❌ <strong>To improve grammar checking</strong> – Grammar checking may use embeddings indirectly, but embeddings <strong>primarily represent words</strong> in a way that captures meaning and context.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>To represent words in continuous space</strong></p>
+</div>
+<div class="question" id="question112">
+<h2>112,What is a common evaluation metric for LLMs?,BLEU,Precision\@N,NDCG,All of the above,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>All of the above</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Different evaluation metrics are used for Large Language Models (LLMs), depending on the specific task:</p>
+<p>1. <strong>BLEU (Bilingual Evaluation Understudy)</strong> – Used for evaluating <strong>machine translation</strong> by comparing generated text to reference translations.</p>
+<p>2. <strong>Precision\@N</strong> – Commonly used in <strong>recommendation systems</strong> and <strong>retrieval tasks</strong> to measure how many of the top-N retrieved results are relevant.</p>
+<p>3. <strong>NDCG (Normalized Discounted Cumulative Gain)</strong> – Used in <strong>ranking tasks</strong> to measure how well a model ranks relevant results.</p>
+<p>Since LLMs are used in various tasks (e.g., text generation, ranking, recommendation), all these metrics can be used to evaluate different aspects of their performance.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>All of the above</strong></p>
+</div>
+<div class="question" id="question113">
+<h2>113,What dataset type is typically used for fine-tuning PLMs?,Labeled task-specific data,Unlabeled web data,High-dimensional images,Annotated videos,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>Labeled task-specific data</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Fine-tuning Pre-trained Language Models (PLMs) typically requires <strong>labeled task-specific data</strong> because:</p>
+<p>* <strong>PLMs are pre-trained on large amounts of unlabeled text</strong> (e.g., web data, books, Wikipedia) using self-supervised learning.</p>
+<p>* <strong>Fine-tuning involves training on specific tasks</strong> (e.g., sentiment analysis, question answering, summarization) using <strong>labeled datasets</strong> with input-output pairs.</p>
+<h3><strong>Why not the other options?</strong></h3>
+<p>❌ <strong>Unlabeled web data</strong> → Used during pre-training, not fine-tuning.</p>
+<p>❌ <strong>High-dimensional images</strong> → PLMs focus on text, not images.</p>
+<p>❌ <strong>Annotated videos</strong> → Used in multimodal models, not typical for PLM fine-tuning.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Labeled task-specific data</strong></p>
+</div>
+<div class="question" id="question114">
+<h2>114,Which component allows transformers to process input in parallel?,Feed-forward layers,Attention mechanism,Recurrent layers,Pooling layers,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>Attention mechanism</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Transformers process input <strong>in parallel</strong> due to their <strong>self-attention mechanism</strong>, which allows them to:</p>
+<p>* Attend to <strong>all words in a sequence simultaneously</strong>, rather than sequentially (like RNNs).</p>
+<p>* Compute relationships between words in a <strong>single step</strong>, making processing <strong>faster and more efficient</strong>.</p>
+<p>* Enable scalability for large datasets and models like GPT, BERT, and T5.</p>
+<h3><strong>Why not the other options?</strong></h3>
+<p>❌ <strong>Feed-forward layers</strong> → Process data independently but do not handle dependencies between words.</p>
+<p>❌ <strong>Recurrent layers</strong> → Found in RNNs/LSTMs, which process input <strong>sequentially</strong>, not in parallel.</p>
+<p>❌ <strong>Pooling layers</strong> → Used in CNNs, not transformers, and do not contribute to parallel processing.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Attention mechanism</strong></p>
+</div>
+<div class="question" id="question115">
+<h2>115,What is a chain-of-thought prompt used for?,Training new models,Improving embeddings,Breaking down reasoning steps,Enhancing tokenization,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>Breaking down reasoning steps</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>Chain-of-thought (CoT) prompting</strong> helps <strong>LLMs improve reasoning</strong> by guiding them to <strong>explicitly break down complex problems</strong> into intermediate steps before reaching a final answer.</p>
+<p>* Useful for <strong>math problems, logical reasoning, and multi-step tasks</strong>.</p>
+<p>* Helps <strong>reduce errors</strong> by encouraging a <strong>structured thought process</strong>.</p>
+<p>* Example: Instead of directly answering <strong>"What is 23 × 17?"</strong>, the model breaks it down:</p>
+<p>  *"23 × 10 = 230, 23 × 7 = 161, so 230 + 161 = 391."*</p>
+<h3><strong>Why not the other options?</strong></h3>
+<p>❌ <strong>Training new models</strong> → CoT is a <strong>prompting</strong> method, not a training technique.</p>
+<p>❌ <strong>Improving embeddings</strong> → Embeddings map words into vector space, unrelated to reasoning breakdown.</p>
+<p>❌ <strong>Enhancing tokenization</strong> → Tokenization breaks text into units (words/subwords), not reasoning steps.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Breaking down reasoning steps</strong></p>
+</div>
+<div class="question" id="question116">
+<h2>116,What is the purpose of smoothing in n-gram models?,To handle unseen n-grams,To reduce model size,To increase training speed,To enhance embeddings,</h2>
+<p>The correct answer is:</p>
+<p>✅ <strong>To handle unseen n-grams</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Smoothing techniques are used in <strong>n-gram language models</strong> to <strong>assign probabilities to unseen n-grams</strong> (word sequences) that were <strong>not encountered in the training data</strong>. This helps prevent <strong>zero probability issues</strong> and improves generalization.</p>
+<h3><strong>Common Smoothing Techniques:</strong></h3>
+<p>* <strong>Laplace Smoothing (Add-1 Smoothing):</strong> Adds a small constant to all counts to avoid zero probabilities.</p>
+<p>* <strong>Add-k Smoothing:</strong> Similar to Laplace but with a tunable constant *k*.</p>
+<p>* <strong>Kneser-Ney Smoothing:</strong> More advanced; redistributes probability mass based on word frequency.</p>
+<h3><strong>Why not the other options?</strong></h3>
+<p>❌ <strong>To reduce model size</strong> → Smoothing does not shrink models; it adjusts probability estimates.</p>
+<p>❌ <strong>To increase training speed</strong> → It actually adds computation, slightly slowing down training.</p>
+<p>❌ <strong>To enhance embeddings</strong> → Smoothing is for probability estimation, not word embeddings.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>To handle unseen n-grams</strong></p>
+</div>
+<div class="question" id="question117">
+<h2>117,Which LLM is associated with emergent abilities?,GPT-3,LLaMA,PaLM,All of the above,</h2>
+<p>✅ <strong>All of the above</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>Emergent abilities</strong> refer to capabilities that <strong>suddenly appear</strong> in large-scale models but are not present in smaller ones. These abilities emerge as model size, training data, and compute power increase.</p>
+<h3><strong>LLMs with Emergent Abilities:</strong></h3>
+<p>* <strong>GPT-3</strong> → Demonstrates in-context learning and reasoning.</p>
+<p>* <strong>LLaMA</strong> → Shows strong few-shot and reasoning abilities.</p>
+<p>* <strong>PaLM</strong> → Exhibits advanced reasoning and multi-step problem-solving.</p>
+<p>Since <strong>emergent abilities</strong> are a general phenomenon in <strong>large-scale LLMs</strong>, all of these models demonstrate them.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>All of the above</strong></p>
+</div>
+<div class="question" id="question118">
+<h2>118,What is the main contribution of PLMs compared to earlier models?,Reduced size,Generalized embedding space,Task-specific performance,Faster training,</h2>
+<p>✅ <strong>Generalized embedding space</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Pre-trained Language Models (PLMs) <strong>revolutionized NLP</strong> by introducing a <strong>generalized embedding space</strong>, allowing models to learn <strong>rich contextual representations</strong> from large-scale text before fine-tuning on specific tasks.</p>
+<h3><strong>Key Contributions of PLMs:</strong></h3>
+<p>* <strong>Generalized Representations:</strong> Unlike earlier models, PLMs <strong>capture deep contextual meaning</strong> across different tasks.</p>
+<p>* <strong>Transfer Learning:</strong> Once pre-trained, they can be <strong>fine-tuned</strong> on specific tasks, reducing the need for task-specific training from scratch.</p>
+<p>* <strong>Improved Performance:</strong> Achieve <strong>better accuracy</strong> across diverse NLP applications (translation, summarization, sentiment analysis, etc.).</p>
+<p>Since PLMs <strong>focus on creating a flexible, reusable embedding space</strong>, this is their primary contribution over earlier models.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Generalized embedding space</strong></p>
+</div>
+<div class="question" id="question119">
+<h2>119,What evaluation benchmark is commonly used for LLMs?,COCO,ImageNet,GLUE,SQuAD,</h2>
+<p>✅ <strong>GLUE</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>The <strong>General Language Understanding Evaluation (GLUE)</strong> benchmark is widely used to assess the performance of LLMs on various NLP tasks. It includes tasks such as <strong>sentiment analysis, paraphrase detection, and natural language inference</strong>, providing a standardized way to compare models.</p>
+<h3><strong>Other Options:</strong></h3>
+<p>* <strong>COCO</strong> → Used for <strong>image captioning and object detection</strong> (not for LLMs).</p>
+<p>* <strong>ImageNet</strong> → A benchmark for <strong>image classification</strong> (not relevant for NLP).</p>
+<p>* <strong>SQuAD</strong> → A dataset for <strong>question answering</strong>, but <strong>not a general benchmark for LLMs</strong> like GLUE.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>GLUE</strong></p>
+</div>
+<div class="question" id="question120">
+<h2>120,What type of agent uses LLMs to sense environments and act?,Statistical agents,Task-specific agents,AI agents,Embedding agents,</h2>
+<p>✅ <strong>AI agents</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>AI agents</strong> use <strong>LLMs</strong> to process inputs, understand context, and generate responses while interacting with an environment. These agents can perform tasks such as:</p>
+<p>* <strong>Retrieving information</strong> (e.g., chatbots, virtual assistants).</p>
+<p>* <strong>Generating text-based decisions</strong> (e.g., summarization, answering queries).</p>
+<p>* <strong>Executing actions</strong> in external tools (e.g., LLM-powered autonomous systems).</p>
+<h3><strong>Other Options:</strong></h3>
+<p>* <strong>Statistical agents</strong> → Use <strong>probabilistic models</strong>, not LLMs, to make decisions.</p>
+<p>* <strong>Task-specific agents</strong> → Designed for <strong>narrow tasks</strong>, often without LLM capabilities.</p>
+<p>* <strong>Embedding agents</strong> → Not a recognized term in this context.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>AI agents</strong></p>
+</div>
+<div class="question" id="question121">
+<h2>121,Which LLM was primarily designed for instruction following?,PaLM,GPT,LLaMA,All of the above,</h2>
+<p>✅ <strong>GPT</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Among these options, <strong>GPT models (particularly GPT-3.5 and GPT-4)</strong> were explicitly designed and fine-tuned for <strong>instruction following</strong> using <strong>Instruction Tuning</strong> and <strong>Reinforcement Learning from Human Feedback (RLHF)</strong>.</p>
+<h3><strong>Breakdown of Each Option:</strong></h3>
+<p>* <strong>GPT</strong> → OpenAI's GPT-3.5 & GPT-4 were fine-tuned for instruction-following (e.g., ChatGPT).</p>
+<p>* <strong>PaLM</strong> → While capable of instruction following, it wasn’t originally designed <strong>primarily</strong> for that.</p>
+<p>* <strong>LLaMA</strong> → Focused on efficiency & research, not explicitly built for instruction-following tasks.</p>
+<p>* <strong>All of the above</strong> → Not entirely correct since <strong>GPT</strong> stands out in this area.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>GPT</strong></p>
+</div>
+<div class="question" id="question122">
+<h2>122,What is a characteristic of task-specific models?,General-purpose embeddings,Small datasets,Fixed hidden space,Low adaptability,</h2>
+<p>✅ <strong>Low adaptability</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Task-specific models are designed for <strong>a single task</strong> and <strong>do not generalize well</strong> beyond their training domain. Unlike <strong>pre-trained language models (PLMs)</strong>, they lack adaptability to new or unseen tasks.</p>
+<h3><strong>Breakdown of Each Option:</strong></h3>
+<p>* <strong>General-purpose embeddings</strong> → Incorrect. Task-specific models usually have embeddings tailored to a specific dataset, not general-purpose ones.</p>
+<p>* <strong>Small datasets</strong> → Not always true. Some task-specific models use large datasets, but they are still limited in scope.</p>
+<p>* <strong>Fixed hidden space</strong> → Not necessarily true. Hidden layers can be flexible, but the model's knowledge is constrained.</p>
+<p>* <strong>Low adaptability</strong> → <strong>Correct!</strong> These models struggle with new tasks outside their domain.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Low adaptability</strong></p>
+</div>
+<div class="question" id="question123">
+<h2>123,What allows transformers to use self-attention effectively?,Multiple heads,Recurrent layers,Sparse connections,Fixed sequences,</h2>
+<p>✅ <strong>Multiple heads</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Transformers <strong>use self-attention</strong> to weigh the importance of different words in a sequence. <strong>Multi-head attention</strong> improves this by allowing the model to <strong>attend to different aspects of the input simultaneously</strong>, capturing various relationships between words.</p>
+<h3><strong>Breakdown of Each Option:</strong></h3>
+<p>* <strong>Multiple heads</strong> → ✅ <strong>Correct!</strong> Multi-head attention lets transformers focus on different word relationships in parallel, improving their understanding.</p>
+<p>* <strong>Recurrent layers</strong> → ❌ Incorrect. Transformers <strong>do not</strong> use recurrence; they rely entirely on self-attention.</p>
+<p>* <strong>Sparse connections</strong> → ❌ Incorrect. While transformers can use sparsity in certain architectures, self-attention applies weights across all tokens.</p>
+<p>* <strong>Fixed sequences</strong> → ❌ Incorrect. Transformers can handle variable-length input sequences.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Multiple heads</strong></p>
+</div>
+<div class="question" id="question124">
+<h2>124,Which model type is the basis of AGI research?,Neural networks,Large language models,Statistical models,Embedding-based models,</h2>
+<p>✅ <strong>Large language models (LLMs)</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Artificial General Intelligence (AGI) aims to develop models that can <strong>reason, learn, and perform across diverse tasks</strong> like a human. <strong>LLMs serve as the foundation</strong> for AGI research because they exhibit:</p>
+<p>* <strong>Emergent abilities</strong> (e.g., reasoning, in-context learning)</p>
+<p>* <strong>Scalability</strong> (better performance with more data and compute)</p>
+<p>* <strong>Versatility</strong> (handling various NLP tasks without retraining)</p>
+<h3><strong>Breakdown of Each Option:</strong></h3>
+<p>* <strong>Neural networks</strong> → ❌ Too broad; LLMs are a subset of neural networks.</p>
+<p>* <strong>Large language models</strong> → ✅ <strong>Correct!</strong> LLMs like GPT and PaLM drive AGI research.</p>
+<p>* <strong>Statistical models</strong> → ❌ Outdated for AGI research; they lack reasoning capabilities.</p>
+<p>* <strong>Embedding-based models</strong> → ❌ Useful for NLP but not the foundation of AGI.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Large language models (LLMs)</strong></p>
+</div>
+<div class="question" id="question125">
+<h2>125,How do AI agents improve themselves?,Through external augmentation,Manual coding,Reinforcement learning,Data pre-processing,</h2>
+<p>✅ <strong>Reinforcement learning</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>AI agents improve themselves primarily through <strong>Reinforcement Learning (RL)</strong> by:</p>
+<p>* <strong>Interacting</strong> with an environment</p>
+<p>* <strong>Receiving feedback</strong> (rewards or penalties)</p>
+<p>* <strong>Optimizing decisions</strong> over time</p>
+<p>This technique allows AI agents to <strong>learn from experience</strong> and adapt to new situations autonomously.</p>
+<h3><strong>Breakdown of Each Option:</strong></h3>
+<p>* <strong>External augmentation</strong> → ❌ Enhances capabilities but doesn’t inherently improve decision-making.</p>
+<p>* <strong>Manual coding</strong> → ❌ Requires human intervention, not self-improvement.</p>
+<p>* <strong>Reinforcement learning</strong> → ✅ <strong>Correct!</strong> AI agents learn and optimize through RL.</p>
+<p>* <strong>Data pre-processing</strong> → ❌ Helps with training but doesn’t directly improve agent behavior.</p>
+<h3><strong>Final Answer:</strong></h3>
+<p>✅ <strong>Reinforcement learning</strong></p>
+</div>
+<div class="question" id="question126">
+<h2>126,What technique enhances LLM-based agents?,Fine-tuning,Data augmentation,Instruction tuning,Feedback data,</h2>
+<p>✅ <strong>All of the above</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Each technique contributes to enhancing LLM-based agents in different ways:</p>
+<p>1. <strong>Fine-tuning</strong> → Improves performance on specific tasks by training on labeled data.</p>
+<p>2. <strong>Data augmentation</strong> → Expands training data by generating variations, improving robustness.</p>
+<p>3. <strong>Instruction tuning</strong> → Trains models to follow instructions more effectively.</p>
+<p>4. <strong>Feedback data</strong> → Helps refine responses based on user interactions (e.g., RLHF).</p>
+<p>Since all these techniques contribute to improving LLM-based agents, the best answer is <strong>"All of the above."</strong></p>
+</div>
+<div class="question" id="question127">
+<h2>127,What distinguishes LLaMA from other models?,Recurrent design,Instruction tuning focus,Meta's training methods,Web-scale corpora use,</h2>
+<p>✅ <strong>Meta's training methods</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>LLaMA (Large Language Model Meta AI) is distinct because of <strong>Meta’s specialized training approach</strong>, which focuses on efficiency and smaller-scale models that achieve high performance with fewer resources.</p>
+<p>* <strong>Not recurrent design</strong> → LLaMA is a transformer-based model, not RNN-based.</p>
+<p>* <strong>Not instruction tuning focus</strong> → Unlike models like ChatGPT (GPT-4-turbo), LLaMA was not primarily designed for instruction following.</p>
+<p>* <strong>Not web-scale corpora use</strong> → While LLaMA is trained on diverse datasets, it is optimized to be efficient rather than relying solely on massive web-scale data like GPT models.</p>
+<p>Thus, the correct answer is <strong>Meta's training methods</strong>.</p>
+</div>
+<div class="question" id="question128">
+<h2>128,Which is an example of a task-agnostic process?,Embedding fine-tuning,Task-specific training,Pre-training on large datasets,Smoothing,</h2>
+<p>✅ <strong>Pre-training on large datasets</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>A <strong>task-agnostic process</strong> is one that is <strong>not specific to any particular task</strong> and can be used as a foundation for various applications.</p>
+<p>* <strong>Pre-training on large datasets</strong> → This is a task-agnostic process because it trains a model on diverse, general-purpose data, allowing it to be adapted for many downstream tasks through fine-tuning.</p>
+<h4><strong>Why not the others?</strong></h4>
+<p>* <strong>Embedding fine-tuning</strong> → This is <strong>task-specific</strong> since embeddings are adjusted based on a particular application.</p>
+<p>* <strong>Task-specific training</strong> → As the name suggests, it is tailored to a particular task, making it <strong>not task-agnostic</strong>.</p>
+<p>* <strong>Smoothing</strong> → This is a technique used in <strong>n-gram models</strong> to handle unseen words, but it does not apply broadly to all machine learning tasks.</p>
+<p>Thus, the correct answer is <strong>Pre-training on large datasets</strong>.</p>
+</div>
+<div class="question" id="question129">
+<h2>129,Which LLM is optimized for solving complex reasoning?,PaLM,LLaMA,GPT-4,All of the above,</h2>
+<p>✅ <strong>GPT-4</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>GPT-4 is specifically optimized for <strong>solving complex reasoning tasks</strong> due to its larger scale, enhanced architecture, and more robust training data, which allow it to handle nuanced and intricate reasoning challenges.</p>
+<p>While <strong>PaLM</strong> and <strong>LLaMA</strong> are also powerful LLMs, <strong>GPT-4</strong> has been particularly emphasized for its advanced reasoning capabilities, including better understanding of abstract concepts and complex problem-solving.</p>
+<h4><strong>Why not the others?</strong></h4>
+<p>* <strong>PaLM</strong> is strong in various areas but has not been as prominently optimized for complex reasoning tasks as GPT-4.</p>
+<p>* <strong>LLaMA</strong> is a competitive model, but it doesn't have the same level of attention for complex reasoning that GPT-4 has received.</p>
+<p>Thus, <strong>GPT-4</strong> is the correct answer.</p>
+</div>
+<div class="question" id="question130">
+<h2>130,What allows embeddings to compute semantic similarity?,Their dimensionality,Their training method,Their hidden space,Their task-specific tuning,</h2>
+<p>✅ <strong>Their training method</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Embeddings compute semantic similarity based on how they are <strong>trained</strong>. Specifically, embeddings are trained to map words or phrases into continuous vector spaces where semantically similar words are represented by vectors that are closer together. The <strong>training method</strong> is crucial in determining the relationships between words in this vector space. Common techniques like <strong>Word2Vec</strong>, <strong>GloVe</strong>, or <strong>transformer-based models</strong> (e.g., BERT) learn these embeddings from large text corpora, capturing semantic meaning by minimizing a loss function that encourages semantically related words to have similar representations.</p>
+<h4><strong>Why not the others?</strong></h4>
+<p>* <strong>Dimensionality</strong>: While dimensionality affects the representational power, it's the <strong>training method</strong> that determines how well embeddings capture semantic similarity.</p>
+<p>* <strong>Hidden space</strong>: The hidden space refers to the internal representation in the model but doesn't directly compute similarity in the way training methods do.</p>
+<p>* <strong>Task-specific tuning</strong>: While tuning can refine embeddings for a specific task, it is the <strong>training method</strong> that generally determines how semantic similarity is captured in embeddings.</p>
+<p>Thus, <strong>their training method</strong> is the correct answer.</p>
+</div>
+<div class="question" id="question131">
+<h2>131,Are LLMs typically trained on web-scale corpora?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Large Language Models (LLMs) like GPT, PaLM, and others are typically trained on <strong>web-scale corpora</strong>, meaning they are trained on massive amounts of text data scraped from the web. This data includes a wide variety of content such as books, articles, websites, and other publicly available text sources. The goal is to expose the model to a diverse range of language patterns, contexts, and knowledge so that it can generate coherent and contextually appropriate responses.</p>
+<p>The large-scale training helps the model generalize better across different tasks and domains, making it more versatile and capable of handling a wide range of inputs.</p>
+</div>
+<div class="question" id="question132">
+<h2>132,Can emergent abilities arise in small language models?,Yes,No,</h2>
+<p>❌ <strong>No</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Emergent abilities typically arise in <strong>larger</strong> language models as they scale up, particularly when they reach a certain size and complexity. These abilities include tasks that the model was not explicitly trained on, such as performing arithmetic, reasoning, or understanding complex instructions. Smaller language models generally do not exhibit these emergent abilities to the same extent because they lack the scale and complexity necessary for these capabilities to emerge naturally.</p>
+</div>
+<div class="question" id="question133">
+<h2>133,Is instruction tuning a fine-tuning method for LLMs?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Instruction tuning is a fine-tuning method for LLMs that focuses on training the model to follow specific instructions or perform certain tasks based on given prompts. It is a form of fine-tuning where the model learns to better understand and respond to human instructions, improving its performance on tasks that require comprehension and following of specific directions.</p>
+</div>
+<div class="question" id="question134">
+<h2>134,Do AI agents require continual learning?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>AI agents benefit from continual learning, as it allows them to adapt and improve over time by learning from new experiences or data. Continual learning helps AI agents stay relevant, refine their decision-making, and perform better in dynamic environments.</p>
+</div>
+<div class="question" id="question135">
+<h2>135,Are n-gram models task-agnostic?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>N-gram models are task-agnostic because they are based on the statistical properties of word sequences without being specifically trained for a particular task. They can be used for various tasks like language modeling, text generation, and speech recognition, as they rely on the probability of word sequences rather than task-specific features.</p>
+</div>
+<div class="question" id="question136">
+<h2>136,Is reinforcement learning used for fine-tuning embeddings?,Yes,No,</h2>
+<p>❌ <strong>No</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Reinforcement learning (RL) is not typically used for fine-tuning embeddings. Instead, embeddings are usually fine-tuned using supervised learning methods or through techniques like contrastive learning. RL is often used to optimize decision-making processes and learn policies in environments where feedback is based on rewards, not directly for fine-tuning embeddings.</p>
+</div>
+<div class="question" id="question137">
+<h2>137,Can embeddings reduce sparsity issues in NLP?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Embeddings help reduce sparsity issues in NLP by mapping words or phrases into dense, continuous vector spaces. This representation captures semantic relationships between words, allowing the model to generalize better and overcome the problem of data sparsity present in earlier methods like one-hot encoding.</p>
+</div>
+<div class="question" id="question138">
+<h2>138,Are transformers used in all modern LLMs?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Transformers are the core architecture used in all modern large language models (LLMs) due to their ability to efficiently handle long-range dependencies in text through self-attention mechanisms. Models like GPT, BERT, and others are all built on transformer-based architectures.</p>
+</div>
+<div class="question" id="question139">
+<h2>139,Is a feedback loop essential for RLHF?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>A feedback loop is essential for Reinforcement Learning from Human Feedback (RLHF) as it involves continuous interaction where the model improves based on human feedback, adjusting its behavior to align with human values or preferences. This iterative process is key to fine-tuning the model's performance.</p>
+</div>
+<div class="question" id="question140">
+<h2>140,Do PLMs require task-specific training data?,Yes,No,</h2>
+<p>✅ <strong>No</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Pre-trained Language Models (PLMs) are typically trained on large, diverse, task-agnostic datasets. After pre-training, they can be fine-tuned on task-specific data if needed. This flexibility allows them to be applied to a variety of tasks without the need for training from scratch on each specific task.</p>
+</div>
+<div class="question" id="question141">
+<h2>141,Emergent abilities in LLMs include multi-step reasoning.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Emergent abilities in large language models (LLMs) refer to complex behaviors or capabilities that arise as the model scales up, such as multi-step reasoning, advanced problem-solving, and understanding nuanced contexts, which may not be present in smaller models. These abilities often emerge when the model reaches a certain size or is trained on sufficiently large datasets.</p>
+</div>
+<div class="question" id="question142">
+<h2>142,Attention is key for parallel processing in transformers.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>The attention mechanism in transformers is key for parallel processing because it allows the model to focus on different parts of the input sequence simultaneously, rather than sequentially like in RNNs. This parallelism helps speed up training and inference, making transformers more efficient than traditional models that process data step-by-step.</p>
+</div>
+<div class="question" id="question143">
+<h2>143,PLMs extend the capabilities of neural language models.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Pre-trained Language Models (PLMs) extend the capabilities of neural language models by being trained on large, diverse datasets in an unsupervised manner. This pre-training enables PLMs to learn general language patterns, which can later be fine-tuned for specific tasks. This approach allows PLMs to perform a wide range of tasks without task-specific training from the outset.</p>
+</div>
+<div class="question" id="question144">
+<h2>144,Embedding vectors help compute semantic similarity.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Embedding vectors represent words or phrases in a continuous vector space, where semantically similar words are placed closer together. This allows embedding vectors to be used to compute semantic similarity by measuring the distance between vectors (e.g., using cosine similarity). Thus, embeddings are essential for tasks like word similarity, analogy completion, and sentence similarity.</p>
+</div>
+<div class="question" id="question145">
+<h2>145,LLMs can act as general-purpose AI agents.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Large Language Models (LLMs) can act as general-purpose AI agents because they are capable of performing a wide variety of tasks, including language understanding, text generation, translation, summarization, question answering, and more. With fine-tuning or specific instructions, LLMs can adapt to multiple domains, making them versatile in various applications.</p>
+</div>
+<div class="question" id="question146">
+<h2>146,Instruction tuning improves task generality in LLMs.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Instruction tuning improves task generality in LLMs by fine-tuning them on a diverse set of tasks, enabling them to better follow and understand a wide range of instructions. This process helps LLMs generalize across various applications, improving their performance on unseen tasks during inference.</p>
+</div>
+<div class="question" id="question147">
+<h2>147,N-gram models are prone to data sparsity.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>N-gram models are prone to data sparsity because they rely on fixed-length sequences of words or tokens. As the model increases in the number of possible combinations of words, many of these combinations will not appear in the training data, leading to sparse data and issues in modeling unseen sequences effectively.</p>
+</div>
+<div class="question" id="question148">
+<h2>148,AI agents require dynamic interaction with their environment.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>AI agents require dynamic interaction with their environment to adapt and make decisions based on real-time feedback. This is essential for tasks such as reinforcement learning, where the agent learns by exploring its environment and receiving rewards or penalties based on its actions.</p>
+</div>
+<div class="question" id="question149">
+<h2>149,Feedback data helps refine LLM-based agents.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Feedback data is crucial for refining LLM-based agents, especially in methods like reinforcement learning or human-in-the-loop approaches. By incorporating feedback, the agents can adjust their behavior, improve accuracy, and enhance performance over time.</p>
+</div>
+<div class="question" id="question150">
+<h2>150,LLMs can follow instructions without explicit examples.,True,False,</h2>
+<p>✅ <strong>True</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>LLMs, particularly those fine-tuned with instruction-following data, can understand and follow instructions even without explicit examples. This ability comes from their pre-trained knowledge and the generalization of patterns learned during training. However, providing examples can enhance the model's ability to understand complex tasks.</p>
+</div>
+<div class="question" id="question151">
+<h2>151,What is the main purpose of the Transformer architecture?,To enhance n-gram models,To increase RNN speed,To improve language understanding,To enable parallel computation and efficient training,</h2>
+<p>✅ <strong>To enable parallel computation and efficient training</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>The Transformer architecture was specifically designed to improve the efficiency of training models by allowing parallel computation, which was not possible with older architectures like RNNs and LSTMs. The use of self-attention mechanisms in Transformers enables models to process entire sequences simultaneously, improving training speed and scalability.</p>
+</div>
+<div class="question" id="question152">
+<h2>152,Which type of PLMs is designed primarily for language understanding tasks?,Decoder-only,Encoder-only,Encoder-decoder,Auto-regressive,</h2>
+<p>✅ <strong>Encoder-only</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Encoder-only models, such as BERT, are primarily designed for language understanding tasks. They focus on capturing context and semantics in a sequence of text through the use of self-attention mechanisms, making them ideal for tasks like text classification, question answering, and named entity recognition.</p>
+</div>
+<div class="question" id="question153">
+<h2>153,What is a key training technique used by ELECTRA?,Masked Language Modeling,Replaced Token Detection,Next Sentence Prediction,Sequence-to-Sequence Prediction,</h2>
+<p>✅ <strong>Replaced Token Detection</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>ELECTRA uses a training technique called <strong>Replaced Token Detection</strong> where instead of predicting masked tokens like in traditional Masked Language Modeling (MLM), the model is trained to distinguish between real and fake tokens. This technique leads to more efficient training and better performance compared to conventional MLM.</p>
+</div>
+<div class="question" id="question154">
+<h2>154,Which model introduced the concept of masked language modeling?,GPT,BERT,ELECTRA,RoBERTa,</h2>
+<p>✅ <strong>BERT</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>BERT (Bidirectional Encoder Representations from Transformers) introduced the concept of <strong>Masked Language Modeling (MLM)</strong>, where certain tokens in the input text are masked, and the model is trained to predict those masked tokens. This bidirectional approach allows BERT to capture context from both sides of the masked word.</p>
+</div>
+<div class="question" id="question155">
+<h2>155,Which variant of BERT focuses on reducing memory consumption?,RoBERTa,ELECTRA,ALBERT,XLNet,</h2>
+<p>✅ <strong>ALBERT</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>ALBERT (A Lite BERT) focuses on reducing memory consumption by sharing parameters across layers and using factorized embeddings, which reduces the number of parameters compared to the original BERT model while maintaining performance.</p>
+</div>
+<div class="question" id="question156">
+<h2>156,What mechanism does DeBERTa use to represent each word?,Context and content vectors,Disentangled attention,Relative position encoding,Mask decoding,</h2>
+<p>✅ <strong>Disentangled attention</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>DeBERTa (Decoding-enhanced BERT with disentangled attention) introduces disentangled attention, which separates the content and position information for more accurate word representation, improving language understanding.</p>
+</div>
+<div class="question" id="question157">
+<h2>157,Which model applies the autoregressive method for bidirectional context learning?,RoBERTa,XLNet,ALBERT,UNILM,</h2>
+<p>✅ <strong>XLNet</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>XLNet applies the autoregressive method for bidirectional context learning by combining autoregressive modeling with bidirectional context, which allows it to capture dependencies in both directions and improve performance on language understanding tasks.</p>
+</div>
+<div class="question" id="question158">
+<h2>158,Which model uses three types of language modeling tasks?,RoBERTa,ELECTRA,UNILM,XLNet,</h2>
+<p>✅ <strong>UNILM</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>UNILM (Unified Language Model) uses three types of language modeling tasks: masked language modeling (MLM), autoregressive language modeling (ALM), and sequence-to-sequence (S2S) prediction. This combination helps UNILM perform well on both understanding and generation tasks.</p>
+</div>
+<div class="question" id="question159">
+<h2>159,What is the main task in GPT training?,Next sentence prediction,Replaced token detection,Masked language modeling,Next token prediction,</h2>
+<p>✅ <strong>Next token prediction</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>GPT (Generative Pre-trained Transformer) is trained using the next token prediction task, where the model learns to predict the next word in a sequence based on the previous context. This autoregressive approach allows GPT to generate coherent and contextually relevant text.</p>
+</div>
+<div class="question" id="question160">
+<h2>160,What makes GPT-3 a significant advancement in LLMs?,Open-source availability,175 billion parameters,Novel token embedding,Bidirectional attention,</h2>
+<p>✅ <strong>175 billion parameters</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>GPT-3 is a significant advancement in LLMs primarily due to its size, with 175 billion parameters. This massive scale enables GPT-3 to generate highly coherent and contextually accurate text across a wide range of tasks, outperforming previous models with fewer parameters.</p>
+</div>
+<div class="question" id="question161">
+<h2>161,What does T5 stand for?,Text Transfer Task Transformer,Text-to-Text Transfer Transformer,Task Transfer Transformer,Text Transfer Transformer,</h2>
+<p>✅ <strong>Text-to-Text Transfer Transformer</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>T5 (Text-to-Text Transfer Transformer) is a model that frames all NLP tasks as text-to-text problems. This means that it treats both the input and output as sequences of text, making it highly versatile for a wide range of language tasks.</p>
+</div>
+<div class="question" id="question162">
+<h2>162,Which model is the multilingual variant of T5?,BART,mT5,ELECTRA,XLNet,</h2>
+<p>✅ <strong>mT5</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>mT5 (Multilingual T5) is the multilingual variant of the T5 model. It is designed to handle multiple languages by pretraining on a diverse set of multilingual data, enabling it to perform various language tasks across different languages.</p>
+</div>
+<div class="question" id="question163">
+<h2>163,What is the main training strategy of MASS?,Corrupt text reconstruction,Sentence fragment prediction,Token replacement,Sequence-to-sequence prediction,</h2>
+<p>✅ <strong>Corrupt text reconstruction</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>MASS (Masked Sequence to Sequence) uses a training strategy called <strong>corrupt text reconstruction</strong>, where a portion of the input text is masked, and the model is tasked with reconstructing the missing segments, helping the model learn to generate sequences from incomplete inputs.</p>
+</div>
+<div class="question" id="question164">
+<h2>164,What distinguishes BART from other models?,Masked token prediction,Encoder-decoder reconstruction,Next sentence prediction,Next token generation,</h2>
+<p>✅ <strong>Encoder-decoder reconstruction</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>BART (Bidirectional and Auto-Regressive Transformers) distinguishes itself by using <strong>encoder-decoder reconstruction</strong>. It combines the benefits of bidirectional encoding (like BERT) and autoregressive decoding (like GPT) to generate sequences, making it highly effective for tasks like text generation and text reconstruction.</p>
+</div>
+<div class="question" id="question165">
+<h2>165,What is a common characteristic of large language models?,Small training datasets,Encoder-only architecture,Massive parameter count,Limited generation ability,</h2>
+<p>✅ <strong>Massive parameter count</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Large language models (LLMs) are known for their <strong>massive parameter count</strong>, which allows them to capture complex patterns and relationships in data, contributing to their high performance on various tasks. This is one of the defining characteristics of models like GPT-3 and GPT-4.</p>
+</div>
+<div class="question" id="question166">
+<h2>166,Which model family includes ChatGPT?,BERT,GPT,RoBERTa,ELECTRA,</h2>
+<p>✅ <strong>GPT</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>ChatGPT is based on the <strong>GPT (Generative Pre-trained Transformer)</strong> model family, specifically the GPT-3 and GPT-4 versions, which are designed for generating human-like text.</p>
+</div>
+<div class="question" id="question167">
+<h2>167,Which of the following is an advantage of Transformers over RNNs?,Reduced computational power,Improved sequential data handling,Faster training with parallel computation,Lower memory usage,</h2>
+<p>✅ <strong>Faster training with parallel computation</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>Transformers allow for <strong>parallel computation</strong>, which significantly speeds up training compared to RNNs (Recurrent Neural Networks), which process sequences one step at a time. This is one of the major advantages of Transformers over RNNs.</p>
+</div>
+<div class="question" id="question168">
+<h2>168,What is the key innovation in RoBERTa compared to BERT?,New language tasks,Modified hyperparameters and training strategies,Masked sequence pre-training,Bidirectional training,</h2>
+<p>✅ <strong>Modified hyperparameters and training strategies</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>RoBERTa (Robustly optimized BERT approach) improves upon BERT by <strong>modifying hyperparameters</strong> and <strong>training strategies</strong>, such as training with larger mini-batches, using more data, and removing the Next Sentence Prediction task. These adjustments lead to better performance than BERT.</p>
+</div>
+<div class="question" id="question169">
+<h2>169,Which of the following uses disentangled attention mechanisms?,GPT,BERT,DeBERTa,XLNet,</h2>
+<p>✅ <strong>DeBERTa</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>DeBERTa (Decoding-enhanced BERT with disentangled attention) introduces a <strong>disentangled attention mechanism</strong>, which separates the modeling of content and position information to enhance the model's performance. This approach improves the model's ability to capture fine-grained semantic and syntactic relationships between words.</p>
+</div>
+<div class="question" id="question170">
+<h2>170,What task is NOT used in UNILM training?,Unidirectional modeling,Bidirectional modeling,Next sentence prediction,Sequence-to-sequence prediction,</h2>
+<p>✅ <strong>Next sentence prediction</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>UNILM (Unified Language Model) focuses on <strong>unidirectional modeling</strong>, <strong>bidirectional modeling</strong>, and <strong>sequence-to-sequence prediction</strong>. However, <strong>next sentence prediction</strong> is not used in UNILM training. UNILM combines both autoregressive (unidirectional) and denoising (bidirectional) objectives, but it does not include the next sentence prediction task, which was part of BERT's training approach.</p>
+</div>
+<div class="question" id="question171">
+<h2>171,Which model family introduced instruction-based training?,RoBERTa,GPT,ELECTRA,BART,</h2>
+<p>✅ <strong>GPT</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>The <strong>GPT (Generative Pre-trained Transformer)</strong> model family, particularly GPT-3, introduced instruction-based training. This method allows the model to follow human-provided instructions to perform a wide range of tasks, making it more versatile and capable of performing tasks without fine-tuning. GPT models can be prompted with instructions that guide the model on how to solve specific problems or tasks.</p>
+</div>
+<div class="question" id="question172">
+<h2>172,What is the pre-training objective of ELECTRA?,Predict masked tokens,Replaced token detection,Next token prediction,Sequence-to-sequence modeling,</h2>
+<p>✅ <strong>Replaced token detection</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>The pre-training objective of <strong>ELECTRA</strong> is <strong>replaced token detection</strong>. In ELECTRA, instead of predicting the masked tokens (like in traditional masked language modeling), the model learns to distinguish between "real" tokens and "fake" tokens generated by a small generator network. This approach is more efficient because it allows the model to learn from all tokens in a sequence, rather than just the masked ones.</p>
+</div>
+<div class="question" id="question173">
+<h2>173,Which model primarily uses text-to-text generation for all tasks?,RoBERTa,T5,GPT,</h2>
+<p>✅ <strong>T5</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>The <strong>T5 (Text-to-Text Transfer Transformer)</strong> model primarily uses a text-to-text framework for all tasks. In T5, every problem is formulated as a text generation task, where the input and output are both text. This includes tasks like translation, summarization, and question answering, all treated as text generation problems.</p>
+</div>
+<div class="question" id="question174">
+<h2>174,Which LLM is known for being closed-source?,GPT-2,GPT-3,GPT-4,InstrucGPT,</h2>
+<p>✅ <strong>GPT-3</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>GPT-3</strong> is known for being closed-source. OpenAI, the creator of GPT-3, has not released the model's weights to the public, and access to GPT-3 is provided via a commercial API. In contrast, earlier models like GPT-2 were released in open-source form.</p>
+</div>
+<div class="question" id="question175">
+<h2>175,What is a major limitation of RNN-based models compared to Transformers?,Inability to learn long-term dependencies,Lack of bidirectional processing,Limited training dataset compatibility,Sequential computation bottlenecks,</h2>
+<p>✅ <strong>Sequential computation bottlenecks</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>A major limitation of RNN-based models compared to Transformers is the <strong>sequential computation bottleneck</strong>. RNNs process data one step at a time, making them slower and less efficient for training, especially for long sequences. Transformers, on the other hand, leverage parallel computation through their attention mechanism, enabling faster training and better handling of long-term dependencies.</p>
+</div>
+<div class="question" id="question176">
+<h2>176,What is the common dataset size used for training GPT-3?,Thousands of tokens,Millions of tokens,Billions of tokens,Trillions of tokens,</h2>
+<p>✅ <strong>Trillions of tokens</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>GPT-3 was trained on a vast dataset that includes <strong>trillions of tokens</strong>, enabling it to capture a wide range of language patterns and produce coherent, contextually relevant responses across many topics.</p>
+</div>
+<div class="question" id="question177">
+<h2>177,What does BERT stand for?,Bidirectional Encoder Representations from Transformers,Basic Encoder Representations from Transformers,Bidirectional Efficient Representations from Transformers,Base Encoder Representations for Text,</h2>
+<p>✅ <strong>Bidirectional Encoder Representations from Transformers</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>BERT (Bidirectional Encoder Representations from Transformers) is a transformer-based model that leverages bidirectional context, meaning it considers both the left and right context of words in a sentence during training. This allows BERT to understand language better compared to previous models that only considered one direction.</p>
+</div>
+<div class="question" id="question178">
+<h2>178,What improvement does ALBERT introduce?,Larger parameter size,Training with small datasets,Parameter-reduction techniques,Improved token embeddings,</h2>
+<p>✅ <strong>Parameter-reduction techniques</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>ALBERT (A Lite BERT) introduces <strong>parameter-reduction techniques</strong> to improve efficiency while maintaining performance. It achieves this through:</p>
+<p>* <strong>Factorized embedding parameterization</strong> (reducing the size of word embeddings).</p>
+<p>* <strong>Cross-layer parameter sharing</strong> (reducing the number of unique parameters across layers).</p>
+<p>* <strong>Sentence-order prediction</strong> (an alternative to next-sentence prediction for better coherence understanding).</p>
+<p>These optimizations help ALBERT maintain strong performance while using fewer parameters, making it more memory-efficient and faster to train.</p>
+</div>
+<div class="question" id="question179">
+<h2>179,Which model focuses on cross-lingual tasks?,RoBERTa,XLM,UNILM,ELECTRA,</h2>
+<p>✅ <strong>XLM</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>XLM (Cross-lingual Language Model)</strong> is specifically designed for <strong>cross-lingual tasks</strong>. It improves multilingual text processing by leveraging:</p>
+<p>* <strong>Cross-lingual pre-training</strong>, enabling knowledge transfer across languages.</p>
+<p>* <strong>Masked Language Modeling (MLM)</strong> and <strong>Translation Language Modeling (TLM)</strong> for better multilingual understanding.</p>
+<p>This makes XLM useful for tasks like <strong>machine translation, multilingual text classification, and cross-lingual information retrieval</strong>.</p>
+</div>
+<div class="question" id="question180">
+<h2>180,What is the primary use of GPT models?,Language understanding tasks,Generating human-like text,Text classification,Sequence-to-sequence translation,</h2>
+<p>✅ <strong>Generating human-like text</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>GPT models are primarily designed for <strong>text generation</strong>, making them excellent at producing human-like responses in various contexts. Their <strong>autoregressive</strong> nature enables them to predict and generate the next token in a sequence, making them effective for:</p>
+<p>* <strong>Conversational AI (e.g., ChatGPT)</strong></p>
+<p>* <strong>Creative writing (e.g., storytelling, poetry, content generation)</strong></p>
+<p>* <strong>Code generation (e.g., GitHub Copilot)</strong></p>
+<p>* <strong>Summarization and paraphrasing</strong></p>
+<p>While GPT can be adapted for other NLP tasks (like classification), its primary strength lies in <strong>natural language generation (NLG)</strong>.</p>
+</div>
+<div class="question" id="question181">
+<h2>181,What is the main purpose of the Transformer architecture?,To enhance n-gram models,To increase RNN speed,To improve language understanding,To enable parallel computation and efficient training,</h2>
+<p>✅ <strong>To enable parallel computation and efficient training</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>The <strong>Transformer architecture</strong> was introduced in the paper *"Attention Is All You Need"* to overcome the limitations of RNNs and LSTMs by enabling <strong>parallel computation</strong> through <strong>self-attention mechanisms</strong>. This significantly improves <strong>training efficiency</strong> and allows models to handle <strong>long-range dependencies</strong> more effectively.</p>
+<h4><strong>Key Advantages of Transformers:</strong></h4>
+<p>* <strong>Parallel Processing:</strong> Unlike RNNs, which process data sequentially, Transformers process entire sequences simultaneously.</p>
+<p>* <strong>Self-Attention Mechanism:</strong> Captures long-range dependencies without recurrence.</p>
+<p>* <strong>Scalability:</strong> Enables large-scale training, making modern LLMs (like GPT and BERT) feasible.</p>
+<p>Thus, the Transformer’s main contribution is <strong>parallel computation and efficient training</strong>, making it the foundation for <strong>modern LLMs like GPT, BERT, and T5</strong>.</p>
+</div>
+<div class="question" id="question182">
+<h2>182,Which type of PLMs is designed primarily for language understanding tasks?,Decoder-only,Encoder-only,Encoder-decoder,Auto-regressive,</h2>
+<p>✅ <strong>Encoder-only</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>Encoder-only PLMs</strong> (Pretrained Language Models) are designed primarily for <strong>language understanding tasks</strong> such as <strong>text classification, named entity recognition (NER), and sentiment analysis</strong>. These models learn deep contextual representations of text but do not focus on text generation.</p>
+<h4><strong>Examples of Encoder-only Models:</strong></h4>
+<p>* <strong>BERT (Bidirectional Encoder Representations from Transformers)</strong></p>
+<p>* <strong>RoBERTa (Robustly Optimized BERT Pretraining Approach)</strong></p>
+<p>* <strong>ALBERT (A Lite BERT)</strong></p>
+<p>* <strong>ELECTRA (Efficiently Learning an Encoder that Classifies Token Replacements Accurately)</strong></p>
+<h4><strong>Other Architectures & Their Uses:</strong></h4>
+<p>* <strong>Decoder-only:</strong> Used for text generation (e.g., GPT).</p>
+<p>* <strong>Encoder-decoder:</strong> Used for sequence-to-sequence tasks (e.g., T5, BART).</p>
+<p>* <strong>Auto-regressive:</strong> Predicts one token at a time (e.g., GPT).</p>
+<p>Since <strong>language understanding</strong> focuses on <strong>analyzing</strong> rather than <strong>generating</strong> text, <strong>Encoder-only models</strong> are the best choice.</p>
+</div>
+<div class="question" id="question183">
+<h2>183,What is a key training technique used by ELECTRA?,Masked Language Modeling,Replaced Token Detection,Next Sentence Prediction,Sequence-to-Sequence Prediction,</h2>
+<p>✅ <strong>Replaced Token Detection</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>ELECTRA</strong> (Efficiently Learning an Encoder that Classifies Token Replacements Accurately) introduced <strong>Replaced Token Detection (RTD)</strong> as its key training technique. Unlike <strong>Masked Language Modeling (MLM)</strong> used in BERT, which predicts missing tokens, ELECTRA's RTD trains a model to <strong>identify whether a token has been replaced by a generator model</strong>.</p>
+<h3><strong>How RTD Works:</strong></h3>
+<p>1. A <strong>generator model</strong> (small masked language model) <strong>replaces some tokens</strong> in the input sequence.</p>
+<p>2. The <strong>discriminator model</strong> (main model) is trained to <strong>detect whether each token is original or replaced</strong>.</p>
+<p>3. The model learns <strong>better representations</strong> without needing large masked tokens like in BERT, making it more <strong>data-efficient</strong> and <strong>faster to train</strong>.</p>
+<h3><strong>Comparison with Other Techniques:</strong></h3>
+<p>* <strong>Masked Language Modeling (MLM):</strong> Used in <strong>BERT</strong> (predicts missing tokens).</p>
+<p>* <strong>Next Sentence Prediction (NSP):</strong> Used in <strong>BERT</strong> (predicts if two sentences are related).</p>
+<p>* <strong>Sequence-to-Sequence Prediction:</strong> Used in <strong>T5, BART</strong> (useful for translation, summarization).</p>
+<p>Since ELECTRA uses <strong>Replaced Token Detection (RTD)</strong> instead of MLM, this is the correct answer.</p>
+</div>
+<div class="question" id="question184">
+<h2>184,Which model introduced the concept of masked language modeling?,GPT,BERT,ELECTRA,RoBERTa,</h2>
+<p>✅ <strong>BERT</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>Masked Language Modeling (MLM)</strong> was first introduced by <strong>BERT (Bidirectional Encoder Representations from Transformers)</strong> as a <strong>pre-training objective</strong> to enable <strong>bidirectional contextual learning</strong>.</p>
+<h3><strong>How MLM Works in BERT:</strong></h3>
+<p>1. During training, <strong>random tokens in a sentence are masked</strong> (replaced with `[MASK]` tokens).</p>
+<p>2. The model is trained to <strong>predict the masked words</strong> based on the surrounding context.</p>
+<p>3. This allows BERT to <strong>learn deep bidirectional representations</strong> rather than just left-to-right (like GPT) or right-to-left processing.</p>
+<h3><strong>Comparison with Other Models:</strong></h3>
+<p>* <strong>GPT:</strong> Uses <strong>causal language modeling</strong> (predicts the next token without masking).</p>
+<p>* <strong>ELECTRA:</strong> Uses <strong>Replaced Token Detection (RTD)</strong> instead of MLM.</p>
+<p>* <strong>RoBERTa:</strong> Improves upon BERT’s MLM by removing Next Sentence Prediction (NSP) and training with more data.</p>
+<p>Since <strong>BERT pioneered MLM</strong>, it is the correct answer.</p>
+</div>
+<div class="question" id="question185">
+<h2>185,Which variant of BERT focuses on reducing memory consumption?,RoBERTa,ELECTRA,ALBERT,XLNet,</h2>
+<p>✅ <strong>ALBERT (A Lite BERT)</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p><strong>ALBERT (A Lite BERT)</strong> is a <strong>variant of BERT</strong> designed to <strong>reduce memory consumption</strong> and <strong>improve efficiency</strong> while maintaining performance.</p>
+<h3><strong>Key Improvements in ALBERT:</strong></h3>
+<p>1. <strong>Parameter Reduction Techniques:</strong></p>
+<p>   * <strong>Factorized Embedding Parameterization</strong>: Reduces the size of embeddings to <strong>improve efficiency</strong>.</p>
+<p>   * <strong>Cross-layer Parameter Sharing</strong>: <strong>Reuses parameters across layers</strong>, significantly lowering the number of trainable parameters.</p>
+<p>2. <strong>Memory Efficiency:</strong></p>
+<p>   * Uses <strong>fewer parameters than BERT</strong>, making it <strong>lighter and faster</strong> for training and inference.</p>
+<p>   * <strong>Lower GPU memory requirement</strong>, enabling better scalability.</p>
+<h3><strong>Comparison with Other Models:</strong></h3>
+<p>* <strong>RoBERTa</strong>: Focuses on improving training strategies (e.g., <strong>longer training and more data</strong>), but does <strong>not</strong> focus on memory efficiency.</p>
+<p>* <strong>ELECTRA</strong>: Uses <strong>Replaced Token Detection (RTD)</strong> instead of Masked Language Modeling (MLM) but doesn’t significantly optimize memory usage.</p>
+<p>* <strong>XLNet</strong>: Uses <strong>permutation-based training</strong> for bidirectional context but is computationally expensive.</p>
+<p>Since <strong>ALBERT focuses on memory efficiency and reduced parameter size</strong>, it is the correct answer.</p>
+</div>
+<div class="question" id="question186">
+<h2>186,What mechanism does DeBERTa use to represent each word?,Context and content vectors,Disentangled attention,Relative position encoding,Mask decoding,</h2>
+<p>✅ <strong>Disentangled attention</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>DeBERTa (<strong>Decoding-enhanced BERT with Disentangled Attention</strong>) improves upon BERT and RoBERTa by introducing <strong>disentangled attention</strong> and <strong>relative position encoding</strong> for better contextual understanding.</p>
+<h3><strong>Key Features of DeBERTa:</strong></h3>
+<p>1. <strong>Disentangled Attention Mechanism:</strong></p>
+<p>   * Unlike BERT, which treats <strong>word embeddings</strong> as single vectors, DeBERTa <strong>separates content embeddings and position embeddings</strong>.</p>
+<p>   * This allows the model to <strong>better capture word relationships</strong> based on both <strong>semantic meaning</strong> and <strong>word position</strong>.</p>
+<p>2. <strong>Relative Position Encoding:</strong></p>
+<p>   * Instead of using absolute position embeddings (like BERT), DeBERTa employs <strong>relative position embeddings</strong> to improve language modeling, especially for <strong>long sequences</strong>.</p>
+<p>3. <strong>Better Performance:</strong></p>
+<p>   * Outperforms BERT and RoBERTa in <strong>many NLP tasks</strong>, including <strong>GLUE, SuperGLUE, and SQuAD benchmarks</strong>.</p>
+<h3><strong>Comparison with Other Mechanisms:</strong></h3>
+<p>* <strong>Context and content vectors</strong> → Not a specific feature of DeBERTa.</p>
+<p>* <strong>Relative position encoding</strong> → Used in DeBERTa, but <strong>not the core distinguishing feature</strong>.</p>
+<p>* <strong>Mask decoding</strong> → More related to models like <strong>BART</strong>, which focus on sequence-to-sequence tasks.</p>
+<p>Since <strong>disentangled attention is the key innovation of DeBERTa</strong>, it is the correct answer.</p>
+</div>
+<div class="question" id="question187">
+<h2>187,Which model applies the autoregressive method for bidirectional context learning?,RoBERTa,XLNet,ALBERT,UNILM,</h2>
+<p>✅ <strong>XLNet</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>XLNet is a transformer-based model that applies the <strong>autoregressive (AR) method</strong> while capturing <strong>bidirectional context</strong>, making it different from BERT and other standard transformers.</p>
+<h3><strong>Key Features of XLNet:</strong></h3>
+<p>1. <strong>Autoregressive Pretraining:</strong></p>
+<p>   * Unlike BERT, which uses <strong>masked language modeling (MLM)</strong>, XLNet <strong>predicts words autoregressively</strong>, processing sequences in <strong>permuted orders</strong> instead of left-to-right like GPT.</p>
+<p>2. <strong>Bidirectional Context Learning:</strong></p>
+<p>   * Unlike traditional autoregressive models (e.g., GPT, which processes tokens sequentially), XLNet uses <strong>permutation-based training</strong> to capture <strong>context from both directions</strong> while maintaining autoregressive generation.</p>
+<p>3. <strong>Overcoming BERT’s Limitations:</strong></p>
+<p>   * BERT’s <strong>MLM training corrupts input data</strong> by replacing words with \[MASK] tokens, which causes a gap between pretraining and fine-tuning.</p>
+<p>   * XLNet avoids this by learning without input corruption, making it <strong>better at language modeling tasks</strong>.</p>
+<h3><strong>Comparison with Other Models:</strong></h3>
+<p>* <strong>RoBERTa</strong> → An optimized version of BERT, <strong>not autoregressive</strong>.</p>
+<p>* <strong>ALBERT</strong> → A memory-efficient variant of BERT, <strong>not autoregressive</strong>.</p>
+<p>* <strong>UNILM</strong> → Supports both <strong>unidirectional and bidirectional modeling</strong>, but does not use <strong>permutation-based autoregression</strong> like XLNet.</p>
+<p>Since <strong>XLNet uniquely combines autoregression with bidirectional learning</strong>, it is the correct answer.</p>
+</div>
+<div class="question" id="question198">
+<h2>198,What is the key innovation in RoBERTa compared to BERT?,New language tasks,Modified hyperparameters and training strategies,Masked sequence pre-training,Bidirectional training,Modified hyperparameters and training strategies,Pre-trained LLMs</h2>
+<p>✅ <strong>Modified hyperparameters and training strategies</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>RoBERTa (<strong>Robustly Optimized BERT Approach</strong>) is an improved version of BERT that <strong>modifies its training strategies and hyperparameters</strong> to enhance performance.</p>
+<h3><strong>Key Innovations in RoBERTa:</strong></h3>
+<p>1. <strong>Longer Training with More Data</strong></p>
+<p>   * RoBERTa is trained on <strong>more data</strong> and for <strong>longer epochs</strong> compared to BERT.</p>
+<p>   * It removes <strong>Next Sentence Prediction (NSP)</strong>, which was part of BERT's training, leading to better performance.</p>
+<p>2. <strong>Larger Batch Sizes & Learning Rates</strong></p>
+<p>   * RoBERTa uses <strong>bigger batch sizes</strong> and <strong>optimized learning rates</strong>, making training more effective.</p>
+<p>3. <strong>Dynamic Masking for MLM (Masked Language Modeling)</strong></p>
+<p>   * Unlike BERT, which <strong>masks tokens once and reuses the same masked dataset</strong>, RoBERTa <strong>dynamically remasks tokens</strong> for better generalization.</p>
+<p>4. <strong>More Pretraining Data</strong></p>
+<p>   * It is trained on datasets <strong>10x larger</strong> than BERT (160GB of text instead of 16GB), improving its ability to understand language.</p>
+<h3><strong>Why Other Options Are Incorrect:</strong></h3>
+<p>* <strong>New language tasks</strong> → RoBERTa <strong>does not introduce new tasks</strong>; it only modifies how existing tasks are trained.</p>
+<p>* <strong>Masked sequence pre-training</strong> → Both <strong>BERT and RoBERTa use MLM</strong>, so this is <strong>not unique</strong> to RoBERTa.</p>
+<p>* <strong>Bidirectional training</strong> → BERT <strong>already</strong> uses bidirectional attention, so this is <strong>not a new feature</strong> in RoBERTa.</p>
+<p>* <strong>Pre-trained LLMs</strong> → This applies to <strong>many models</strong>, not specifically RoBERTa.</p>
+<p>Thus, the correct answer is <strong>Modified hyperparameters and training strategies</strong>.</p>
+</div>
+<div class="question" id="question199">
+<h2>199,Which of the following uses disentangled attention mechanisms?,GPT,BERT,DeBERTa,XLNet,DeBERTa,Pre-trained LLMs</h2>
+<p>✅ <strong>DeBERTa</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>DeBERTa (<strong>Decoding-enhanced BERT with Disentangled Attention</strong>) introduces <strong>disentangled attention mechanisms</strong>, which improve the way it understands word relationships in a sentence.</p>
+<h3><strong>Key Features of DeBERTa:</strong></h3>
+<p>1. <strong>Disentangled Attention Mechanism</strong></p>
+<p>   * Unlike <strong>BERT</strong>, which treats all tokens in the same way, DeBERTa <strong>separates content and positional information</strong> when computing attention scores.</p>
+<p>   * This helps <strong>better model word meanings</strong> and <strong>improve generalization</strong>.</p>
+<p>2. <strong>Enhanced Relative Position Encoding</strong></p>
+<p>   * Unlike <strong>BERT</strong>, DeBERTa <strong>incorporates relative positions more effectively</strong> to capture long-range dependencies.</p>
+<p>3. <strong>Better Performance than BERT & RoBERTa</strong></p>
+<p>   * DeBERTa outperforms <strong>BERT</strong> and <strong>RoBERTa</strong> on NLP benchmarks like <strong>GLUE, SQuAD, and SuperGLUE</strong>.</p>
+<h3><strong>Why Other Options Are Incorrect:</strong></h3>
+<p>* <strong>GPT</strong> → Uses a standard <strong>transformer decoder</strong> without disentangled attention.</p>
+<p>* <strong>BERT</strong> → Uses <strong>standard self-attention</strong>, not disentangled attention.</p>
+<p>* <strong>XLNet</strong> → Uses a <strong>permutation-based autoregressive model</strong>, not disentangled attention.</p>
+<p>* <strong>Pre-trained LLMs</strong> → This is <strong>too broad</strong> and does not specifically refer to disentangled attention.</p>
+<p>Thus, the correct answer is <strong>DeBERTa</strong>.</p>
+</div>
+<div class="question" id="question200">
+<h2>200,What task is NOT used in UNILM training?,Unidirectional modeling,Bidirectional modeling,Next sentence prediction,Sequence-to-sequence prediction,</h2>
+<p>✅ <strong>Next sentence prediction</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>UNILM (<strong>Unified Language Model</strong>) is designed to handle <strong>multiple types of language modeling tasks</strong>, but it does <strong>not use Next Sentence Prediction (NSP)</strong>.</p>
+<h3><strong>Key Training Tasks in UNILM:</strong></h3>
+<p>1. <strong>Unidirectional Modeling</strong> → Similar to GPT, where words are predicted <strong>from left to right</strong>.</p>
+<p>2. <strong>Bidirectional Modeling</strong> → Similar to BERT, where the model <strong>looks at both left and right contexts</strong>.</p>
+<p>3. <strong>Sequence-to-Sequence Prediction</strong> → Similar to T5, useful for <strong>text generation, translation, and summarization</strong>.</p>
+<h3><strong>Why NSP Is NOT Used in UNILM?</strong></h3>
+<p>* BERT uses <strong>NSP</strong> to improve <strong>sentence relationship understanding</strong>, but UNILM focuses on <strong>multi-task learning</strong> with different attention masks.</p>
+<p>* Instead of NSP, <strong>UNILM relies on its sequence-to-sequence objective</strong> for tasks like text generation.</p>
+<h3><strong>Why Other Options Are Incorrect?</strong></h3>
+<p>* <strong>Unidirectional Modeling</strong> → Used in UNILM for autoregressive tasks.</p>
+<p>* <strong>Bidirectional Modeling</strong> → Used in UNILM for deep context understanding.</p>
+<p>* <strong>Sequence-to-Sequence Prediction</strong> → Used in UNILM for translation and text generation.</p>
+<p>Thus, the correct answer is <strong>Next Sentence Prediction (NSP)</strong>.</p>
+</div>
+<div class="question" id="question202">
+<h2>202,What is the pre-training objective of ELECTRA?,Predict masked tokens,Replaced token detection,Next token prediction,Sequence-to-sequence modeling,</h2>
+<p>✅ <strong>Replaced Token Detection</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>ELECTRA (<strong>Efficiently Learning an Encoder that Classifies Token Replacements Accurately</strong>) introduces <strong>Replaced Token Detection (RTD)</strong> as its <strong>pre-training objective</strong> instead of <strong>Masked Language Modeling (MLM)</strong> used in BERT.</p>
+<h3><strong>How Replaced Token Detection Works?</strong></h3>
+<p>1. Instead of masking tokens like BERT, <strong>ELECTRA replaces some tokens with plausible alternatives</strong> generated by a small generator model.</p>
+<p>2. The main model (<strong>discriminator</strong>) is trained to <strong>detect whether each token was replaced or not</strong>.</p>
+<h3><strong>Why RTD Instead of MLM?</strong></h3>
+<p>* <strong>More efficient training</strong> → RTD forces the model to learn from <strong>all input tokens</strong> instead of only masked tokens (MLM learns from \~15% of tokens).</p>
+<p>* <strong>Improves performance</strong> → ELECTRA achieves better accuracy than BERT with <strong>less computational cost</strong>.</p>
+<h3><strong>Why Other Options Are Incorrect?</strong></h3>
+<p>* <strong>Predict masked tokens</strong> → Used in <strong>BERT, RoBERTa</strong> (not ELECTRA).</p>
+<p>* <strong>Next token prediction</strong> → Used in <strong>GPT models</strong> (ELECTRA does not predict next tokens).</p>
+<p>* <strong>Sequence-to-sequence modeling</strong> → Used in <strong>T5, BART</strong> for text generation (ELECTRA is not sequence-to-sequence).</p>
+<p>Thus, the correct answer is <strong>Replaced Token Detection</strong>.</p>
+</div>
+<div class="question" id="question203">
+<h2>203,Which model primarily uses text-to-text generation for all tasks?,RoBERTa,T5,GPT,BART,</h2>
+<p>✅ <strong>T5 (Text-to-Text Transfer Transformer)</strong></p>
+<h3><strong>Explanation:</strong></h3>
+<p>T5 (<strong>Text-to-Text Transfer Transformer</strong>) is designed to handle <strong>all NLP tasks in a unified "text-to-text" format</strong>. This means:</p>
+<p>* <strong>Input and output are always text</strong> (e.g., translation, summarization, question answering, classification, etc.).</p>
+<p>* No need for task-specific architectures—just fine-tune on labeled data with a <strong>simple text input-output format</strong>.</p>
+<h3><strong>Why T5?</strong></h3>
+<p>* Unlike BERT or GPT, T5 <strong>converts every task into a sequence-to-sequence problem</strong>.</p>
+<p>* Example:</p>
+<p>  * <strong>Summarization:</strong> *"summarize: The book was very interesting..." → "It was engaging."*</p>
+<p>  * <strong>Translation:</strong> *"translate English to French: How are you?" → "Comment ça va?"*</p>
+<p>  * <strong>Sentiment Analysis:</strong> *"classify sentiment: This movie was great!" → "Positive"*</p>
+<h3><strong>Why Other Options Are Incorrect?</strong></h3>
+<p>* <strong>RoBERTa</strong> → A refined <strong>BERT-based encoder</strong>, not a sequence-to-sequence model.</p>
+<p>* <strong>GPT</strong> → <strong>Autoregressive model</strong> trained for next-token prediction, mainly for <strong>text generation</strong>, but not task-agnostic text-to-text like T5.</p>
+<p>* <strong>BART</strong> → Uses <strong>encoder-decoder</strong> architecture like T5, but is optimized for <strong>denoising autoencoding tasks</strong>, not a general-purpose text-to-text framework.</p>
+<p>Thus, the correct answer is <strong>T5</strong>.</p>
+</div>
+<div class="question" id="question211">
+<h2>211,Are Transformers more efficient than RNNs?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Why Are Transformers More Efficient Than RNNs?</strong></h3>
+<p>Transformers outperform RNNs in several ways:</p>
+<p>1. <strong>Parallelization</strong></p>
+<p>   * <strong>RNNs</strong> process sequences <strong>one token at a time</strong>, making them <strong>slow</strong> for long texts.</p>
+<p>   * <strong>Transformers</strong> use <strong>self-attention</strong>, allowing them to <strong>process all tokens simultaneously</strong> → <strong>faster training</strong> on GPUs/TPUs.</p>
+<p>2. <strong>Long-Range Dependencies</strong></p>
+<p>   * <strong>RNNs</strong> struggle with <strong>long-range dependencies</strong> due to <strong>vanishing gradients</strong>.</p>
+<p>   * <strong>Transformers</strong> use <strong>attention mechanisms</strong> to <strong>capture global context efficiently</strong>.</p>
+<p>3. <strong>Scalability</strong></p>
+<p>   * <strong>Transformers</strong> can scale to <strong>billions of parameters</strong> (e.g., GPT-4, PaLM 2) due to their <strong>parallel computing capability</strong>.</p>
+<p>   * <strong>RNNs</strong> have memory and computation bottlenecks that limit their scalability.</p>
+<p>4. <strong>Memory Efficiency</strong></p>
+<p>   * <strong>RNNs</strong> require <strong>storing hidden states</strong> for each step, making them <strong>memory-intensive</strong>.</p>
+<p>   * <strong>Transformers</strong> use a <strong>fixed-length attention mechanism</strong>, making memory usage more predictable.</p>
+<h3><strong>Conclusion</strong></h3>
+<p>Transformers are significantly <strong>more efficient</strong> than RNNs for large-scale NLP tasks, making them the foundation of modern <strong>LLMs</strong> like <strong>GPT, BERT, and T5</strong>.</p>
+</div>
+<div class="question" id="question212">
+<h2>212,Can RoBERTa be used without the next-sentence prediction task?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Why Can RoBERTa Be Used Without Next-Sentence Prediction (NSP)?</strong></h3>
+<p>RoBERTa (Robustly Optimized BERT Pretraining Approach) <strong>removes</strong> the Next-Sentence Prediction (NSP) task used in BERT. Instead, it improves performance by:</p>
+<p>1. <strong>Training on Longer Sequences</strong></p>
+<p>   * RoBERTa <strong>removes NSP</strong> and instead <strong>trains on continuous text sequences</strong>, making it better at understanding longer contexts.</p>
+<p>2. <strong>More Data and Training Steps</strong></p>
+<p>   * It <strong>trains on more data</strong> for a <strong>longer duration</strong> than BERT, improving performance <strong>without NSP</strong>.</p>
+<p>3. <strong>Dynamic Masking</strong></p>
+<p>   * Instead of a fixed mask like BERT, RoBERTa applies <strong>different mask patterns</strong> across epochs, improving <strong>masked language modeling (MLM)</strong> effectiveness.</p>
+<h3><strong>Conclusion</strong></h3>
+<p>RoBERTa <strong>does not require NSP</strong> because it achieves <strong>better performance</strong> through <strong>longer training, dynamic masking, and larger datasets</strong>.</p>
+</div>
+<div class="question" id="question214">
+<h2>214,Does ELECTRA use masked language modeling?,Yes,No,</h2>
+<p>✅ <strong>No</strong></p>
+<h3><strong>Why Doesn't ELECTRA Use Masked Language Modeling (MLM)?</strong></h3>
+<p>ELECTRA replaces <strong>Masked Language Modeling (MLM)</strong> with a more efficient approach called <strong>Replaced Token Detection (RTD)</strong>.</p>
+<h4><strong>Key Differences:</strong></h4>
+<p>1. <strong>MLM (Used in BERT, RoBERTa)</strong></p>
+<p>   * Randomly <strong>masks</strong> tokens in the input.</p>
+<p>   * The model <strong>predicts the masked tokens</strong>.</p>
+<p>   * <strong>Inefficient</strong> because the model only learns from <strong>masked tokens (\~15%)</strong>.</p>
+<p>2. <strong>RTD (Used in ELECTRA)</strong></p>
+<p>   * A <strong>"generator"</strong> first <strong>replaces</strong> some tokens with incorrect ones.</p>
+<p>   * A <strong>"discriminator"</strong> then <strong>detects if each token is original or replaced</strong>.</p>
+<p>   * More <strong>efficient</strong> because it trains on <strong>all tokens</strong>, not just masked ones.</p>
+<h3><strong>Conclusion:</strong></h3>
+<p>ELECTRA <strong>does not</strong> use <strong>Masked Language Modeling (MLM)</strong>. Instead, it uses <strong>Replaced Token Detection (RTD)</strong> for <strong>better training efficiency and performance</strong>.</p>
+</div>
+<div class="question" id="question215">
+<h2>215,Are all BERT-based models encoder-only?,Yes,No,</h2>
+<p>✅ <strong>No</strong></p>
+<h3><strong>Why Aren't All BERT-Based Models Encoder-Only?</strong></h3>
+<p>BERT itself is an <strong>encoder-only</strong> model, but some models <strong>inspired by BERT</strong> use different architectures.</p>
+<h4><strong>Examples of BERT-Based Models:</strong></h4>
+<p>1. <strong>Encoder-Only (Like BERT)</strong></p>
+<p>   * <strong>RoBERTa, ALBERT, DeBERTa, ELECTRA (discriminator)</strong></p>
+<p>   * Designed for <strong>understanding</strong> text (e.g., classification, QA).</p>
+<p>2. <strong>Encoder-Decoder (Not Encoder-Only)</strong></p>
+<p>   * <strong>T5, BART, UNILM</strong></p>
+<p>   * These models use both <strong>encoder</strong> and <strong>decoder</strong>, making them good for <strong>text generation tasks</strong> (e.g., summarization, translation).</p>
+<p>3. <strong>Other Variants</strong></p>
+<p>   * <strong>ELECTRA (generator)</strong> uses an <strong>autoregressive-style decoder</strong> to generate token replacements.</p>
+<h3><strong>Conclusion:</strong></h3>
+<p>Not all BERT-based models are <strong>encoder-only</strong>—some, like <strong>T5 and BART</strong>, use an <strong>encoder-decoder</strong> architecture.</p>
+</div>
+<div class="question" id="question216">
+<h2>216,Does XLNet use autoregressive pre-training?,Yes,No,</h2>
+<p>✅ <strong>Yes</strong></p>
+<h3><strong>Why Does XLNet Use Autoregressive Pre-Training?</strong></h3>
+<p>XLNet is an improvement over <strong>BERT</strong> and <strong>GPT</strong>, combining the strengths of <strong>autoregressive</strong> and <strong>autoencoding</strong> methods.</p>
+<h4><strong>Key Features of XLNet's Pre-Training:</strong></h4>
+<p>1. <strong>Autoregressive Pre-Training:</strong></p>
+<p>   * Unlike BERT (which uses Masked Language Modeling), XLNet <strong>predicts tokens sequentially</strong> in a <strong>permuted order</strong>, learning bidirectional context.</p>
+<p>2. <strong>Permutation Language Modeling:</strong></p>
+<p>   * Instead of masking words (like BERT), XLNet <strong>rearranges token order</strong> randomly and learns to predict them, making it more <strong>flexible and efficient</strong>.</p>
+<p>3. <strong>Avoids BERT’s Limitations:</strong></p>
+<p>   * BERT assumes <strong>independence</strong> between masked tokens, while XLNet <strong>learns from full sequences</strong> dynamically.</p>
+<h3><strong>Conclusion:</strong></h3>
+<p>XLNet <strong>does use autoregressive pre-training</strong> but with a <strong>permuted order</strong> to capture <strong>both left and right context</strong> effectively.</p>
+</div>
+<div class="question" id="question217">
+<h2>217,Is T5 designed only for English tasks?,Yes,No,</h2>
+<p><strong>No</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>T5 (<strong>Text-to-Text Transfer Transformer</strong>) is <strong>not limited to English</strong>. While the original T5 was trained primarily on English data (<strong>C4 dataset</strong>), Google introduced <strong>mT5 (Multilingual T5)</strong>, which supports <strong>100+ languages</strong>.</p>
+<h3><strong>Key Points:</strong></h3>
+<p>* <strong>T5</strong> is <strong>English-focused</strong>, but its architecture can be fine-tuned for multilingual tasks.</p>
+<p>* <strong>mT5</strong> extends T5’s capabilities to <strong>multiple languages</strong>, making it more versatile.</p>
+<p>* Both models follow a <strong>text-to-text framework</strong>, where <strong>all NLP tasks are framed as text generation problems</strong>.</p>
+<h3><strong>Conclusion:</strong></h3>
+<p>T5 itself is <strong>primarily for English</strong>, but <strong>mT5 expands it to multiple languages</strong>, making it a <strong>multilingual model</strong>.</p>
+</div>
+<div class="question" id="question218">
+<h2>218,Can BART reconstruct text from corrupted input?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>BART (<strong>Bidirectional and Auto-Regressive Transformers</strong>) is specifically designed to <strong>reconstruct text from corrupted input</strong> as part of its pre-training.</p>
+<h3><strong>Key Mechanisms:</strong></h3>
+<p>* <strong>Text Corruption:</strong> BART <strong>intentionally corrupts</strong> input text by <strong>randomly masking, deleting, or permuting words</strong>.</p>
+<p>* <strong>Reconstruction:</strong> The model then <strong>learns to reconstruct the original text</strong>, making it effective for <strong>denoising and sequence-to-sequence tasks</strong>.</p>
+<p>* <strong>Use Cases:</strong> BART is widely used in <strong>text summarization, translation, and question answering</strong>.</p>
+<h3><strong>Conclusion:</strong></h3>
+<p>Since BART is <strong>trained to recover missing or shuffled text</strong>, it <strong>can indeed reconstruct text from corrupted input</strong>.</p>
+</div>
+<div class="question" id="question220">
+<h2>220,Is ALBERT focused on multilingual tasks?,Yes,No</h2>
+<p><strong>No</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>ALBERT (<strong>A Lite BERT</strong>) is <strong>not focused on multilingual tasks</strong>. Instead, it is designed to:</p>
+<p>* <strong>Reduce model size</strong> using <strong>parameter-sharing</strong> techniques.</p>
+<p>* <strong>Improve training efficiency</strong> with <strong>factorized embeddings</strong> and <strong>sentence-order prediction</strong> instead of next-sentence prediction.</p>
+<p>* <strong>Enhance performance on NLP benchmarks</strong> while using fewer parameters than BERT.</p>
+<h3><strong>Multilingual Alternative?</strong></h3>
+<p>For multilingual tasks, models like <strong>XLM (Cross-lingual Language Model)</strong> or <strong>mBERT (Multilingual BERT)</strong> are more suitable.</p>
+<h3><strong>Conclusion:</strong></h3>
+<p>ALBERT primarily focuses on <strong>efficiency and performance improvements</strong> rather than multilingual capabilities.</p>
+</div>
+<div class="question" id="question221">
+<h2>221,The attention mechanism helps improve parallel computation.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>The <strong>attention mechanism</strong>, especially the <strong>self-attention mechanism</strong> in <strong>Transformers</strong>, improves <strong>parallel computation</strong> by:</p>
+<p>1. <strong>Removing Sequential Dependencies</strong>: Unlike RNNs, Transformers process entire sequences simultaneously, making computations <strong>highly parallelizable</strong>.</p>
+<p>2. <strong>Enabling Faster Training</strong>: Self-attention computes relationships between all tokens <strong>at once</strong>, allowing <strong>GPUs/TPUs</strong> to accelerate training.</p>
+<p>3. <strong>Reducing Long-Term Dependency Issues</strong>: Unlike RNNs, which suffer from vanishing gradients, Transformers use attention to capture <strong>long-range dependencies efficiently</strong>.</p>
+<h3><strong>Conclusion:</strong></h3>
+<p>The <strong>self-attention mechanism</strong> is a key reason why <strong>Transformers outperform RNNs</strong> in <strong>parallel processing and scalability</strong>.</p>
+</div>
+<div class="question" id="question222">
+<h2>222,BERT introduced the next sentence prediction task.,True,False</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>BERT introduced the <strong>Next Sentence Prediction (NSP)</strong> task as part of its <strong>pre-training objectives</strong>.</p>
+<h3><strong>How does NSP work in BERT?</strong></h3>
+<p>* The model is given <strong>two sentences (A and B)</strong> and must predict whether B <strong>naturally follows</strong> A.</p>
+<p>* Training data is <strong>50% actual sentence pairs</strong> and <strong>50% randomly paired sentences</strong>.</p>
+<p>* This helps BERT <strong>understand sentence relationships</strong>, improving <strong>tasks like question answering and natural language inference</strong>.</p>
+<h3><strong>Key Note</strong></h3>
+<p>* <strong>RoBERTa</strong>, a later model, <strong>removed NSP</strong>, finding it <strong>not essential</strong> for downstream tasks.</p>
+<p>* BERT’s <strong>Masked Language Modeling (MLM) + NSP</strong> made it <strong>powerful for bidirectional understanding</strong>.</p>
+</div>
+<div class="question" id="question223">
+<h2>223,GPT-3 is an encoder-only model.,True,False,</h2>
+<p><strong>False</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>GPT-3 is a <strong>decoder-only</strong> model based on the <strong>Transformer architecture</strong>.</p>
+<h3><strong>Key Differences</strong></h3>
+<p>* <strong>Encoder-only models</strong> (e.g., BERT) are used for <strong>understanding</strong> tasks (classification, sentiment analysis).</p>
+<p>* <strong>Decoder-only models</strong> (e.g., GPT-3) are optimized for <strong>generation</strong> tasks (text generation, dialogue systems).</p>
+<p>* <strong>Encoder-decoder models</strong> (e.g., T5, BART) handle both input understanding and output generation.</p>
+<h3><strong>GPT-3's Architecture</strong></h3>
+<p>* Uses <strong>causal self-attention</strong> to predict the <strong>next token</strong> in a sequence.</p>
+<p>* Trained in an <strong>autoregressive</strong> manner.</p>
+<p>* Does <strong>not</strong> include an encoder, unlike BERT or T5.</p>
+</div>
+<div class="question" id="question224">
+<h2>224,ELECTRA replaces masked tokens with generated alternatives.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>ELECTRA introduces <strong>Replaced Token Detection (RTD)</strong> instead of traditional <strong>Masked Language Modeling (MLM)</strong>.</p>
+<h3><strong>Key Differences from BERT</strong></h3>
+<p>* In <strong>BERT</strong>, some tokens are <strong>masked</strong>, and the model predicts them.</p>
+<p>* In <strong>ELECTRA</strong>, instead of masking, a <strong>generator</strong> replaces some tokens with <strong>plausible alternatives</strong>, and the <strong>discriminator</strong> learns to detect them.</p>
+<h3><strong>Benefits</strong></h3>
+<p>* More efficient <strong>training</strong> than MLM.</p>
+<p>* Leads to <strong>better representations</strong> with fewer training steps.</p>
+</div>
+<div class="question" id="question225">
+<h2>225,T5 is primarily designed for sequence classification.,True,False,</h2>
+<p><strong>False</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>T5 (<strong>Text-to-Text Transfer Transformer</strong>) is designed for <strong>text-to-text generation</strong>, not just sequence classification.</p>
+<h3><strong>Key Features of T5:</strong></h3>
+<p>* <strong>Unified framework:</strong> Treats all NLP tasks as a text generation problem.</p>
+<p>* <strong>Versatile applications:</strong> Can handle translation, summarization, text classification, and more.</p>
+<p>* <strong>Pre-trained with a sequence-to-sequence (Seq2Seq) architecture.</strong></p>
+<p>While <strong>T5 can perform sequence classification</strong>, it is <strong>not primarily designed for it</strong>—its strength lies in <strong>text generation</strong> across multiple tasks.</p>
+</div>
+<div class="question" id="question226">
+<h2>226,XLNet uses bidirectional context learning.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>XLNet uses <strong>permutation-based training</strong>, which allows it to <strong>capture bidirectional context</strong> while maintaining the benefits of <strong>autoregressive modeling</strong>.</p>
+<h3><strong>Key Features of XLNet:</strong></h3>
+<p>* <strong>Permutation Language Modeling:</strong> Unlike BERT, which masks tokens, XLNet <strong>learns from all possible token orders</strong>, enhancing bidirectional context.</p>
+<p>* <strong>Overcomes BERT’s limitations:</strong> Avoids the assumption that masked tokens are independent of each other.</p>
+<p>* <strong>Combines the best of autoregressive (like GPT) and autoencoding (like BERT) models.</strong></p>
+<p>Thus, <strong>XLNet does use bidirectional context learning</strong>, making the statement <strong>True</strong>.</p>
+</div>
+<div class="question" id="question227">
+<h2>227,BART's training includes token masking.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>BART (Bidirectional and Auto-Regressive Transformers) <strong>uses token masking</strong> as part of its denoising autoencoder training.</p>
+<h3><strong>Key Training Techniques in BART:</strong></h3>
+<p>* <strong>Token Masking:</strong> Similar to BERT, BART randomly masks tokens and learns to reconstruct them.</p>
+<p>* <strong>Token Deletion & Sentence Shuffling:</strong> Introduces noise by deleting tokens and shuffling sentence order.</p>
+<p>* <strong>Text Infilling:</strong> Replaces spans of text with a single mask token.</p>
+<p>* <strong>Denoising Autoencoder Approach:</strong> Trains the model to <strong>reconstruct the original text from a corrupted version</strong>.</p>
+<p>Thus, <strong>BART's training includes token masking</strong>, making the statement <strong>True</strong>.</p>
+</div>
+<div class="question" id="question228">
+<h2>228,Transformers are used only in language modeling.,True,False,</h2>
+<p><strong>False</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Transformers are <strong>not limited</strong> to language modeling—they are widely used in <strong>various domains</strong>, including:</p>
+<p>* <strong>Natural Language Processing (NLP):</strong> Language modeling, translation, summarization (e.g., BERT, GPT, T5).</p>
+<p>* <strong>Computer Vision:</strong> Vision Transformers (ViT) for image recognition and classification.</p>
+<p>* <strong>Audio Processing:</strong> Transformers are used in speech recognition (e.g., Whisper) and music generation.</p>
+<p>* <strong>Reinforcement Learning:</strong> Applied in robotics and game-playing AI.</p>
+<p>* <strong>Bioinformatics:</strong> Protein structure prediction (e.g., AlphaFold).</p>
+<p>Since Transformers extend beyond just language modeling, the statement is <strong>False</strong>.</p>
+</div>
+<div class="question" id="question229">
+<h2>229,GPT-2 was trained on a dataset called WebText.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>GPT-2 was trained on <strong>WebText</strong>, a dataset created by OpenAI. WebText consists of text data scraped from high-quality web pages, primarily from <strong>Reddit links with high karma</strong>, to ensure a diverse and coherent dataset for training the model.</p>
+<p>This dataset helped GPT-2 learn <strong>coherent text generation</strong> and <strong>context-aware predictions</strong>.</p>
+</div>
+<div class="question" id="question230">
+<h2>230,DeBERTa improves attention mechanisms by disentangling content and position vectors.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>DeBERTa (<strong>Decoding-enhanced BERT with Disentangled Attention</strong>) improves attention mechanisms by <strong>separating content and position information into different vectors</strong>. Unlike BERT, which <strong>adds</strong> positional embeddings directly to word embeddings, DeBERTa <strong>disentangles</strong> them, leading to better <strong>context understanding and generalization</strong>.</p>
+<p>This approach enhances the model’s ability to <strong>capture long-range dependencies</strong> and improves performance on <strong>various NLP tasks</strong>.</p>
+</div>
+<div class="question" id="question231">
+<h2>231,What is the main purpose of PaLM?,To create chatbots,To solve healthcare tasks,To achieve state-of-the-art few-shot learning,To replace human decision-making,</h2>
+<p><strong>To achieve state-of-the-art few-shot learning</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>PaLM (<strong>Pathways Language Model</strong>) is designed to excel in <strong>few-shot learning</strong>, meaning it can <strong>perform tasks with very few examples</strong>. Google introduced PaLM as a <strong>scalable and general-purpose</strong> LLM capable of handling <strong>complex reasoning, code generation, and natural language understanding</strong> across multiple domains.</p>
+<p>It demonstrated state-of-the-art performance on <strong>language understanding, logical reasoning, and multi-step problem-solving</strong>, making it highly effective for few-shot learning scenarios.</p>
+</div>
+<div class="question" id="question232">
+<h2>232,What is the parameter size of PaLM-540B?,137B,280B,540B,1.2T,</h2>
+<p><strong>540B</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>PaLM-540B refers to <strong>Pathways Language Model with 540 billion parameters</strong>, making it one of the largest models developed by Google. It was designed to excel in <strong>few-shot learning, reasoning, and natural language understanding</strong> across multiple tasks.</p>
+<p>This model builds on Google's <strong>Pathways AI system</strong>, which allows for efficient <strong>multi-tasking</strong> and <strong>scalability</strong> across different domains.</p>
+</div>
+<div class="question" id="question233">
+<h2>233,Which system was used for training PaLM?,TensorFlow,Pathways system,Hugging Face,OpenAI,</h2>
+<p><strong>Pathways system</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>PaLM (Pathways Language Model) was trained using <strong>Google's Pathways system</strong>, which is designed for large-scale AI models. Pathways allows efficient <strong>multi-task learning</strong>, better <strong>scalability</strong>, and improved <strong>resource utilization</strong> across multiple TPUs.</p>
+<p>Unlike traditional deep learning frameworks, <strong>Pathways enables a single model to generalize across multiple tasks</strong>, making it more efficient than training separate models for each task.</p>
+</div>
+<div class="question" id="question234">
+<h2>234,What advantage does Flan-PaLM offer over PaLM?,Better few-shot learning,Instruction finetuning,Smaller size,Faster inference,</h2>
+<p><strong>Instruction finetuning</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Flan-PaLM improves upon PaLM by incorporating <strong>instruction finetuning</strong>, which enhances its ability to follow human-like instructions across a variety of tasks. This technique refines the model’s performance on multiple NLP benchmarks, making it better at generalization and task adaptation.</p>
+</div>
+<div class="question" id="question235">
+<h2>235,How many tasks were used to instruction-finetune Flan-PaLM?,146,473,1836,2000,</h2>
+<p><strong>1836</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Flan-PaLM was instruction-finetuned on <strong>1,836 tasks</strong>, significantly improving its ability to generalize across diverse NLP tasks by leveraging a broad range of instructions.</p>
+</div>
+<div class="question" id="question236">
+<h2>236,What dataset does Med-PaLM primarily focus on?,BIG-bench,MedQA,NLP datasets,Common Crawl,</h2>
+<p><strong>MedQA</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Med-PaLM is specifically designed for medical question answering and is primarily trained on <strong>MedQA</strong>, a dataset focused on medical exams and related healthcare queries.</p>
+</div>
+<div class="question" id="question237">
+<h2>237,What is the key improvement of Med-PaLM 2 over Med-PaLM?,Faster inference,Higher accuracy,Med-domain finetuning,Larger dataset,</h2>
+<p><strong>Higher accuracy</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Med-PaLM 2 improves upon Med-PaLM by achieving <strong>higher accuracy</strong> in medical question-answering tasks. It refines responses through better alignment with expert medical knowledge, outperforming its predecessor in benchmarks like USMLE-style questions.</p>
+</div>
+<div class="question" id="question238">
+<h2>238,What is the focus area of FLAN?,Zero-shot learning,Pre-training,Multi-modal learning,Dialogue systems</h2>
+<p><strong>Zero-shot learning</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>FLAN (Fine-tuned LAnguage Net) is designed to enhance <strong>zero-shot</strong> and <strong>few-shot learning</strong> by instruction fine-tuning LLMs. It improves their ability to generalize across tasks without needing task-specific examples during training.</p>
+</div>
+<div class="question" id="question239">
+<h2>239,Which model is known for using a sparsely activated mixture-of-experts architecture?,Gopher,GLaM,Chinchilla,RETRO,</h2>
+<p><strong>GLaM</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>The <strong>GLaM (Generalist Language Model)</strong> introduced by Google uses a <strong>Mixture-of-Experts (MoE)</strong> approach, which activates only a subset of its parameters per forward pass, making it more computationally efficient than dense models.</p>
+</div>
+<div class="question" id="question240">
+<h2>240,What is the largest parameter size for GLaM?,137B,540B,1.2T,16.1B,</h2>
+<p><strong>1.2T</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>GLaM (Generalist Language Model) has <strong>1.2 trillion parameters</strong>, but only a fraction of them are activated during inference due to its <strong>Mixture-of-Experts (MoE)</strong> design, making it more efficient than fully dense models.</p>
+</div>
+<div class="question" id="question241">
+<h2>241,What is the name of the multilingual model by Amazon?,LaMDA,ALEXA TM,Sparrow,Minerva,</h2>
+<p><strong>ALEXA TM</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Amazon's <strong>ALEXA Teacher Model (ALEXA TM)</strong> is a <strong>multilingual</strong> language model designed to improve natural language understanding and processing across multiple languages, particularly for Alexa-powered devices.</p>
+</div>
+<div class="question" id="question242">
+<h2>242,Which benchmark is specific to Med-PaLM?,MATH,BIG-bench,MedQA,HumanEval</h2>
+<p><strong>MedQA</strong></p>
+<h3><strong>Why?</strong></h3>
+<p><strong>MedQA</strong> is a benchmark specifically designed to evaluate the medical reasoning and knowledge of AI models like <strong>Med-PaLM</strong>. It consists of multiple-choice questions derived from medical licensing exams, making it a relevant dataset for assessing the model's performance in medical applications.</p>
+</div>
+<div class="question" id="question243">
+<h2>243,What is the primary design goal of Sparrow?,Improved memory,Dialog agent safety,Code generation,Healthcare tasks,</h2>
+<p><strong>Dialog agent safety</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Sparrow, developed by DeepMind, is designed to enhance the safety of AI-powered dialogue agents. It focuses on <strong>providing helpful and truthful responses while reducing harmful or misleading content</strong> through reinforcement learning from human feedback (RLHF).</p>
+</div>
+<div class="question" id="question244">
+<h2>244,How many parameters does AlexaTM have?,137B,20B,540B,1.2T,</h2>
+<p><strong>20B</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>AlexaTM (Amazon’s Transformer-based language model) has <strong>20 billion parameters</strong>, making it a mid-sized model optimized for multilingual understanding and conversational AI.</p>
+</div>
+<div class="question" id="question245">
+<h2>245,Which dataset was primarily used by CodeGen?,MTPB,HumanEval,BIG-bench,MedQA,</h2>
+<p><strong>MTPB</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>CodeGen, an AI model designed for code generation, was primarily trained on <strong>MTPB (The Multi-Turn Programming Benchmark)</strong>, which includes a diverse set of programming-related tasks and datasets.</p>
+</div>
+<div class="question" id="question246">
+<h2>246,What is the training corpus size of ERNIE 3.0?,4TB,2TB,500GB,10TB,</h2>
+<p><strong>10TB</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>ERNIE 3.0, developed by Baidu, was trained on a massive <strong>10TB</strong> corpus, which includes multilingual and domain-specific data to enhance its performance in various NLP tasks.</p>
+</div>
+<div class="question" id="question247">
+<h2>247,What is the key innovation of the RETRO model?,Use of retrieval,Transformer scaling,Mixture of experts,Med-domain tuning,</h2>
+<p><strong>Use of retrieval</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>The <strong>RETRO (Retrieval-Enhanced Transformer)</strong> model introduces a retrieval mechanism that allows it to access and incorporate external information during text generation. This improves factual accuracy and helps scale performance without requiring massive parameter increases.</p>
+</div>
+<div class="question" id="question248">
+<h2>248,Which model is specialized for reasoning with scientific knowledge?,Minerva,Galactica,Chinchilla,OPT,</h2>
+<p><strong>Galactica</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Galactica is specifically designed for <strong>reasoning with scientific knowledge</strong>. It was trained on a large corpus of <strong>scientific papers, citations, and other structured data</strong>, making it particularly useful for tasks like <strong>scientific text generation, citation prediction, and reasoning in STEM fields</strong>.</p>
+</div>
+<div class="question" id="question249">
+<h2>249,What is the goal of the T0 model?,Code generation,Natural language understanding,Prompt-based task mapping,Knowledge retrieval,</h2>
+<p><strong>Prompt-based task mapping</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>T0 (T5 for Zero-Shot Learning) is designed to <strong>generalize across tasks using prompts</strong>. It was fine-tuned on a mixture of NLP tasks formatted as <strong>natural language prompts</strong>, enabling it to perform well on unseen tasks without additional training.</p>
+</div>
+<div class="question" id="question250">
+<h2>250,Which model achieves optimal performance with fewer parameters?,RETRO,Chinchilla,PaLM,Gopher</h2>
+<p><strong>Chinchilla</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Chinchilla follows the <strong>compute-optimal scaling</strong> principle, meaning it achieves <strong>better performance with fewer parameters</strong> by increasing the number of training tokens relative to model size. Compared to larger models like <strong>Gopher and PaLM</strong>, Chinchilla is more efficient while maintaining strong performance.</p>
+</div>
+<div class="question" id="question251">
+<h2>251,What is the primary objective of LaMDA?,General NLP tasks,Dialog specialization,Healthcare improvement,Code generation,</h2>
+<p><strong>Dialog specialization</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>LaMDA (Language Model for Dialogue Applications) is specifically designed to generate <strong>natural, open-ended conversations</strong>. Unlike general NLP models, it focuses on <strong>coherence, safety, and specificity</strong> in dialogue, making it well-suited for chatbots and conversational AI applications.</p>
+</div>
+<div class="question" id="question252">
+<h2>252,What task does FLAN excel at?,Few-shot learning,Instruction following,Multi-modal tasks,Translation,</h2>
+<p><strong>Instruction following</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>FLAN (Fine-tuned LAnguage Net) is designed to <strong>improve performance on instruction-following tasks</strong> by fine-tuning pre-trained models using a diverse set of <strong>instruction-based datasets</strong>. This enables it to <strong>better understand and execute complex prompts</strong> across various NLP tasks, making it highly effective for <strong>instruction adherence</strong>.</p>
+</div>
+<div class="question" id="question253">
+<h2>253,What is the main focus of Gopher?,Scaling parameters,Instruction tuning,Few-shot learning,Pre-training,</h2>
+<p><strong>Scaling parameters</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Gopher, developed by DeepMind, focuses on <strong>scaling up language models</strong> to improve performance across a wide range of NLP tasks. It explores the impact of <strong>large-scale parameterization</strong>, showing that larger models can achieve better generalization and reasoning capabilities.</p>
+</div>
+<div class="question" id="question254">
+<h2>254,Which method enhances instruction tuning in PaLM?,UL2R,Mixture of experts,Multi-modal tuning,Reinforcement learning,</h2>
+<p><strong>UL2R</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>UL2R (Unified Language Learning and Reasoning) enhances <strong>instruction tuning</strong> in <strong>PaLM</strong> by improving the model's ability to generalize across different tasks. It helps fine-tune large language models like <strong>Flan-PaLM</strong> for better performance in <strong>instruction-following tasks</strong>.</p>
+</div>
+<div class="question" id="question255">
+<h2>255,What distinguishes RETRO from GPT-3?,Larger dataset,Use of retrieval,Fewer parameters,Reinforcement learning,</h2>
+<p><strong>Use of retrieval</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>RETRO (Retrieval-Enhanced Transformer) differs from GPT-3 by incorporating a <strong>retrieval mechanism</strong> that allows it to pull relevant information from a pre-indexed database. This approach helps improve factual accuracy and reduces the need for massive parameter scaling, unlike GPT-3, which relies solely on its internal learned representations.</p>
+</div>
+<div class="question" id="question256">
+<h2>256,Which model combines knowledge graphs with text?,FLAN,ERNIE 3.0,CodeGen,AlexaTM</h2>
+<p><strong>ERNIE 3.0</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>ERNIE 3.0 integrates <strong>knowledge graphs</strong> with traditional language modeling to enhance <strong>understanding and reasoning</strong>. This approach allows the model to leverage structured knowledge from graphs while processing unstructured text, improving its ability to capture deeper semantic relationships.</p>
+</div>
+<div class="question" id="question257">
+<h2>257,What was the primary evaluation dataset for Galactica?,MATH,MedQA,HumanEval,BIG-bench</h2>
+<p><strong>MATH</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Galactica is designed for <strong>scientific reasoning and knowledge generation</strong>, and it was evaluated on datasets like <strong>MATH</strong>, which tests mathematical problem-solving capabilities.</p>
+</div>
+<div class="question" id="question258">
+<h2>258,Which method was used to align Med-PaLM to healthcare?,Chain of thought,Instruction tuning,UL2R tuning,Prompt engineering,</h2>
+<p><strong>Instruction tuning</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Med-PaLM was aligned to healthcare tasks using <strong>instruction tuning</strong>, where it was fine-tuned on medical question-answering datasets like <strong>MedQA</strong> to improve its ability to generate reliable medical responses.</p>
+</div>
+<div class="question" id="question259">
+<h2>259,Which architecture is used by LaMDA?,Decoder only,Encoder-decoder,Transformer,Mixture of experts,</h2>
+<p><strong>Decoder only</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>LaMDA (Language Model for Dialog Applications) is based on a <strong>decoder-only Transformer</strong> architecture, optimized for open-ended conversation and dialogue generation.</p>
+</div>
+<div class="question" id="question260">
+<h2>260,What is the primary use of the Pathways system?,Inference,Efficient training,Memory management,Dialog safety,</h2>
+<p><strong>Efficient training</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>The <strong>Pathways system</strong> was designed by Google to enable efficient training across <strong>multiple machine learning models</strong>, allowing a <strong>single model to generalize across many tasks</strong> while optimizing resource utilization.</p>
+</div>
+<div class="question" id="question261">
+<h2>261,Does Chinchilla optimize parameter scaling?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Chinchilla is designed to optimize <strong>parameter scaling</strong> by balancing <strong>model size and dataset size</strong>, achieving <strong>better efficiency</strong> than models like GPT-3 and Gopher with fewer parameters but better performance.</p>
+</div>
+<div class="question" id="question262">
+<h2>262,Is AlexaTM a seq2seq model?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>AlexaTM (Amazon’s Transformer model) is a <strong>sequence-to-sequence (seq2seq) model</strong>, meaning it <strong>encodes input sequences and decodes outputs</strong>, making it well-suited for tasks like <strong>translation, summarization, and conversational AI</strong>.</p>
+</div>
+<div class="question" id="question263">
+<h2>263,Does GLaM consume less training energy compared to GPT-3?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>GLaM (Generalist Language Model) uses a <strong>sparsely activated Mixture-of-Experts (MoE) architecture</strong>, meaning that at any given time, only a subset of its parameters is active. This results in <strong>lower computational costs and energy consumption</strong> compared to dense models like GPT-3, which activates all parameters for every input.</p>
+</div>
+<div class="question" id="question264">
+<h2>264,Is instruction tuning the primary technique in Flan-PaLM?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Flan-PaLM improves upon PaLM by incorporating <strong>instruction tuning</strong>, which fine-tunes the model on a large set of tasks formatted as instructions. This enhances its ability to <strong>generalize across different NLP tasks</strong> and improves performance in few-shot and zero-shot settings.</p>
+</div>
+<div class="question" id="question265">
+<h2>265,Does Med-PaLM improve human-level healthcare answers?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Med-PaLM is designed to provide <strong>high-quality, medically accurate responses</strong> by fine-tuning on healthcare-specific datasets like MedQA. Med-PaLM 2 further improves on this by achieving <strong>higher accuracy and alignment with expert medical answers</strong>, making it more reliable for healthcare applications.</p>
+</div>
+<div class="question" id="question266">
+<h2>266,Is Minerva focused on mathematical reasoning?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Minerva is specifically designed for <strong>mathematical reasoning and problem-solving</strong>. It has been trained on a combination of general NLP data and <strong>mathematics-focused datasets</strong>, enabling it to perform well on complex math-related tasks, including symbolic reasoning and step-by-step problem-solving.</p>
+</div>
+<div class="question" id="question267">
+<h2>267,Is RETRO designed for knowledge retrieval?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>RETRO (Retrieval-Enhanced Transformer) is specifically designed for <strong>knowledge retrieval</strong>. It enhances language models by incorporating an external <strong>retrieval mechanism</strong>, allowing it to fetch relevant information from a large database to improve text generation and factual accuracy.</p>
+</div>
+<div class="question" id="question268">
+<h2>268,Is UL2R used for enhancing few-shot learning?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>UL2R (Unified Language Learning & Retrieval) is designed to enhance <strong>few-shot learning</strong> by combining various training paradigms, such as <strong>pre-training, instruction tuning, and retrieval-based learning</strong>. This helps models generalize better across different NLP tasks, improving their performance in <strong>few-shot and zero-shot settings</strong>.</p>
+</div>
+<div class="question" id="question269">
+<h2>269,Is ERNIE 3.0 specialized for multilingual learning?,Yes,No,</h2>
+<p><strong>Yes</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>ERNIE 3.0 is designed to handle <strong>multilingual learning</strong> by integrating knowledge-enhanced pre-training techniques. It supports multiple languages and incorporates <strong>knowledge graphs, entity masking, and other enhancements</strong> to improve its understanding across different linguistic contexts.</p>
+</div>
+<div class="question" id="question270">
+<h2>270,Does FLAN excel in multi-modal reasoning?,Yes,No</h2>
+<p><strong>No</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>FLAN (Fine-tuned LAnguage Net) is designed primarily for <strong>instruction tuning</strong> and excels at <strong>few-shot learning and generalization across NLP tasks</strong>. However, it is not specifically optimized for <strong>multi-modal reasoning</strong>, which involves processing <strong>both text and other data types (e.g., images, audio, video)</strong>.</p>
+</div>
+<div class="question" id="question271">
+<h2>271,The Gopher model scales parameters for better performance.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Gopher is designed to <strong>scale up parameters</strong> to improve language model performance. It explores how increasing model size enhances capabilities in <strong>reasoning, factual knowledge, and text understanding</strong> while also studying limitations like bias and misinformation.</p>
+</div>
+<div class="question" id="question272">
+<h2>272,PaLM-540B demonstrates state-of-the-art few-shot learning results.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>PaLM-540B achieves <strong>state-of-the-art few-shot learning</strong> by leveraging <strong>scaling, efficient training strategies, and strong reasoning capabilities</strong>. It demonstrates superior performance across various NLP benchmarks with minimal examples.</p>
+</div>
+<div class="question" id="question273">
+<h2>273,Flan-PaLM uses fewer datasets than Flan.,True,False,</h2>
+<p><strong>False</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Flan-PaLM uses <strong>more datasets</strong> than Flan because it builds on Flan’s instruction tuning by incorporating a <strong>wider range of tasks</strong> and <strong>improved finetuning strategies</strong> to enhance performance across multiple benchmarks.</p>
+</div>
+<div class="question" id="question274">
+<h2>274,Med-PaLM outperforms Med-PaLM 2.,True,False,</h2>
+<p><strong>False</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Med-PaLM 2 outperforms Med-PaLM in terms of <strong>accuracy, reasoning, and alignment with medical standards</strong> due to improvements in <strong>domain-specific fine-tuning</strong> and enhanced instruction tuning techniques.</p>
+</div>
+<div class="question" id="question275">
+<h2>275,Chinchilla optimally balances model size and training tokens.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Chinchilla is designed to <strong>optimally balance model size and the number of training tokens</strong>, demonstrating that <strong>smaller models trained on more data</strong> can outperform larger models trained on fewer tokens. This approach improves efficiency and overall model performance.</p>
+</div>
+<div class="question" id="question276">
+<h2>276,LaMDA specializes in translation tasks.,True,False,</h2>
+<p><strong>False</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>LaMDA (<strong>Language Model for Dialog Applications</strong>) is designed specifically for <strong>dialog and conversational AI</strong>, not translation. It focuses on generating <strong>coherent, open-ended conversations</strong> rather than direct translation tasks.</p>
+</div>
+<div class="question" id="question277">
+<h2>277,RETRO uses a retrieval mechanism.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>RETRO (<strong>Retrieval-Enhanced Transformer</strong>) incorporates a <strong>retrieval mechanism</strong> that allows it to look up relevant text from a <strong>pre-built database</strong> during inference. This enhances <strong>factual accuracy and efficiency</strong> compared to traditional transformer models like GPT-3.</p>
+</div>
+<div class="question" id="question278">
+<h2>278,Galactica focuses on reasoning with scientific data.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Galactica is specifically designed for <strong>reasoning with scientific data</strong>. It is trained on a vast corpus of <strong>scientific literature, equations, and structured data</strong>, enabling it to assist with tasks such as <strong>citation generation, summarization, and problem-solving in STEM fields</strong>.</p>
+</div>
+<div class="question" id="question279">
+<h2>279,UL2R enhances PaLM's few-shot learning abilities.,True,False,</h2>
+<p><strong>True</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>UL2R (<strong>Unified Language Learning & Reasoning</strong>) enhances <strong>PaLM's few-shot learning abilities</strong> by improving <strong>generalization across different NLP tasks</strong>. It enables the model to perform better in <strong>zero-shot, few-shot, and fine-tuning scenarios</strong>, making it more efficient in adapting to new tasks with minimal data.</p>
+</div>
+<div class="question" id="question280">
+<h2>280,ALEXA TM achieves state-of-the-art performance in few-shot summarization.,True,False,</h2>
+<p><strong>False</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>While <strong>ALEXA TM</strong> is a powerful multilingual model developed by Amazon, it is <strong>not primarily known for achieving state-of-the-art performance in few-shot summarization</strong>. Other models like <strong>PaLM, Flan-T5, and GPT-4</strong> are more recognized for excelling in few-shot summarization tasks.</p>
+</div>
+<div class="question" id="question281">
+<h2>281,What is the primary component of the Transformer model?,Recurrent networks,Convolutional layers,Self-attention,Dropout,</h2>
+<p><strong>Self-attention</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>The <strong>self-attention</strong> mechanism is the core component of the <strong>Transformer</strong> architecture. It allows the model to weigh different parts of the input sequence to capture contextual relationships efficiently. Unlike <strong>Recurrent Networks (RNNs)</strong>, which process data sequentially, <strong>self-attention enables parallel computation</strong>, making Transformers more efficient.</p>
+</div>
+<div class="question" id="question283">
+<h2>283,Which models are best suited for text generation tasks?,Encoder-only models,Decoder-only models,Encoder-decoder models,Hybrid models,</h2>
+<p><strong>Decoder-only models</strong></p>
+<h3><strong>Why?</strong></h3>
+<p>Decoder-only models, such as <strong>GPT-3, GPT-4, and PaLM</strong>, are designed for <strong>text generation tasks</strong>. They follow an <strong>autoregressive</strong> approach, predicting the next token based on previously generated tokens. This makes them ideal for tasks like:</p>
+<p>* <strong>Storytelling</strong></p>
+<p>* <strong>Chatbots</strong></p>
+<p>* <strong>Code generation</strong></p>
+<p>* <strong>Creative writing</strong></p>
+<p><strong>Encoder-only models</strong> (e.g., <strong>BERT</strong>) focus on understanding text rather than generating it.</p>
+<p><strong>Encoder-decoder models</strong> (e.g., <strong>T5, BART</strong>) are better for tasks like <strong>translation and summarization</strong> rather than free-form text generation.</p>
+</div>
+</body>
+</html>
+

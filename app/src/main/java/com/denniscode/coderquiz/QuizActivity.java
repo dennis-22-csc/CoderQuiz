@@ -265,16 +265,26 @@ public class QuizActivity extends AppCompatActivity {
 
     private void highlightCorrectAnswer(CardView selectedCard, boolean isCorrect, Question question) {
 
-        String referenceUrl = "https://coderquiz.vercel.app/docs/" + question.getQuizCategory()  + "/question" + question.getQuestionID();
+        String referenceUrl = "https://dennis-22-csc.github.io/CoderQuiz/docs/"
+                    + question.getQuizCategory()
+                    + "/index.html#question"
+                    + question.getQuestionID();
 
         String displayText = "View Reference";
 
         String referenceHtml = "<a href=\"" + referenceUrl + "\">" + displayText + "</a>";
-        //String fullText = getString(R.string.correct_answer_text, question.getCorrectOption(), referenceHtml);
-        //correctAnswerText.setText(Html.fromHtml(fullText, Html.FROM_HTML_MODE_LEGACY));
         correctAnswerText.setText("Correct Answer: " + question.getCorrectOption());
         referenceTextView.setText(Html.fromHtml(referenceHtml, Html.FROM_HTML_MODE_LEGACY));
         referenceTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        referenceTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QuizActivity.this, WebViewActivity.class);
+                intent.putExtra("url", referenceUrl);
+                startActivity(intent);
+            }
+        });
 
         if (isCorrect) {
             Drawable icon = ContextCompat.getDrawable(this, R.drawable.correct);

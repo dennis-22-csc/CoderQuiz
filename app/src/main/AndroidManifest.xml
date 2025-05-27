@@ -59,6 +59,7 @@
             android:name=".StatsActivity"
             android:launchMode="singleTop" android:visibleToInstantApps="true"/>
         <activity android:name=".DashboardActivity" android:visibleToInstantApps="true"/>
+        <activity android:name=".WebViewActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
