@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question116">
+   <h2>
+    116,What is the purpose of smoothing in n-gram models?,To handle unseen n-grams,To reduce model size,To increase training speed,To enhance embeddings,
+   </h2>
+   <p>
+    The correct answer is:
+   </p>
+   <p>
+    ✅
+    <strong>
+     To handle unseen n-grams
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Explanation:
+    </strong>
+   </h3>
+   <p>
+    Smoothing techniques are used in
+    <strong>
+     n-gram language models
+    </strong>
+    to
+    <strong>
+     assign probabilities to unseen n-grams
+    </strong>
+    (word sequences) that were
+    <strong>
+     not encountered in the training data
+    </strong>
+    . This helps prevent
+    <strong>
+     zero probability issues
+    </strong>
+    and improves generalization.
+   </p>
+   <h3>
+    <strong>
+     Common Smoothing Techniques:
+    </strong>
+   </h3>
+   <p>
+    *
+    <strong>
+     Laplace Smoothing (Add-1 Smoothing):
+    </strong>
+    Adds a small constant to all counts to avoid zero probabilities.
+   </p>
+   <p>
+    *
+    <strong>
+     Add-k Smoothing:
+    </strong>
+    Similar to Laplace but with a tunable constant *k*.
+   </p>
+   <p>
+    *
+    <strong>
+     Kneser-Ney Smoothing:
+    </strong>
+    More advanced; redistributes probability mass based on word frequency.
+   </p>
+   <h3>
+    <strong>
+     Why not the other options?
+    </strong>
+   </h3>
+   <p>
+    ❌
+    <strong>
+     To reduce model size
+    </strong>
+    → Smoothing does not shrink models; it adjusts probability estimates.
+   </p>
+   <p>
+    ❌
+    <strong>
+     To increase training speed
+    </strong>
+    → It actually adds computation, slightly slowing down training.
+   </p>
+   <p>
+    ❌
+    <strong>
+     To enhance embeddings
+    </strong>
+    → Smoothing is for probability estimation, not word embeddings.
+   </p>
+   <h3>
+    <strong>
+     Final Answer:
+    </strong>
+   </h3>
+   <p>
+    ✅
+    <strong>
+     To handle unseen n-grams
+    </strong>
+   </p>
+  </div>
+ </body>
+</html>

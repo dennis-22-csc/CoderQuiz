@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question187">
+   <h2>
+    187,Which model applies the autoregressive method for bidirectional context learning?,RoBERTa,XLNet,ALBERT,UNILM,
+   </h2>
+   <p>
+    ✅
+    <strong>
+     XLNet
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Explanation:
+    </strong>
+   </h3>
+   <p>
+    XLNet is a transformer-based model that applies the
+    <strong>
+     autoregressive (AR) method
+    </strong>
+    while capturing
+    <strong>
+     bidirectional context
+    </strong>
+    , making it different from BERT and other standard transformers.
+   </p>
+   <h3>
+    <strong>
+     Key Features of XLNet:
+    </strong>
+   </h3>
+   <p>
+    1.
+    <strong>
+     Autoregressive Pretraining:
+    </strong>
+   </p>
+   <p>
+    * Unlike BERT, which uses
+    <strong>
+     masked language modeling (MLM)
+    </strong>
+    , XLNet
+    <strong>
+     predicts words autoregressively
+    </strong>
+    , processing sequences in
+    <strong>
+     permuted orders
+    </strong>
+    instead of left-to-right like GPT.
+   </p>
+   <p>
+    2.
+    <strong>
+     Bidirectional Context Learning:
+    </strong>
+   </p>
+   <p>
+    * Unlike traditional autoregressive models (e.g., GPT, which processes tokens sequentially), XLNet uses
+    <strong>
+     permutation-based training
+    </strong>
+    to capture
+    <strong>
+     context from both directions
+    </strong>
+    while maintaining autoregressive generation.
+   </p>
+   <p>
+    3.
+    <strong>
+     Overcoming BERT’s Limitations:
+    </strong>
+   </p>
+   <p>
+    * BERT’s
+    <strong>
+     MLM training corrupts input data
+    </strong>
+    by replacing words with \[MASK] tokens, which causes a gap between pretraining and fine-tuning.
+   </p>
+   <p>
+    * XLNet avoids this by learning without input corruption, making it
+    <strong>
+     better at language modeling tasks
+    </strong>
+    .
+   </p>
+   <h3>
+    <strong>
+     Comparison with Other Models:
+    </strong>
+   </h3>
+   <p>
+    *
+    <strong>
+     RoBERTa
+    </strong>
+    → An optimized version of BERT,
+    <strong>
+     not autoregressive
+    </strong>
+    .
+   </p>
+   <p>
+    *
+    <strong>
+     ALBERT
+    </strong>
+    → A memory-efficient variant of BERT,
+    <strong>
+     not autoregressive
+    </strong>
+    .
+   </p>
+   <p>
+    *
+    <strong>
+     UNILM
+    </strong>
+    → Supports both
+    <strong>
+     unidirectional and bidirectional modeling
+    </strong>
+    , but does not use
+    <strong>
+     permutation-based autoregression
+    </strong>
+    like XLNet.
+   </p>
+   <p>
+    Since
+    <strong>
+     XLNet uniquely combines autoregression with bidirectional learning
+    </strong>
+    , it is the correct answer.
+   </p>
+  </div>
+ </body>
+</html>

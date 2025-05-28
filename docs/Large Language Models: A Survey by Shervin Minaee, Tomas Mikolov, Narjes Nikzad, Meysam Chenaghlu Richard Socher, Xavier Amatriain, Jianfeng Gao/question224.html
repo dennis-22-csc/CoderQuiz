@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question224">
+   <h2>
+    224,ELECTRA replaces masked tokens with generated alternatives.,True,False,
+   </h2>
+   <p>
+    <strong>
+     True
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Why?
+    </strong>
+   </h3>
+   <p>
+    ELECTRA introduces
+    <strong>
+     Replaced Token Detection (RTD)
+    </strong>
+    instead of traditional
+    <strong>
+     Masked Language Modeling (MLM)
+    </strong>
+    .
+   </p>
+   <h3>
+    <strong>
+     Key Differences from BERT
+    </strong>
+   </h3>
+   <p>
+    * In
+    <strong>
+     BERT
+    </strong>
+    , some tokens are
+    <strong>
+     masked
+    </strong>
+    , and the model predicts them.
+   </p>
+   <p>
+    * In
+    <strong>
+     ELECTRA
+    </strong>
+    , instead of masking, a
+    <strong>
+     generator
+    </strong>
+    replaces some tokens with
+    <strong>
+     plausible alternatives
+    </strong>
+    , and the
+    <strong>
+     discriminator
+    </strong>
+    learns to detect them.
+   </p>
+   <h3>
+    <strong>
+     Benefits
+    </strong>
+   </h3>
+   <p>
+    * More efficient
+    <strong>
+     training
+    </strong>
+    than MLM.
+   </p>
+   <p>
+    * Leads to
+    <strong>
+     better representations
+    </strong>
+    with fewer training steps.
+   </p>
+  </div>
+ </body>
+</html>

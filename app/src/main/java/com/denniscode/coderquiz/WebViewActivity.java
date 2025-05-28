@@ -26,7 +26,6 @@ public class WebViewActivity extends AppCompatActivity {
 
         String url = getIntent().getStringExtra("url");
         Uri uri = Uri.parse(url);
-        String fragment = uri.getFragment(); // Extract the anchor (e.g., "question123")
 
         webView.getSettings().setJavaScriptEnabled(true); // Required for dynamic content
 
@@ -38,23 +37,11 @@ public class WebViewActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-
-                // Scroll to the fragment using JavaScript
-                if (fragment != null && !fragment.isEmpty()) {
-                    String js = "javascript:document.getElementById('" + fragment + "').scrollIntoView();";
-                    webView.evaluateJavascript(js, value -> {
-                        // After scrolling, show the WebView and hide the spinner
-                        webView.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                    });
-                } else {
-                    // No fragment; just show the WebView
-                    webView.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                }
+                webView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         });
 
-        webView.loadUrl(url); // Load the full URL (with anchor)
+        webView.loadUrl(url);
     }
 }

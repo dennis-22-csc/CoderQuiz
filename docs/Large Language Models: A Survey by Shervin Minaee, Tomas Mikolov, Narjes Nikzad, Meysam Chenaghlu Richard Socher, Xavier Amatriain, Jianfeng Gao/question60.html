@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question60">
+   <h2>
+    60,What is "masked language modeling" in the context of LLM pre-training?,Predicting the next word in a sequence,Predicting masked words based on context,Generating creative text,Translating languages,Predicting masked words based on context,LLM Training
+   </h2>
+   <p>
+    The correct answer is:
+   </p>
+   <p>
+    <strong>
+     Predicting masked words based on context
+    </strong>
+   </p>
+   <h3>
+    Explanation:
+   </h3>
+   <p>
+    <strong>
+     Masked Language Modeling (MLM)
+    </strong>
+    is a pre-training objective where some words in a sentence are
+    <strong>
+     randomly masked
+    </strong>
+    (hidden), and the model learns to
+    <strong>
+     predict the masked words
+    </strong>
+    using the surrounding context.
+   </p>
+   <h4>
+    <strong>
+     How it Works:
+    </strong>
+   </h4>
+   <p>
+    * A certain percentage of words in the input sentence are replaced with a special token (e.g., `[MASK]` in BERT).
+   </p>
+   <p>
+    * The model is trained to predict the
+    <strong>
+     original words
+    </strong>
+    based on the context from both the left and right sides.
+   </p>
+   <h4>
+    <strong>
+     Example:
+    </strong>
+   </h4>
+   <p>
+    <strong>
+     Input:
+    </strong>
+    "The cat sat on the
+    <strong>
+     \[MASK]
+    </strong>
+    ."
+   </p>
+   <p>
+    <strong>
+     Model Prediction:
+    </strong>
+    "mat"
+   </p>
+   <h3>
+    <strong>
+     Why is MLM Important?
+    </strong>
+   </h3>
+   <p>
+    ✅
+    <strong>
+     Bidirectional Understanding:
+    </strong>
+    Unlike autoregressive models (which predict the next word), MLM allows the model to
+    <strong>
+     understand context from both sides
+    </strong>
+    .
+   </p>
+   <p>
+    ✅
+    <strong>
+     Stronger Representations:
+    </strong>
+    Helps models like
+    <strong>
+     BERT
+    </strong>
+    learn
+    <strong>
+     deep contextual embeddings
+    </strong>
+    useful for NLP tasks (e.g., sentiment analysis, question answering).
+   </p>
+   <p>
+    ✅
+    <strong>
+     Better Generalization:
+    </strong>
+    Since the model is trained to
+    <strong>
+     recover missing words
+    </strong>
+    , it develops a
+    <strong>
+     robust understanding
+    </strong>
+    of language.
+   </p>
+   <h3>
+    <strong>
+     Which Models Use MLM?
+    </strong>
+   </h3>
+   <p>
+    *
+    <strong>
+     BERT (Bidirectional Encoder Representations from Transformers)
+    </strong>
+   </p>
+   <p>
+    *
+    <strong>
+     RoBERTa (Robustly Optimized BERT)
+    </strong>
+   </p>
+   <p>
+    *
+    <strong>
+     T5 (uses a variant of MLM with span corruption)
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Final Answer:
+    </strong>
+    <strong>
+     Predicting masked words based on context
+    </strong>
+   </h3>
+  </div>
+ </body>
+</html>

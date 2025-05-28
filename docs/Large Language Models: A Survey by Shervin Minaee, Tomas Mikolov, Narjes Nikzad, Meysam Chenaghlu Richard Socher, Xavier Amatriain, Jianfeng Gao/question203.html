@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question203">
+   <h2>
+    203,Which model primarily uses text-to-text generation for all tasks?,RoBERTa,T5,GPT,BART,
+   </h2>
+   <p>
+    ✅
+    <strong>
+     T5 (Text-to-Text Transfer Transformer)
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Explanation:
+    </strong>
+   </h3>
+   <p>
+    T5 (
+    <strong>
+     Text-to-Text Transfer Transformer
+    </strong>
+    ) is designed to handle
+    <strong>
+     all NLP tasks in a unified "text-to-text" format
+    </strong>
+    . This means:
+   </p>
+   <p>
+    *
+    <strong>
+     Input and output are always text
+    </strong>
+    (e.g., translation, summarization, question answering, classification, etc.).
+   </p>
+   <p>
+    * No need for task-specific architectures—just fine-tune on labeled data with a
+    <strong>
+     simple text input-output format
+    </strong>
+    .
+   </p>
+   <h3>
+    <strong>
+     Why T5?
+    </strong>
+   </h3>
+   <p>
+    * Unlike BERT or GPT, T5
+    <strong>
+     converts every task into a sequence-to-sequence problem
+    </strong>
+    .
+   </p>
+   <p>
+    * Example:
+   </p>
+   <p>
+    *
+    <strong>
+     Summarization:
+    </strong>
+    *"summarize: The book was very interesting..." → "It was engaging."*
+   </p>
+   <p>
+    *
+    <strong>
+     Translation:
+    </strong>
+    *"translate English to French: How are you?" → "Comment ça va?"*
+   </p>
+   <p>
+    *
+    <strong>
+     Sentiment Analysis:
+    </strong>
+    *"classify sentiment: This movie was great!" → "Positive"*
+   </p>
+   <h3>
+    <strong>
+     Why Other Options Are Incorrect?
+    </strong>
+   </h3>
+   <p>
+    *
+    <strong>
+     RoBERTa
+    </strong>
+    → A refined
+    <strong>
+     BERT-based encoder
+    </strong>
+    , not a sequence-to-sequence model.
+   </p>
+   <p>
+    *
+    <strong>
+     GPT
+    </strong>
+    →
+    <strong>
+     Autoregressive model
+    </strong>
+    trained for next-token prediction, mainly for
+    <strong>
+     text generation
+    </strong>
+    , but not task-agnostic text-to-text like T5.
+   </p>
+   <p>
+    *
+    <strong>
+     BART
+    </strong>
+    → Uses
+    <strong>
+     encoder-decoder
+    </strong>
+    architecture like T5, but is optimized for
+    <strong>
+     denoising autoencoding tasks
+    </strong>
+    , not a general-purpose text-to-text framework.
+   </p>
+   <p>
+    Thus, the correct answer is
+    <strong>
+     T5
+    </strong>
+    .
+   </p>
+  </div>
+ </body>
+</html>

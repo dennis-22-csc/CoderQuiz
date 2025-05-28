@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question52">
+   <h2>
+    52,What is a major limitation of n-gram models?,Limited context,High computational cost,Data sparsity,All of the above,
+   </h2>
+   <p>
+    The correct answer is:
+   </p>
+   <p>
+    <strong>
+     All of the above
+    </strong>
+   </p>
+   <h3>
+    Explanation:
+   </h3>
+   <p>
+    <strong>
+     N-gram models
+    </strong>
+    are simple but have several major limitations:
+   </p>
+   <p>
+    1.
+    <strong>
+     Limited Context
+    </strong>
+    –
+   </p>
+   <p>
+    * N-gram models
+    <strong>
+     only consider a fixed number of previous words
+    </strong>
+    (e.g., bigrams use 1 word, trigrams use 2).
+   </p>
+   <p>
+    * This means they
+    <strong>
+     fail to capture long-range dependencies
+    </strong>
+    in text.
+   </p>
+   <p>
+    2.
+    <strong>
+     High Computational Cost
+    </strong>
+    –
+   </p>
+   <p>
+    * Larger n-grams require
+    <strong>
+     more memory and processing power
+    </strong>
+    .
+   </p>
+   <p>
+    * Storing probabilities for all possible n-grams
+    <strong>
+     grows exponentially
+    </strong>
+    with n.
+   </p>
+   <p>
+    3.
+    <strong>
+     Data Sparsity
+    </strong>
+    –
+   </p>
+   <p>
+    * Many word combinations
+    <strong>
+     never appear in training data
+    </strong>
+    , leading to
+    <strong>
+     zero probabilities
+    </strong>
+    for unseen sequences.
+   </p>
+   <p>
+    *
+    <strong>
+     Smoothing techniques
+    </strong>
+    (e.g., Laplace smoothing) are needed to handle this.
+   </p>
+   <h3>
+    Example:
+   </h3>
+   <p>
+    * A
+    <strong>
+     trigram model
+    </strong>
+    (“the cat sits”) can predict the next word.
+   </p>
+   <p>
+    * But it
+    <strong>
+     cannot understand deeper meaning
+    </strong>
+    across longer sentences.
+   </p>
+   <p>
+    Thus,
+    <strong>
+     n-gram models struggle with context, efficiency, and data sparsity
+    </strong>
+    , making them less effective than modern
+    <strong>
+     neural language models (e.g., Transformers)
+    </strong>
+    .
+   </p>
+  </div>
+ </body>
+</html>

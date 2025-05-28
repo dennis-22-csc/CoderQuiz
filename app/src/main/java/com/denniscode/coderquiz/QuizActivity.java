@@ -270,10 +270,8 @@ public class QuizActivity extends AppCompatActivity {
 
     private void highlightCorrectAnswer(CardView selectedCard, boolean isCorrect, Question question) {
 
-        String referenceUrl = "https://dennis-22-csc.github.io/CoderQuiz/docs/"
-                    + question.getQuizCategory()
-                    + "/index.html#question"
-                    + question.getQuestionID();
+        String referenceUrl = "https://dennis-22-csc.github.io/CoderQuiz/docs/" + question.getQuizCategory()  + "/question" + question.getQuestionID();
+
 
         correctAnswerText.setText("Correct Answer: " + question.getCorrectOption());
 

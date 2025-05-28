@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question110">
+   <h2>
+    110,What problem do n-gram models face?,Limited vocabulary,Data sparsity,Overfitting,High computation cost,
+   </h2>
+   <p>
+    The correct answer is:
+   </p>
+   <p>
+    ✅
+    <strong>
+     Data sparsity
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Explanation:
+    </strong>
+   </h3>
+   <p>
+    <strong>
+     N-gram models
+    </strong>
+    estimate the probability of a word given its previous words. However, they suffer from
+    <strong>
+     data sparsity
+    </strong>
+    , meaning they struggle when encountering unseen or rare word sequences.
+   </p>
+   <h4>
+    <strong>
+     Why is data sparsity a problem?
+    </strong>
+   </h4>
+   <p>
+    1.
+    <strong>
+     Limited Training Data
+    </strong>
+    – There are countless possible word combinations, but a dataset only contains a small fraction of them.
+   </p>
+   <p>
+    2.
+    <strong>
+     Zero Probability Issue
+    </strong>
+    – If a word sequence is
+    <strong>
+     absent from the training data
+    </strong>
+    , the model assigns it a
+    <strong>
+     zero probability
+    </strong>
+    , making it ineffective for real-world language modeling.
+   </p>
+   <p>
+    3.
+    <strong>
+     Poor Generalization
+    </strong>
+    – Since n-grams rely on exact word sequences, they fail to generalize beyond what they have seen.
+   </p>
+   <h4>
+    <strong>
+     Why not the other options?
+    </strong>
+   </h4>
+   <p>
+    ❌
+    <strong>
+     Limited vocabulary
+    </strong>
+    – While n-gram models can have a fixed vocabulary, the real issue is handling
+    <strong>
+     rare or unseen sequences
+    </strong>
+    , not just vocabulary size.
+   </p>
+   <p>
+    ❌
+    <strong>
+     Overfitting
+    </strong>
+    – N-grams usually underfit rather than overfit because they don't learn deep patterns—just word co-occurrences.
+   </p>
+   <p>
+    ❌
+    <strong>
+     High computation cost
+    </strong>
+    – N-gram models are computationally simpler than neural models like transformers. The main challenge is
+    <strong>
+     storing large n-gram tables
+    </strong>
+    , not computation itself.
+   </p>
+   <h3>
+    <strong>
+     Final Answer:
+    </strong>
+   </h3>
+   <p>
+    ✅
+    <strong>
+     Data sparsity
+    </strong>
+   </p>
+  </div>
+ </body>
+</html>

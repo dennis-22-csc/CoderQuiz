@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question109">
+   <h2>
+    109,What technique allows LLMs to perform new tasks during inference?,Data augmentation,Chain-of-thought prompting,Instruction tuning,In-context learning,
+   </h2>
+   <p>
+    The correct answer is:
+   </p>
+   <p>
+    ✅
+    <strong>
+     In-context learning
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Explanation:
+    </strong>
+   </h3>
+   <p>
+    <strong>
+     In-context learning (ICL)
+    </strong>
+    is a technique that allows
+    <strong>
+     Large Language Models (LLMs) to perform new tasks during inference
+    </strong>
+    by
+    <strong>
+     providing a few examples in the input prompt
+    </strong>
+    . The model
+    <strong>
+     does not require fine-tuning
+    </strong>
+    ; instead, it generalizes from the examples and generates appropriate responses.
+   </p>
+   <h4>
+    <strong>
+     How In-Context Learning Works:
+    </strong>
+   </h4>
+   <p>
+    1.
+    <strong>
+     User provides a prompt
+    </strong>
+    with examples of the desired task (e.g., translation, summarization, classification).
+   </p>
+   <p>
+    2.
+    <strong>
+     LLM identifies patterns
+    </strong>
+    from the examples.
+   </p>
+   <p>
+    3.
+    <strong>
+     Model generates a response
+    </strong>
+    for new inputs based on the learned pattern.
+   </p>
+   <h4>
+    <strong>
+     Example of In-Context Learning:
+    </strong>
+   </h4>
+   <p>
+    <strong>
+     Prompt:
+    </strong>
+   </p>
+   <p>
+    *"Translate the following English sentences to French."*
+   </p>
+   <p>
+    *
+    <strong>
+     Example 1:
+    </strong>
+    "Hello" → "Bonjour"
+   </p>
+   <p>
+    *
+    <strong>
+     Example 2:
+    </strong>
+    "Good morning" → "Bonjour"
+   </p>
+   <p>
+    *
+    <strong>
+     New input:
+    </strong>
+    "How are you?" → *(LLM infers the correct translation: "Comment ça va?")*
+   </p>
+   <h4>
+    <strong>
+     Why not the other options?
+    </strong>
+   </h4>
+   <p>
+    ❌
+    <strong>
+     Data augmentation
+    </strong>
+    – Involves expanding a dataset using transformations, but it’s used
+    <strong>
+     during training, not inference
+    </strong>
+    .
+   </p>
+   <p>
+    ❌
+    <strong>
+     Chain-of-thought prompting
+    </strong>
+    – Helps with
+    <strong>
+     multi-step reasoning
+    </strong>
+    , but
+    <strong>
+     does not enable task learning itself
+    </strong>
+    .
+   </p>
+   <p>
+    ❌
+    <strong>
+     Instruction tuning
+    </strong>
+    – Involves
+    <strong>
+     fine-tuning
+    </strong>
+    a model on instructions but requires additional training, whereas
+    <strong>
+     ICL works at inference time
+    </strong>
+    .
+   </p>
+   <h3>
+    <strong>
+     Final Answer:
+    </strong>
+   </h3>
+   <p>
+    ✅
+    <strong>
+     In-context learning
+    </strong>
+   </p>
+  </div>
+ </body>
+</html>

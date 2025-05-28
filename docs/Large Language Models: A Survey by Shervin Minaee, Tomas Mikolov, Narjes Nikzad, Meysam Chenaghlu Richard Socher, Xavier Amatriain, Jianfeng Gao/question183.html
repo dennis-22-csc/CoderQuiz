@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question183">
+   <h2>
+    183,What is a key training technique used by ELECTRA?,Masked Language Modeling,Replaced Token Detection,Next Sentence Prediction,Sequence-to-Sequence Prediction,
+   </h2>
+   <p>
+    ✅
+    <strong>
+     Replaced Token Detection
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Explanation:
+    </strong>
+   </h3>
+   <p>
+    <strong>
+     ELECTRA
+    </strong>
+    (Efficiently Learning an Encoder that Classifies Token Replacements Accurately) introduced
+    <strong>
+     Replaced Token Detection (RTD)
+    </strong>
+    as its key training technique. Unlike
+    <strong>
+     Masked Language Modeling (MLM)
+    </strong>
+    used in BERT, which predicts missing tokens, ELECTRA's RTD trains a model to
+    <strong>
+     identify whether a token has been replaced by a generator model
+    </strong>
+    .
+   </p>
+   <h3>
+    <strong>
+     How RTD Works:
+    </strong>
+   </h3>
+   <p>
+    1. A
+    <strong>
+     generator model
+    </strong>
+    (small masked language model)
+    <strong>
+     replaces some tokens
+    </strong>
+    in the input sequence.
+   </p>
+   <p>
+    2. The
+    <strong>
+     discriminator model
+    </strong>
+    (main model) is trained to
+    <strong>
+     detect whether each token is original or replaced
+    </strong>
+    .
+   </p>
+   <p>
+    3. The model learns
+    <strong>
+     better representations
+    </strong>
+    without needing large masked tokens like in BERT, making it more
+    <strong>
+     data-efficient
+    </strong>
+    and
+    <strong>
+     faster to train
+    </strong>
+    .
+   </p>
+   <h3>
+    <strong>
+     Comparison with Other Techniques:
+    </strong>
+   </h3>
+   <p>
+    *
+    <strong>
+     Masked Language Modeling (MLM):
+    </strong>
+    Used in
+    <strong>
+     BERT
+    </strong>
+    (predicts missing tokens).
+   </p>
+   <p>
+    *
+    <strong>
+     Next Sentence Prediction (NSP):
+    </strong>
+    Used in
+    <strong>
+     BERT
+    </strong>
+    (predicts if two sentences are related).
+   </p>
+   <p>
+    *
+    <strong>
+     Sequence-to-Sequence Prediction:
+    </strong>
+    Used in
+    <strong>
+     T5, BART
+    </strong>
+    (useful for translation, summarization).
+   </p>
+   <p>
+    Since ELECTRA uses
+    <strong>
+     Replaced Token Detection (RTD)
+    </strong>
+    instead of MLM, this is the correct answer.
+   </p>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Formatted Document
+  </title>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div class="question" id="question214">
+   <h2>
+    214,Does ELECTRA use masked language modeling?,Yes,No,
+   </h2>
+   <p>
+    ✅
+    <strong>
+     No
+    </strong>
+   </p>
+   <h3>
+    <strong>
+     Why Doesn't ELECTRA Use Masked Language Modeling (MLM)?
+    </strong>
+   </h3>
+   <p>
+    ELECTRA replaces
+    <strong>
+     Masked Language Modeling (MLM)
+    </strong>
+    with a more efficient approach called
+    <strong>
+     Replaced Token Detection (RTD)
+    </strong>
+    .
+   </p>
+   <h4>
+    <strong>
+     Key Differences:
+    </strong>
+   </h4>
+   <p>
+    1.
+    <strong>
+     MLM (Used in BERT, RoBERTa)
+    </strong>
+   </p>
+   <p>
+    * Randomly
+    <strong>
+     masks
+    </strong>
+    tokens in the input.
+   </p>
+   <p>
+    * The model
+    <strong>
+     predicts the masked tokens
+    </strong>
+    .
+   </p>
+   <p>
+    *
+    <strong>
+     Inefficient
+    </strong>
+    because the model only learns from
+    <strong>
+     masked tokens (\~15%)
+    </strong>
+    .
+   </p>
+   <p>
+    2.
+    <strong>
+     RTD (Used in ELECTRA)
+    </strong>
+   </p>
+   <p>
+    * A
+    <strong>
+     "generator"
+    </strong>
+    first
+    <strong>
+     replaces
+    </strong>
+    some tokens with incorrect ones.
+   </p>
+   <p>
+    * A
+    <strong>
+     "discriminator"
+    </strong>
+    then
+    <strong>
+     detects if each token is original or replaced
+    </strong>
+    .
+   </p>
+   <p>
+    * More
+    <strong>
+     efficient
+    </strong>
+    because it trains on
+    <strong>
+     all tokens
+    </strong>
+    , not just masked ones.
+   </p>
+   <h3>
+    <strong>
+     Conclusion:
+    </strong>
+   </h3>
+   <p>
+    ELECTRA
+    <strong>
+     does not
+    </strong>
+    use
+    <strong>
+     Masked Language Modeling (MLM)
+    </strong>
+    . Instead, it uses
+    <strong>
+     Replaced Token Detection (RTD)
+    </strong>
+    for
+    <strong>
+     better training efficiency and performance
+    </strong>
+    .
+   </p>
+  </div>
+ </body>
+</html>
