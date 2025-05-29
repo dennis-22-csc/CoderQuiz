@@ -270,12 +270,12 @@ public class QuizActivity extends AppCompatActivity {
 
     private void highlightCorrectAnswer(CardView selectedCard, boolean isCorrect, Question question) {
 
-        String referenceUrl = "https://dennis-22-csc.github.io/CoderQuiz/docs/" + question.getQuizCategory()  + "/question" + question.getQuestionID();
+        String referenceUrl = "https://dennis-22-csc.github.io/CoderQuiz/docs/" + question.getQuizCategory()  + "/question" + question.getSourceID();
 
 
         correctAnswerText.setText("Correct Answer: " + question.getCorrectOption());
 
-        SpannableString spannable = new SpannableString("View Reference");
+        SpannableString spannable = new SpannableString("View Explanation");
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
