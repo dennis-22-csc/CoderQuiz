@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CoderQuiz helps you achieve technical mastery with custom quizzes designed for AI, Machine Learning, Backend Engineering, Digital Marketing, and more. Test and consolidate knowledge through engaging and personalized quizzes." />
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Achieve Expertise with CoderQuiz">
-    <meta property="og:description" content="CoderQuiz offers a comprehensive suite of quizzes to master skills in AI, Machine Learning, Backend Engineering, and Digital Marketing. Join millions aiming for technical mastery." />
-    <meta property="og:image" content="https://dennis-22-csc.github.io/CoderQuiz/cq_feature.jpg">
-    <meta property="og:url" content="https://dennis-22-csc.github.io/CoderQuiz/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="dennis-22-csc.github.io/CoderQuiz/">
-    <meta property="twitter:url" content="https://dennis-22-csc.github.io/CoderQuiz/">
-    <meta name="twitter:title" content="Achieve Expertise with CoderQuiz">
-    <meta name="twitter:description" content="Master technical skills with CoderQuiz. Test knowledge in AI, Machine Learning, and more with engaging quizzes. Download the app today." />
-    <meta name="twitter:image" content="https://dennis-22-csc.github.io/CoderQuiz/cq_feature.jpg">
-    <title>CoderQuiz | Download Custom Quizzes</title>
-    <link rel="icon" type="image/x-icon" href="fav.png">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-25GQ5MLLLC"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<meta name="description" content="CoderQuiz helps you achieve technical mastery with custom quizzes designed for AI, Machine Learning, Backend Engineering, Digital Marketing, and more. Test and consolidate knowledge through engaging and personalized quizzes." />
+<meta property="og:type" content="website">
+<meta property="og:title" content="Achieve Expertise with CoderQuiz">
+<meta property="og:description" content="CoderQuiz offers a comprehensive suite of quizzes to master skills in AI, Machine Learning, Backend Engineering, and Digital Marketing. Join millions aiming for technical mastery." />
+<meta property="og:image" content="https://dennis-22-csc.github.io/CoderQuiz/cq_feature.jpg">
+<meta property="og:url" content="https://dennis-22-csc.github.io/CoderQuiz/">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="dennis-22-csc.github.io/CoderQuiz/">
+<meta property="twitter:url" content="https://dennis-22-csc.github.io/CoderQuiz/">
+<meta name="twitter:title" content="Achieve Expertise with CoderQuiz">
+<meta name="twitter:description" content="Master technical skills with CoderQuiz. Test knowledge in AI, Machine Learning, and more with engaging quizzes. Download the app today." />
+<meta name="twitter:image" content="https://dennis-22-csc.github.io/CoderQuiz/cq_feature.jpg">
+<title>CoderQuiz | Download Custom Quizzes</title>
+<link rel="icon" type="image/x-icon" href="fav.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-25GQ5MLLLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-      // Set distinct page path for the download page
-      gtag('config', 'G-25GQ5MLLLC', {
-        'page_path': '/quiz_download' // Set a unique path for the download page
-      });
-    </script>
+  // Set distinct page path for the download page
+  gtag('config', 'G-25GQ5MLLLC', {
+    'page_path': '/quiz_download' // Set a unique path for the download page
+  });
+</script>
 
     <style>
     /* General Reset */
@@ -87,69 +87,52 @@
         .section h2 {
             font-size: 24px;
             margin-bottom: 10px;
-            text-align: center;
         }
 
         .section p {
             font-size: 16px;
             margin-bottom: 20px;
-            text-align: center;
-            max-width: 800px;
         }
 
         .micro-cards {
             display: flex;
             flex-direction: column;
-            width: 100%;
-            max-width: 600px;
         }
 
         .card {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
+            cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
             text-align: center;
-            margin: 15px 0;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 15px;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            background-color: #e0e0e0;
         }
 
         .child-text {
             display: none;
-            padding: 10px 0;
+            padding-top: 10px;
             font-size: 14px;
-            color: #555;
-            margin-bottom: 15px; /* Added margin below description */
-            text-align: center;
+            color: #333;
         }
 
         .download-btn {
-            padding: 10px 20px;
+            margin-top: 10px;
+            padding: 8px 16px;
             background-color: #8C60C6;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: 500;
-            display: block;
-            margin: 0 auto; /* Center the button */
-            transition: background-color 0.3s;
-            width: 180px;
-        }
-
-        .download-btn:hover:not(.disabled) {
-            background-color: #7a4fb3;
         }
 
         .download-btn.disabled {
-            background-color: #aaa;
+            background-color: #ccc;
             cursor: not-allowed;
         }
     /* Styling for Subscribe Section */
@@ -160,7 +143,6 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin: 40px auto;
             max-width: 600px;
-            background: white;
         }
 
         .subscribe-section h2 {
@@ -176,47 +158,45 @@
         }
         
         @font-face {
-            font-display: block;
-            font-family: Roboto;
-            src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff")
-        }
+    font-display: block;
+    font-family: Roboto;
+    src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff")
+  }
 
-        @font-face {
-            font-display: fallback;
-            font-family: Roboto;
-            font-weight: 600;
-            src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff")
-        }
+  @font-face {
+    font-display: fallback;
+    font-family: Roboto;
+    font-weight: 600;
+    src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff")
+  }
 
-        @font-face {
-            font-display: fallback;
-            font-family: Roboto;
-            font-weight: 700;
-            src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff")
-        }
+  @font-face {
+    font-display: fallback;
+    font-family: Roboto;
+    font-weight: 700;
+    src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff")
+  }
 
-        #sib-container input:-ms-input-placeholder {
-            text-align: left;
-            font-family: Helvetica, sans-serif;
-            color: #c0ccda;
-        }
+  #sib-container input:-ms-input-placeholder {
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    color: #c0ccda;
+  }
 
-        #sib-container input::placeholder {
-            text-align: left;
-            font-family: Helvetica, sans-serif;
-            color: #c0ccda;
-        }
+  #sib-container input::placeholder {
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    color: #c0ccda;
+  }
 
-        #sib-container a {
-            text-decoration: underline;
-            color: #2BB2FC;
-        }
+  #sib-container a {
+    text-decoration: underline;
+    color: #2BB2FC;
+  }
   
-        footer {
+  footer {
             text-align: center;
-            padding: 20px;
-            color: #777;
-            font-size: 0.9rem;
+            padding: 10px;
         }
 
     </style>
@@ -235,7 +215,7 @@
     <div class="section">
         <h2>Take aim at learning goals</h2>
         <p>Whether the goal is to achieve expertise in AI and Machine Learning or Backend Engineering, CoderQuiz helps you achieve it faster and with cut out work.</p>
-        <p>Click on any of the below to get started.</p>
+       <p>Click on any of the below to get started.</p>
         <div class="div-part">
             <div class="micro-cards" id="micro-cards">
                 <!-- Cards will be dynamically added here -->
@@ -295,12 +275,12 @@
     <script>
         // Array of skills with availability of quiz files
         const skills = [
-            { name: 'Machine Learning', description: 'Test your knowledge of Machine Learning.', quizAvailable: false, url: '' },
-            { name: 'Large Language Models', description: 'Test your knowledge of the latest research and advancements in Large Language Models.', quizAvailable: true, url: 'quizzes/large_language_models_quiz.zip' },
-            { name: 'SQL', description: 'Test your knowledge of SQL.', quizAvailable: false, url: '' },
-            { name: 'Forex', description: 'Test your knowledge and understanding of forex trading concepts and strategies.', quizAvailable: false, url: '' },
-            { name: 'Backend Engineering', description: 'Test your knowledge of server-side development and databases.', quizAvailable: false, url: '' },
-            { name: 'Digital Marketing', description: 'Test your knowledge of strategies for online marketing and advertising.', quizAvailable: false, url: '' }
+        { name: 'Machine Learning', description: 'Test your knowledge of Machine Learning.', quizAvailable: false, url: 'https://buymeacoffee.com/denniscode/e/378143' },
+            { name: 'Large Language Models', description: 'Test your knowledge of the latest research and advancements in Large Language Models.', quizAvailable: true, url: 'https://buymeacoffee.com/denniscode/e/415439' },
+            { name: 'SQL', description: 'Test your knowledge of SQL.', quizAvailable: false, url: 'https://buymeacoffee.com/denniscode/e/378147' },
+            { name: 'Forex', description: 'Test your knowledge and understanding of forex trading concepts and strategies.', quizAvailable: false, url: 'https://buymeacoffee.com/denniscode/e/371189' },
+            { name: 'Backend Engineering', description: 'Test your knowledge of server-side development and databases.', quizAvailable: false, url: ' ' },
+            { name: 'Digital Marketing', description: 'Test your knowledge of strategies for online marketing and advertising.', quizAvailable: false, url: ' ' }
         ];
 
         // Function to display skills dynamically
@@ -311,15 +291,14 @@
                 const card = document.createElement('div');
                 card.classList.add('card');
 
+                // Create card content
                 const cardContent = document.createElement('div');
                 cardContent.textContent = skill.name;
-                cardContent.style.fontWeight = 'bold';
-                cardContent.style.fontSize = '18px';
                 card.appendChild(cardContent);
 
                 // Card click handler for description toggle
                 card.onclick = function() {
-                    toggleCardDetails(card, skill); // Pass the entire skill object
+                    toggleChildText(card, skill.description, skill.quizAvailable, skill.url);
                 };
 
                 container.appendChild(card);
@@ -327,74 +306,52 @@
         }
 
         // Toggle the child text and show download button
-        function toggleCardDetails(card, skill) {
+        function toggleChildText(card, description, quizAvailable, url) {
             let childText = card.querySelector('.child-text');
-            let downloadBtn = card.querySelector('.download-btn'); // This will be the button element or null
+            let downloadBtn = card.querySelector('.download-btn');
 
-            // If childText or downloadBtn don't exist, create them
+            // Create child text if it doesn't exist
             if (!childText) {
                 childText = document.createElement('div');
                 childText.classList.add('child-text');
+                childText.textContent = description;
                 card.appendChild(childText);
             }
-            if (!downloadBtn) {
-                downloadBtn = document.createElement('button'); // Create as a button initially
-                downloadBtn.classList.add('download-btn');
-                card.appendChild(downloadBtn);
-            }
 
-            // Update child text and button based on visibility
+            // Toggle visibility of the child text
+            childText.style.display = childText.style.display === 'block' ? 'none' : 'block';
+
+            // Create the download button only when the description is shown
             if (childText.style.display === 'block') {
-                // If currently visible, hide them
-                childText.style.display = 'none';
-                downloadBtn.style.display = 'none';
-            } else {
-                // If currently hidden, show them and update content/functionality
-                childText.textContent = skill.description;
-                childText.style.display = 'block';
-                downloadBtn.style.display = 'block';
-
-                if (skill.quizAvailable) {
-                    // Change button to an anchor tag for download if quiz is available
-                    const actualDownloadLink = document.createElement('a');
-                    actualDownloadLink.href = skill.url;
-                    actualDownloadLink.download = skill.name.toLowerCase().replace(/\s/g, '_') + '_quiz.zip'; // Dynamic filename
-                    actualDownloadLink.classList.add('download-btn'); // Apply styling
-                    actualDownloadLink.textContent = 'Download Quiz File';
-                    actualDownloadLink.style.textDecoration = 'none';
-
-                    actualDownloadLink.onclick = function(event) {
-                        // Prevent button's default behavior if it were still a button
-                        event.stopPropagation(); // Stop click event from bubbling up to the card
-
-                        // Track a download event for quiz files
-                        gtag('event', 'download_quiz', {
-                            'event_category': 'quiz',
-                            'event_label': skill.name,
-                            'value': 1
+                if (!downloadBtn) {
+                    downloadBtn = document.createElement('button');
+                    downloadBtn.classList.add('download-btn');
+                    if (quizAvailable) {
+                        downloadBtn.textContent = 'Download Quiz File';
+                        downloadBtn.onclick = function() {
+                        // Track a click event for download button
+                        gtag('event', 'download', {
+                        'event_category': 'button',
+                        'event_label': 'Download Quiz File',
+                        'value': 1
                         });
-
-                    };
-
-                    // Replace the generic button with the actual download link
-                    downloadBtn.replaceWith(actualDownloadLink);
-                    // Reassign downloadBtn to the new link for consistent handling
-                    downloadBtn = actualDownloadLink;
-
-                } else {
-                    // If quiz is not available, set button text and disable
-                    downloadBtn.textContent = 'Coming Soon';
-                    downloadBtn.classList.add('disabled');
-                    downloadBtn.disabled = true;
-                    downloadBtn.href = '#'; // Remove href if it was an anchor
-                    downloadBtn.removeEventListener('click', null); // Remove any previous click handlers
+                            window.location.href = url;
+                        };
+                    } else {
+                        downloadBtn.textContent = 'Not yet available';
+                        downloadBtn.classList.add('disabled');
+                        downloadBtn.disabled = true;
+                    }
+                    card.appendChild(downloadBtn);
                 }
+            } else if (downloadBtn) {
+                // Remove download button if the child text is hidden
+                downloadBtn.remove();
             }
         }
 
-        // Initial load of skills when the page loads
-        document.addEventListener('DOMContentLoaded', loadSkills);
-    
+        // Initial load of skills
+        loadSkills();
     
     window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
   window.LOCALE = 'en';
@@ -403,8 +360,11 @@
   window.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank. ";
 
   window.GENERIC_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
-  
-   window.translation = {
+
+
+
+
+  window.translation = {
     common: {
       selectedList: '{quantity} list selected',
       selectedLists: '{quantity} lists selected'
@@ -418,3 +378,4 @@
 
 </body>
 </html>
+

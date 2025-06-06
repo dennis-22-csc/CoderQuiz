@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CoderQuiz helps you achieve technical mastery with custom quizzes designed for AI, Machine Learning, Backend Engineering, Digital Marketing, and more. Test and consolidate knowledge through engaging and personalized quizzes." />
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Achieve Expertise with CoderQuiz">
+    <meta property="og:description" content="CoderQuiz offers a comprehensive suite of quizzes to master skills in AI, Machine Learning, Backend Engineering, and Digital Marketing. Join millions aiming for technical mastery." />
+    <meta property="og:image" content="https://dennis-22-csc.github.io/CoderQuiz/cq_feature.jpg">
+    <meta property="og:url" content="https://dennis-22-csc.github.io/CoderQuiz/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="dennis-22-csc.github.io/CoderQuiz/">
+    <meta property="twitter:url" content="https://dennis-22-csc.github.io/CoderQuiz/">
+    <meta name="twitter:title" content="Achieve Expertise with CoderQuiz">
+    <meta name="twitter:description" content="Master technical skills with CoderQuiz. Test knowledge in AI, Machine Learning, and more with engaging quizzes. Download the app today." />
+    <meta name="twitter:image" content="https://dennis-22-csc.github.io/CoderQuiz/cq_feature.jpg">
+    <title>CoderQuiz | Download Custom Quizzes</title>
+    <link rel="icon" type="image/x-icon" href="fav.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-25GQ5MLLLC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-25GQ5MLLLC', {'page_path': '/quiz_download'});
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            height: 64px;
+            background-color: #8C60C6;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            left: 16px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: 40px;
+            margin-right: 8px;
+        }
+
+        .app-name {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #8C60C6 0%, #6a3a9e 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            opacity: 0.2;
+        }
+        
+        .section {
+            padding: 40px 20px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            color: #8C60C6;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #8C60C6;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .micro-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            width: 300px;
+            text-align: center;
+            position: relative;
+            border: 1px solid #eaeaea;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background-color: #8C60C6;
+            color: white;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-content p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #8C60C6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 200px;
+        }
+        
+        .download-btn:hover {
+            background-color: #6a3a9e;
+        }
+        
+        .download-btn.disabled {
+            background-color: #b0a4c5;
+            cursor: not-allowed;
+        }
+        
+        .download-btn.disabled:hover {
+            background-color: #b0a4c5;
+        }
+        
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .subscribe-section {
+            background-color: #f9f7ff;
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 12px;
+            margin: 60px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #eaeaea;
+        }
+
+        .subscribe-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .subscribe-section p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        .downloads-counter {
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 300px;
+            text-align: center;
+            border: 1px dashed #8C60C6;
+        }
+        
+        .counter-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #8C60C6;
+            margin: 10px 0;
+        }
+        
+        .counter-label {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .micro-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+    <meta name="google-site-verification" content="_1wgaWNjKxLbnl3NexfyVaG3VNOrzPRu09cJTlBqEjk" />
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://via.placeholder.com/40" alt="CoderQuiz Logo" />
+        </div>
+        <span class="app-name">CoderQuiz</span>
+    </header>
+    
+    <section class="hero">
+        <h1>Achieve Technical Mastery with CoderQuiz</h1>
+        <p>Test and consolidate your knowledge through engaging quizzes designed for developers and tech professionals.</p>
+    </section>
+
+    <section class="section">
+        <h2>Take aim at learning goals</h2>
+        <p>Whether the goal is to achieve expertise in AI and Machine Learning or Backend Engineering, CoderQuiz helps you achieve it faster.</p>
+        <p>Download quizzes directly below to get started.</p>
+        
+        <div class="downloads-counter">
+            <div class="counter-number">12,487</div>
+            <div class="counter-label">Quizzes Downloaded This Month</div>
+        </div>
+        
+        <h3 class="section-title">Available Quizzes</h3>
+        <div class="micro-cards" id="micro-cards">
+            <!-- Cards will be dynamically added here -->
+        </div>
+    </section>
+
+    <section class="subscribe-section">
+        <h2>Stay in the loop</h2>
+        <p>Be the first to get updates when we add new quiz files and questions, make special offers, and add new features.</p>
+        <div class="sib-form" style="text-align: center;">
+            <div id="sib-form-container" class="sib-form-container">
+                <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; max-width:540px; border-radius:3px; border-width:1px; border-color:#C0CCD9; border-style:solid;">
+                    <form id="sib-form" method="POST" action="https://2661c74b.sibforms.com/serve/MUIFALYxbZQJdt4AnD3L-HYoqj-g9my-DpkgZIRSGiTUOSdwQU7Z6LEfdYhf9HiToa6RiOyEccmZQfp073_IaKziOChzFlySQzNQ4g07mr7WCyjjjKDJMr95jtxiBMFlqven2NEMDxKdayhsNo7nphuTPYvxQctu5P1oJhfKJamcLe24rhWnQHK6qv07VlIbwF0SdL5u66DCjh_X">
+                        <div style="padding: 8px 0;">
+                            <div class="sib-input sib-form-block">
+                                <div class="form__entry entry_block">
+                                    <div class="form__label-row ">
+                                        <label class="entry__label" style="font-weight: 700; text-align:left; font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#3c4858;" for="EMAIL" data-required="*">Enter your email address to subscribe</label>
+
+                                        <div class="entry__field">
+                                            <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off" placeholder="EMAIL" data-required="true" required />
+                                        </div>
+                                    </div>
+
+                                    <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+                                    </label>
+                                    <label class="entry__specification" style="font-size:12px; text-align:left; font-family:Helvetica, sans-serif; color:#8390A4; text-align:left">
+                                        Provide your email address to subscribe. For e.g abc@xyz.com
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 8px 0;">
+                            <div class="sib-form-block" style="text-align: center">
+                                <button class="sib-form-block__button sib-form-block__button-with-loader" style="font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#FFFFFF; background-color:#8c60c6; border-radius:3px; border-width:0px;" form="sib-form" type="submit">
+                                    <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512">
+                                        <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+                                    </svg>
+                                    SUBSCRIBE
+                                </button>
+                            </div>
+                        </div>
+                        <input type="text" name="email_address_check" value="" class="input--hidden">
+                        <input type="hidden" name="locale" value="en">
+                        <input type="hidden" name="html_type" value="simple">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 CoderQuiz. All rights reserved.</p>
+        <p>Empowering developers through knowledge assessment</p>
+    </footer>
+
+    <script>
+        // Array of skills with direct download links for quiz zip files
+        const skills = [
+            { 
+                name: 'Machine Learning', 
+                description: 'Test your knowledge of Machine Learning concepts and algorithms.', 
+                quizAvailable: false,
+                downloadUrl: 'quizzes/machine_learning_quiz.zip',
+                downloads: 4281
+            },
+            { 
+                name: 'Large Language Models', 
+                description: 'Test your knowledge of the latest research and advancements in Large Language Models.', 
+                quizAvailable: true,
+                downloadUrl: 'quizzes/large_language_models_quiz.zip',
+                downloads: 5620,
+                isNew: true
+            },
+            { 
+                name: 'SQL', 
+                description: 'Test your knowledge of SQL queries, optimization, and database design.', 
+                quizAvailable: false,
+                downloadUrl: 'quizzes/sql_quiz.zip',
+                downloads: 3872
+            },
+            { 
+                name: 'Forex Trading', 
+                description: 'Test your knowledge and understanding of forex trading concepts and strategies.', 
+                quizAvailable: false,
+                downloadUrl: 'quizzes/forex_trading_quiz.zip',
+                downloads: 2150
+            },
+            { 
+                name: 'Backend Engineering', 
+                description: 'Test your knowledge of server-side development, APIs, and databases.', 
+                quizAvailable: false,
+                downloads: 0
+            },
+            { 
+                name: 'Digital Marketing', 
+                description: 'Test your knowledge of strategies for online marketing and advertising.', 
+                quizAvailable: false,
+                downloads: 0
+            }
+        ];
+
+        // Function to display skills dynamically
+        function loadSkills() {
+            const container = document.getElementById('micro-cards');
+            container.innerHTML = '';  // Clear existing cards if any
+            
+            skills.forEach(skill => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                
+                // Card header
+                const cardHeader = document.createElement('div');
+                cardHeader.classList.add('card-header');
+                cardHeader.textContent = skill.name;
+                card.appendChild(cardHeader);
+                
+                // Card content
+                const cardContent = document.createElement('div');
+                cardContent.classList.add('card-content');
+                
+                // Description
+                const description = document.createElement('p');
+                description.textContent = skill.description;
+                cardContent.appendChild(description);
+                
+                // Downloads count
+                const downloads = document.createElement('p');
+                downloads.innerHTML = `<strong>${skill.downloads.toLocaleString()}</strong> downloads`;
+                downloads.style.fontSize = '0.9rem';
+                downloads.style.color = '#777';
+                cardContent.appendChild(downloads);
+                
+                // Download button
+                if (skill.quizAvailable) {
+                    const downloadBtn = document.createElement('a');
+                    downloadBtn.href = skill.downloadUrl;
+                    downloadBtn.download = '';
+                    downloadBtn.classList.add('download-btn');
+                    downloadBtn.textContent = 'Download Quiz';
+                    downloadBtn.onclick = function() {
+                        // Track download event
+                        gtag('event', 'download', {
+                            'event_category': 'quiz',
+                            'event_label': skill.name,
+                            'value': 1
+                        });
+                        // Update download count
+                        skill.downloads++;
+                        downloads.innerHTML = `<strong>${skill.downloads.toLocaleString()}</strong> downloads`;
+                    };
+                    cardContent.appendChild(downloadBtn);
+                } else {
+                    const notAvailable = document.createElement('button');
+                    notAvailable.classList.add('download-btn', 'disabled');
+                    notAvailable.textContent = 'Coming Soon';
+                    notAvailable.disabled = true;
+                    cardContent.appendChild(notAvailable);
+                }
+                
+                // New badge
+                if (skill.isNew) {
+                    const badge = document.createElement('div');
+                    badge.classList.add('badge');
+                    badge.textContent = 'NEW';
+                    card.appendChild(badge);
+                }
+                
+                card.appendChild(cardContent);
+                container.appendChild(card);
+            });
+        }
+
+        // Initial load of skills
+        loadSkills();
+    </script>
+</body>
+</html>
